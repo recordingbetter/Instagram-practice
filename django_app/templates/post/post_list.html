@@ -13,6 +13,7 @@
             <p>{{ post.author }}</p>
             <img src="{{ post.photo.url }}" alt="" width="600">
             <p>{{ post.like_users }}</p>
+            <a href="{% url 'post_detail' post_pk=post.pk %}">{{ post.created_date }}</a>
         </div>
 
     {% endfor %}
