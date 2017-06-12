@@ -27,22 +27,17 @@ def post_detail(request, post_pk):
 def post_create(request):
     # POST요청을 받아 Post객체를 생성 후 post_list페이지로 redirect
     if request.method == "GET":
-        # post = Post.objects.get()
-        context = {
-            # 'post': post,
-        }
-        return render(request, 'post/post_create.html', context)
+        return render(request, 'post/post_create.html')
     elif request.method == "POST":
-        print(request)
         data = request.POST
-        photo = data['photo']
+        photo = request.FILES['photo']
         author = User.objects.first()
-        tags = data['tags']
+        # tags = data['tags']
 
         post = Post.objects.create(
             photo=photo,
             author=author,
-            tags=tags,
+            # tags=tags,
         )
         return redirect('post_detail', post_pk=post.pk)
 
@@ -55,7 +50,7 @@ def post_modify(request, post_pk):
 def post_delete(request, post_pk):
     # post_pk에 해당하는 Post에 대한 delete요청만을 받음
     # 처리완료후에는 post_list페이지로 redirect
-    
+
 
     pass
 
