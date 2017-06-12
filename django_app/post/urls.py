@@ -9,4 +9,5 @@ urlpatterns = [
     url(r'^create/$', views.post_create, name='post_create'),
     url(r'^(?P<post_pk>[0-9]+)/modify/$', views.post_modify, name='post_modify'),
     url(r'^(?P<post_pk>[0-9]+)/delete/$', views.post_delete, name='post_delete'),
+    url(r'^(?P<post_pk>[0-9]+)/comment_create/$', views.comment_create, name='comment_create'),
 ]

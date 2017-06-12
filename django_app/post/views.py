@@ -2,7 +2,7 @@ from django.http import HttpResponse
 from django.shortcuts import render, redirect
 
 from member.models import User
-from .models import Post
+from .models import Post, Comment
 
 
 def post_list(request):
@@ -10,6 +10,7 @@ def post_list(request):
     # post/post_list.html을 template으로 사용한다.
     context = {
         'posts': Post.objects.all(),
+        # 'comments': post.comment_set.all(),
     }
     return render(request, 'post/post_list.html', context)
 
@@ -71,7 +72,17 @@ def post_delete(request, post_pk):
 
 def comment_create(request, post_pk):
     # POST요청을 받아 Comment객체를 생성 후 post_detail페이지로 redirect
-    pass
+    if request.method == "POST":
+        print(request.POST)
+        data = request.POST
+        Comment.objects.create(
+            content=data['comment'],
+            author=User.objects.get(pk=2),
+            post_id=data['post_pk'],
+        )
+        return redirect('post_detail', post_pk)
+    else:
+        return HttpResponse('not allowed')
 
 
 def comment_modify(request, post_pk):
