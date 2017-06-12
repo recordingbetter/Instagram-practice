@@ -45,7 +45,8 @@ class Post(models.Model):
             self.tags.add(tag)
 
     def __str__(self):
-        return '{} uploaded {} at {} liked by {}'.format(self.author, self.photo.name, self.created_date, self.like_users.all())
+        return '{} uploaded {} at {} liked by {}'.format(self.author, self.photo.name, self.created_date,
+                                                         self.like_users.all())
 
     @property
     def like_count(self):

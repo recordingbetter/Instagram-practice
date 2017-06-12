@@ -10,7 +10,6 @@ def post_list(request):
     # post/post_list.html을 template으로 사용한다.
     context = {
         'posts': Post.objects.all(),
-        # 'comments': post.comment_set.all(),
     }
     return render(request, 'post/post_list.html', context)
 
@@ -30,11 +29,11 @@ def post_create(request):
     if request.method == "GET":
         return render(request, 'post/post_create.html')
     elif request.method == "POST":
-        data = request.POST
+        # data = request.POST
         photo = request.FILES['photo']
         author = User.objects.first()
         # tags = data['tags']
-        post = Post.objects.create(
+        Post.objects.create(
             photo=photo,
             author=author,
             # tags=tags,
@@ -50,7 +49,7 @@ def post_modify(request, post_pk):
         }
         return render(request, 'post/post_modify.html', context)
     elif request.method == "POST":
-        data = request.POST
+        # data = request.POST
         photo = request.FILES['photo']
         # tags = data['tags']
         post.photo = photo
@@ -73,7 +72,6 @@ def post_delete(request, post_pk):
 def comment_create(request, post_pk):
     # POST요청을 받아 Comment객체를 생성 후 post_detail페이지로 redirect
     if request.method == "POST":
-        print(request.POST)
         data = request.POST
         Comment.objects.create(
             content=data['comment'],
