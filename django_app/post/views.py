@@ -33,23 +33,35 @@ def post_create(request):
         photo = request.FILES['photo']
         author = User.objects.first()
         # tags = data['tags']
-
         post = Post.objects.create(
             photo=photo,
             author=author,
             # tags=tags,
         )
-        return redirect('post_detail', post_pk=post.pk)
+        return redirect('post_list')
 
 
 def post_modify(request, post_pk):
-    # 수정
-    pass
+    post = Post.objects.get(pk=post_pk)
+    if request.method == "GET":
+        context = {
+            'post': post,
+        }
+        return render(request, 'post/post_modify.html', context)
+    elif request.method == "POST":
+        data = request.POST
+        photo = request.FILES['photo']
+        # tags = data['tags']
+        post.photo = photo
+        # tags=tags,
+        post.save()
+        return redirect('post_detail', post_pk)
 
 
 def post_delete(request, post_pk):
     # post_pk에 해당하는 Post에 대한 delete요청만을 받음
     # 처리완료후에는 post_list페이지로 redirect
+
 
 
     pass
