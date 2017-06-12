@@ -80,7 +80,7 @@ def comment_create(request, post_pk):
             author=User.objects.get(pk=2),
             post_id=data['post_pk'],
         )
-        return redirect('post_detail', post_pk)
+        return redirect('post_list')
     else:
         return HttpResponse('not allowed')
 

@@ -2,18 +2,19 @@
 
 {% block content %}
 
-{#    {{ posts }}#}
     {% for post in posts %}
         <div>
             <p>{{ post.author }}</p>
             <img src="{{ post.photo.url }}" alt="" width="600">
-            <p>{{ post.like_users }}</p>
+            <br>
             <a href="{% url 'post_detail' post_pk=post.pk %}">{{ post.created_date }}</a>
 
-{#            {% for comment in post.comment_set.all %}#}
-{#                <span>{{ comment.author }}</span>#}
-{#                <span>{{ comment.content }}</span>#}
-{#            {% endfor %}#}
+            {% for comment in post.comment_set.all %}
+                <div>
+                    <span>{{ comment.author }}</span>
+                    <span>{{ comment.content }}</span>
+                </div>
+            {% endfor %}
 
             <form action="{% url 'comment_create' post_pk=post.pk %}" method="POST">
                 {% csrf_token %}
