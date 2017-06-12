@@ -61,10 +61,12 @@ def post_modify(request, post_pk):
 def post_delete(request, post_pk):
     # post_pk에 해당하는 Post에 대한 delete요청만을 받음
     # 처리완료후에는 post_list페이지로 redirect
-
-
-
-    pass
+    if request.method == "POST":
+        post = Post.objects.get(pk=post_pk)
+        post.delete()
+        return redirect('post_list')
+    else:
+        return HttpResponse('not allowed')
 
 
 def comment_create(request, post_pk):

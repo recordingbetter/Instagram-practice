@@ -4,6 +4,16 @@
     <div>
         <img src="{{ post.photo.url }}" alt="">
         <p>{{ post.author }}</p>
+
+        <form action="{% url 'post_modify' post.pk %}" method="GET">
+            <input type="submit" value="MODIFY">
+        </form>
+
+        <form action="{% url 'post_delete' post.pk %}" method="POST">
+            {% csrf_token %}
+            <input type="submit" value="DELETE">
+        </form>
+        <a href="{% url 'post_list' %}" type="button">Back to List</a>
     </div>
 
 {% endblock %}
