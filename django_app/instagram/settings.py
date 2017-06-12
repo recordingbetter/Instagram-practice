@@ -65,6 +65,9 @@ DEBUG = True
 
 ALLOWED_HOSTS = []
 
+#Custom user
+AUTH_USER_MODEL = 'member.User'
+
 
 # Application definition
 
@@ -78,6 +81,7 @@ INSTALLED_APPS = [
 
     'django_extensions',
     'post',
+    'member',
 ]
 
 MIDDLEWARE = [

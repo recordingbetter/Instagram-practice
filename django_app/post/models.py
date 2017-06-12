@@ -1,5 +1,6 @@
+from django.conf import settings
 from django.db import models
-from django.contrib.auth.models import User
+# from django.contrib.auth.models import User
 
 '''
 member app
@@ -10,13 +11,13 @@ member app
 
 
 class Post(models.Model):
-    author = models.ForeignKey(User)
+    author = models.ForeignKey(settings.AUTH_USER_MODEL)
     photo = models.ImageField(blank = True,
                               upload_to = 'photos/%Y/%m/%d',
                               height_field = 100,
                               width_field = 100,
                               max_length = 100)
-    like_users = models.ManyToManyField(User,
+    like_users = models.ManyToManyField(settings.AUTH_USER_MODEL,
                                         through = 'PostLike',
                                         related_name = 'like_posts',
                                         )
@@ -54,11 +55,11 @@ class Post(models.Model):
 class Comment(models.Model):
     post = models.ForeignKey(Post, on_delete = models.CASCADE)
     content = models.TextField()
-    author = models.ForeignKey(User)
+    author = models.ForeignKey(settings.AUTH_USER_MODEL)
     created_date = models.DateTimeField(auto_now_add = True)
     modified_date = models.DateTimeField(auto_now = True)
     like_users = models.ManyToManyField(
-        User,
+        settings.AUTH_USER_MODEL,
         through = 'CommentLike',
         related_name = 'like_comments',
     )
@@ -69,7 +70,7 @@ class Comment(models.Model):
 
 class CommentLike(models.Model):
     comment = models.ForeignKey(Comment)
-    user = models.ForeignKey(User)
+    user = models.ForeignKey(settings.AUTH_USER_MODEL)
     created_date = models.DateTimeField(auto_now_add = True)
 
 
@@ -82,7 +83,7 @@ class Tag(models.Model):
 
 class PostLike(models.Model):
     post = models.ForeignKey(Post)
-    user = models.ForeignKey(User)
+    user = models.ForeignKey(settings.AUTH_USER_MODEL)
     created_date = models.DateTimeField(auto_now_add = True)
     # migrate 이후에는 필요없음...(이미 없는 테이블)
     # class Meta:
