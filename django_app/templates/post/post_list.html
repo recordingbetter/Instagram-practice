@@ -7,12 +7,14 @@
     <title>Document</title>
 </head>
 <body>
-    {{ posts }}
-{#    {% for post in posts %}#}
-{#    <p>{{ post.photo }}</p>#}
-{#    <p>{{ post.author.name }}</p>#}
-{#    <p>{{ post.create_date }}</p>#}
-{#    {% endfor %}#}
+{#    {{ posts }}#}
+    {% for post in posts %}
+        <div>
+            <span>{{ post.pk }}</span>
+            <img src="{{ post.photo.url }}" alt="">
+        </div>
+
+    {% endfor %}
 
 </body>
 </html>

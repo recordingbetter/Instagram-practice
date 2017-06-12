@@ -13,17 +13,15 @@ member app
 class Post(models.Model):
     author = models.ForeignKey(settings.AUTH_USER_MODEL)
     photo = models.ImageField(blank = True,
-                              upload_to = 'photos/%Y/%m/%d',
-                              height_field = 100,
-                              width_field = 100,
-                              max_length = 100)
+                              upload_to = 'post',
+                              )
     like_users = models.ManyToManyField(settings.AUTH_USER_MODEL,
                                         through = 'PostLike',
                                         related_name = 'like_posts',
                                         )
     created_date = models.DateTimeField(auto_now_add = True)
     modified_date = models.DateTimeField(auto_now = True)
-    tags = models.ManyToManyField('Tag')
+    tags = models.ManyToManyField('Tag', blank = True)
 
     def add_comment(self, user, content):
         """
@@ -78,7 +76,7 @@ class CommentLike(models.Model):
 
 
 class Tag(models.Model):
-    name = models.CharField(max_length = 50)
+    name = models.CharField(max_length = 50, blank = True)
 
     def __str__(self):
         return 'Tag({})'.format(self.name)
