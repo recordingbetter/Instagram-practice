@@ -1,4 +1,5 @@
 from django.db import models
+from django.contrib.auth.models import User
 
 '''
 member app
@@ -9,17 +10,28 @@ member app
 
 
 class Post(models.Model):
-    # author, user 필드는 제외하고 생성
-    pass
+    author = models.ForeignKey(User)
+    photo = models.ImageField(blank = True,
+                              upload_to = 'photos/%Y/%m/%d',
+                              height_field = 100,
+                              width_field = 100,
+                              max_length = 100)
+    like_users = models.ManyToManyField(User, related_name = 'like_posts')
+    created_date = models.DateTimeField(auto_now_add = True)
+    modified_date = models.DateTimeField(auto_now = True)
+    tags = models.ManyToManyField('Tag')
 
 
 class Comment(models.Model):
-    pass
-
-
-class PostLike(models.Model):
-    pass
+    post = models.ForeignKey(Post, on_delete = models.CASCADE)
+    content = models.TextField()
+    author = models.ForeignKey(User)
+    created_date = models.DateTimeField(auto_now_add = True)
+    modified_date = models.DateTimeField(auto_now = True)
 
 
 class Tag(models.Model):
-    pass
+    name = models.CharField(max_length = 50)
+
+    def __str__(self):
+        return 'Tag({})'.format(self.name)
