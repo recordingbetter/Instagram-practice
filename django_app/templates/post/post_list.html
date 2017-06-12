@@ -10,8 +10,9 @@
 {#    {{ posts }}#}
     {% for post in posts %}
         <div>
-            <span>{{ post.pk }}</span>
-            <img src="{{ post.photo.url }}" alt="">
+            <p>{{ post.author }}</p>
+            <img src="{{ post.photo.url }}" alt="" width="600">
+            <p>{{ post.like_users }}</p>
         </div>
 
     {% endfor %}
