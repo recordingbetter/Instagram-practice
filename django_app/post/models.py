@@ -46,6 +46,9 @@ class Post(models.Model):
         if not self.tags.filter(name = tag_name).exists():
             self.tags.add(tag)
 
+    # def __str__(self):
+    #     return
+
     @property
     def like_count(self):
         # 자신을 like하고있는 user수 리턴
