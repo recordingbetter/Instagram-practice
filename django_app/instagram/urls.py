@@ -24,10 +24,10 @@ urlpatterns = [
     url(r'^admin/', admin.site.urls),
     url(r'^post/', include('post.urls')),
 ]
-    # static 함수를 리스트를 반환하므로 기존 urlpatterns 에 더해준다.
+# static 함수를 리스트를 반환하므로 기존 urlpatterns 에 더해준다.
 # ] + static(settings.MEDIA_URL, document_root = settings.MEDIA_ROOT)
 # 위 내용과 같다.
 urlpatterns += static(
-    prefix = settings.MEDIA_URL,
-    document_root = settings.MEDIA_ROOT
+    prefix=settings.MEDIA_URL,
+    document_root=settings.MEDIA_ROOT
 )
