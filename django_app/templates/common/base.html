@@ -1,4 +1,11 @@
 {% load static %}
+<!--
+	템플릿 상속
+		https://docs.djangoproject.com/en/1.11/ref/templates/language/#template-inheritance
+
+	static 태그
+		https://docs.djangoproject.com/en/1.11/ref/templates/builtins/#static
+-->
 <!DOCTYPE html>
 <html lang="ko">
 <head>
@@ -17,7 +24,7 @@
         <header class="top-header">
             <nav>
                 <div class="nav-left nav-item">
-                    <a href="#">
+                    <a href="{% url "post:post_list" %}">
                         <img src="{% static 'images/logo.png' %}" alt="">
                     </a>
                 </div>
