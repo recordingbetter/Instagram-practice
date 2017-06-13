@@ -15,34 +15,3 @@
 
 
 {% endblock %}
-
-<!-- <div>
-    <img src="{{ post.photo.url }}" alt="" width="600">
-    <div>{{ post.author }}</div>
-    <div>{{ post.like_count }}</div>
-    <h5>댓글 목록</h5>
-    {% if post.comment_set.all %}
-        {% for comment in post.comment_set.all %}
-            <div>작성자: {{ comment.author }}</div>
-            <div>내용: {{ comment.content }}</div>
-            <div>작성일자: {{ comment.created_date }}</div>
-        {% endfor %}
-    {% else %}
-        <div>댓글이 없습니다.</div>
-    {% endif %}
-
-    <form action="{% url 'post:comment_create' post_pk=post.pk %}" method="POST">
-            {% csrf_token %}
-            <input type="text" name="comment">
-            <input type="hidden" name="post_pk" value="{{ post.pk }}">
-            <button type="submit">ADD COMMENT</button>
-    </form>
-
-    <a href="{% url 'post:post_modify' post.pk %}">MODIFY</a>
-
-    <form action="{% url 'post:post_delete' post.pk %}" method="POST">
-        {% csrf_token %}
-        <input type="submit" value="DELETE">
-    </form>
-    <a href="{% url 'post:post_list' %}" type="button">Back to List</a>
-</div> -->

@@ -1,4 +1,4 @@
-<article>
+<article class="post">
     <header>
         <div class="post-header-left">
             <img src="" alt="">
@@ -24,15 +24,16 @@
     </div>
     <p>좋아요 {{ post.like_count }}개</p>
     <div class="post-comment-container">
-        <div class="post-comment">
-            <a href="" class="comment-author"></a>
-            <span class="comment-content"></span>
-            <a href="" class="comment-tag"></a>
-            <a href="" class="comment-tag"></a>
-            <a href="" class="comment-tag"></a>
-        </div>
+        {% for comment in post.comment_set.all %}
+            <div class="post-comment">
+                <a href="" class="comment-author">{{ comment.author }}</a>
+                <span class="comment-content">{{ comment.content }}</span>
+                <a href="" class="comment-tag"></a>
+{#                <p class="comment-created">{{ comment.created_date }}</p>#}
+            </div>
+        {% endfor %}
     </div>
-    <p class="created">{{ post.created_date }}</p>
+    <p class="created"><a href="{% url "post:post_detail" post.pk %}">{{ post.created_date }}</a></p>
 
     <form class="" action="index.html" method="post">
         <input type="text" placeholder="댓글달기">

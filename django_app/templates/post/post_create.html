@@ -1,11 +1,13 @@
 {% extends 'common/base.html' %}
 
 {% block content %}
+<div>
     <form action="" method="POST" enctype="multipart/form-data">
         {% csrf_token %}
         <input type="file" name="photo">
-        <input type="text" name="tags">
+        <input type="text" placeholder="댓글" name="comment">
 
-        <input type="submit">
+        <button type="submit">ADD</button>
     </form>
+</div>
 {% endblock %}

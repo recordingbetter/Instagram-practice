@@ -1,9 +1,14 @@
-from django.http import HttpResponse, HttpResponseNotFound
+from django.contrib.auth import get_user_model
+from django.http import HttpResponse, HttpResponseNotFound, HttpResponseRedirect
 from django.shortcuts import render, redirect
 from django.template import loader
+from django.urls import reverse
 
-from member.models import User
+# from member.models import User
 from .models import Post, Comment
+
+# 자동으로 Django에서 인증에 사용하는 User 모델클래스를 불러온다.
+User = get_user_model()
 
 
 def post_list(request):
@@ -33,7 +38,9 @@ def post_detail(request, post_pk):
     rendered_string = template.render(context=context, request=request)
     # 변환된 string을 HttpResponse 형태로 돌려준다.
     return HttpResponse(rendered_string)
-
+    # 아래 2줄과 같다.
+    # url = reverse('post:post_list')
+    # return HttpResponseRedirect(url)
 
 def post_create(request):
     # POST요청을 받아 Post객체를 생성 후 post_list페이지로 redirect
@@ -44,12 +51,28 @@ def post_create(request):
         photo = request.FILES['photo']
         author = User.objects.first()
         # tags = data['tags']
-        Post.objects.create(
+        post = Post.objects.create(
             photo=photo,
             author=author,
             # tags=tags,
         )
-        return redirect('post:post_list')
+        # comment 키의 값이 없을 경우''빈값을 반환
+        comment_string = request.POST.get('comment', '')
+        # 빈문자열이나 None 모두 False이므로 데이터가 존재하는지 검사 가능
+        if comment_string:
+            # comment 값이 있을경우 Comment 객체 생성
+            post.comment_set.create(
+                author=author,
+                content=comment_string,
+            )
+            #post 값이 없을 경우
+            # Comment.objects.create(
+            #     post=post,
+            #     author=author,
+            #     content=comment_string,
+            # )
+
+        return redirect('post:post_detail', post_pk=post.pk)
 
 
 def post_modify(request, post_pk):

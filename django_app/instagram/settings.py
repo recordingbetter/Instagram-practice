@@ -79,7 +79,7 @@ DEBUG = True
 
 ALLOWED_HOSTS = []
 
-# Custom user
+# Custom user 모델
 AUTH_USER_MODEL = 'member.User'
 
 # Application definition
