@@ -1,3 +1,4 @@
+{% load static %}
 <!DOCTYPE html>
 <html lang="ko">
 <head>
@@ -5,20 +6,44 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Instagram Project</title>
-    <style>
-        p.title {
-            font-size: 40px;
-        }
-    </style>
+    <link rel="stylesheet" href="{% static 'css/normalize.css' %}">
+    <link rel="stylesheet" href="{% static 'css/base.css' %}">
+    <link rel="stylesheet" href="{% static 'css/layout.css' %}">
+    <link rel="stylesheet" href="{% static 'css/post.css' %}">
 </head>
-
-<header>
-    <p class="title">Instagram Project</p>
-</header>
 <body>
+    <div id="wrap">
 
-{% block content %}
-{% endblock content %}
+        <header class="top-header">
+            <nav>
+                <div class="nav-left nav-item">
+                    <a href="#">
+                        <img src="{% static 'images/logo.png' %}" alt="">
+                    </a>
+                </div>
 
+                <div class="nav-center nav-item">
+                    <input type="text" placeholder="검색">
+                </div>
+
+                <div class="nav-right nav-item">
+                    <a href="#">
+                        <img src="{% static 'images/icon_explore.png' %}" alt="">
+                    </a>
+                    <a href="#">
+                        <img src="{% static 'images/icon_heart.png' %}" alt="">
+                    </a>
+                    <a href="#">
+                        <img src="{% static 'images/icon_profile.png' %}" alt="">
+                    </a>
+                </div>
+            </nav>
+        </header>
+
+        <div class="container">
+            {% block content %}
+            {% endblock content %}
+        </div>
+    </div>
 </body>
 </html>

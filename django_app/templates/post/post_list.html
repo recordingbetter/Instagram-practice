@@ -3,7 +3,8 @@
 {% block content %}
 
     {% for post in posts %}
-        <div>
+        {% include 'include/post.html' %}
+        <!-- <div>
             <p>{{ post.author }}</p>
             <img src="{{ post.photo.url }}" alt="" width="600">
             <br>
@@ -22,7 +23,7 @@
                 <input type="hidden" name="post_pk" value="{{ post.pk }}">
                 <button type="submit">ADD COMMENT</button>
             </form>
-        </div>
+        </div> -->
 
     {% endfor %}
 
