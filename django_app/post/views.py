@@ -1,5 +1,6 @@
-from django.http import HttpResponse
+from django.http import HttpResponse, HttpResponseNotFound
 from django.shortcuts import render, redirect
+from django.template import loader
 
 from member.models import User
 from .models import Post, Comment
@@ -15,13 +16,22 @@ def post_list(request):
 
 
 def post_detail(request, post_pk):
-    # post_pk에 해당하는 Post객체를 리턴, 보여줌
-    post = Post.objects.get(pk=post_pk)
+    # post = Post.objects.get(pk=post_pk)
+    # 가져오는 과정에서 예외처리
+    try:
+        post = Post.objects.get(pk=post_pk)
+    except Post.DoesNotExist as e:
+        return HttpResponseNotFound('Post not found, detail: {}'.format(e))
+    template = loader.get_template('post/post_detail.html')
     context = {
         'post': post,
         'post_pk': post_pk,
     }
-    return render(request, 'post/post_detail.html', context)
+    # return render(request, 'post/post_detail.html', context)
+    # template에 인자로 주어진 context, request를 render 함수를 사용해서 해당 template을 string으로 변환
+    rendered_string = template.render(context=context, request=request)
+    # 변환된 string을 HttpResponse 형태로 돌려준다.
+    return HttpResponse(rendered_string)
 
 
 def post_create(request):

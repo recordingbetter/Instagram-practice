@@ -2,7 +2,7 @@
 
 {% block content %}
     <div>
-        <img src="{{ post.photo.url }}" alt="">
+        <img src="{{ post.photo.url }}" alt="" width="600">
         <p>{{ post.author }}</p>
 
         {% for comment in post.comment_set.all %}
@@ -11,22 +11,20 @@
                 <span>{{ comment.content }}</span>
             </div>
         {% endfor %}
-        <form action="{% url 'comment_create' post_pk=post.pk %}" method="POST">
+        <form action="{% url 'post:comment_create' post_pk=post.pk %}" method="POST">
                 {% csrf_token %}
                 <input type="text" name="comment">
                 <input type="hidden" name="post_pk" value="{{ post.pk }}">
                 <button type="submit">ADD COMMENT</button>
         </form>
 
-        <form action="{% url 'post_modify' post.pk %}" method="GET">
-            <input type="submit" value="MODIFY">
-        </form>
+        <a href="{% url 'post:post_modify' post.pk %}">MODIFY</a>
 
-        <form action="{% url 'post_delete' post.pk %}" method="POST">
+        <form action="{% url 'post:post_delete' post.pk %}" method="POST">
             {% csrf_token %}
             <input type="submit" value="DELETE">
         </form>
-        <a href="{% url 'post_list' %}" type="button">Back to List</a>
+        <a href="{% url 'post:post_list' %}" type="button">Back to List</a>
     </div>
 
 {% endblock %}
