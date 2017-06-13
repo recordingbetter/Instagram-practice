@@ -21,7 +21,8 @@ def post_detail(request, post_pk):
     try:
         post = Post.objects.get(pk=post_pk)
     except Post.DoesNotExist as e:
-        return HttpResponseNotFound('Post not found, detail: {}'.format(e))
+        return redirect('post:post_list')
+        # return HttpResponseNotFound('Post not found, detail: {}'.format(e))
     template = loader.get_template('post/post_detail.html')
     context = {
         'post': post,
@@ -48,7 +49,7 @@ def post_create(request):
             author=author,
             # tags=tags,
         )
-        return redirect('post_list')
+        return redirect('post:post_list')
 
 
 def post_modify(request, post_pk):
@@ -65,7 +66,7 @@ def post_modify(request, post_pk):
         post.photo = photo
         # tags=tags,
         post.save()
-        return redirect('post_detail', post_pk)
+        return redirect('post:post_detail', post_pk)
 
 
 def post_delete(request, post_pk):
@@ -74,7 +75,7 @@ def post_delete(request, post_pk):
     if request.method == "POST":
         post = Post.objects.get(pk=post_pk)
         post.delete()
-        return redirect('post_list')
+        return redirect('post:post_list')
     else:
         return HttpResponse('not allowed')
 
@@ -88,7 +89,7 @@ def comment_create(request, post_pk):
             author=User.objects.get(pk=2),
             post_id=data['post_pk'],
         )
-        return redirect('post_list')
+        return redirect('post:post_list')
     else:
         return HttpResponse('not allowed')
 

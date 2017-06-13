@@ -1,16 +1,31 @@
-{% extends 'post/post_base.html' %}
+{% extends 'common/base.html' %}
+{#detail에 나와야되는요소#}
+{#사진#}
+{#작성자#}
+{#작성자를팔로우하고있는지여부및팔로우/언팔로우버튼#}
+{#좋아요갯수#}
+{#댓글목록#}
+{#    댓글내용#}
+{#    태그목록#}
+{#댓글작성#}
+{#좋아요버튼#}
 
 {% block content %}
     <div>
         <img src="{{ post.photo.url }}" alt="" width="600">
-        <p>{{ post.author }}</p>
+        <div>{{ post.author }}</div>
+        <div>{{ post.like_count }}</div>
+        <h5>댓글 목록</h5>
+        {% if post.comment_set.all %}
+            {% for comment in post.comment_set.all %}
+                <div>작성자: {{ comment.author }}</div>
+                <div>내용: {{ comment.content }}</div>
+                <div>작성일자: {{ comment.created_date }}</div>
+            {% endfor %}
+        {% else %}
+            <div>댓글이 없습니다.</div>
+        {% endif %}
 
-        {% for comment in post.comment_set.all %}
-            <div>
-                <span>{{ comment.author }}</span>
-                <span>{{ comment.content }}</span>
-            </div>
-        {% endfor %}
         <form action="{% url 'post:comment_create' post_pk=post.pk %}" method="POST">
                 {% csrf_token %}
                 <input type="text" name="comment">
