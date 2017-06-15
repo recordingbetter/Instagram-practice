@@ -20,3 +20,12 @@ input[type="text"], input[type="password"] {
   background: red;
   font-size: 14px;
 }
+
+a {
+  text-decoration: none;
+  color: #262626;
+}
+
+a:hover {
+  text-decoration: underline;
+}

@@ -17,6 +17,7 @@
 	<link rel="stylesheet" href="{% static 'css/base.css' %}">
 	<link rel="stylesheet" href="{% static 'css/layout.css' %}">
 	<link rel="stylesheet" href="{% static 'css/post.css' %}">
+	<link rel="stylesheet" href="{% static 'css/common.css' %}">
 </head>
 <body>
     <div id="wrap">
@@ -44,19 +45,29 @@
                         <img src="{% static 'images/icon_profile.png' %}" alt="">
                     </a>
                 </div>
-                <a href="{% url 'member:logout' %}">LOG OUT</a>
+{#                <a href="{% url 'member:logout' %}">LOG OUT</a>#}
+            </nav>
+            <nav>
+                <div>
+                    {% if user.is_authenticated %}
+                        {{ user }}가 로그인 중입니다.
+                        <a href="{% url 'member:logout' %}" class="btn">LOG OUT</a>
+                    {% else %}
+                        <a href="{% url 'member:login' %}" class="btn">LOG IN</a>
+                    {% endif %}
+                </div>
             </nav>
         </header>
 
-        <div class="test">
-            <!-- request 데이터 중에 user 변수가 있어서 바로 사용 가능 -->
-            {% if user.is_authenticated %}
-                {{ user }}가 로그인 중입니다.
-                <a href="{% url 'member:logout' %}">LOG OUT</a>
-            {% else %}
-                <a href="{% url 'member:login' %}">LOG IN</a>
-            {% endif %}
-        </div>
+{#        <div class="test">#}
+{#            <!-- request 데이터 중에 user 변수가 있어서 바로 사용 가능 -->#}
+{#            {% if user.is_authenticated %}#}
+{#                {{ user }}가 로그인 중입니다.#}
+{#                <a href="{% url 'member:logout' %}">LOG OUT</a>#}
+{#            {% else %}#}
+{#                <a href="{% url 'member:login' %}">LOG IN</a>#}
+{#            {% endif %}#}
+{#        </div>#}
 
         <div class="container">
             {% block content %}
