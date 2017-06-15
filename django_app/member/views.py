@@ -3,6 +3,8 @@ from django.contrib.auth import authenticate, login as django_login, logout as d
 from django.http import HttpResponse
 from django.shortcuts import render, redirect
 
+from member.forms import LoginForm
+
 User = get_user_model()
 
 
@@ -13,15 +15,26 @@ def login(request):
     # 실패할 경우, HttpResponse로 'Login invalid!' 띄어주기
     # member/urls.py 생성
     if request.method == 'POST':
-        username = request.POST['username']
-        password = request.POST['password']
-        # print(request.POST)
-        user = authenticate(
-            request,
-            username=username,
-            password=password,
-            )
-        if user is not None:
+        # Form class 미사용시
+        # username = request.POST['username']
+        # password = request.POST['password']
+        # user = authenticate(
+        #     request,
+        #     username=username,
+        #     password=password,
+        #     Form class 사용시,
+        #     )
+        # if user is not None:
+        #     django_login(request, user)
+        #     return redirect('post:post_list')
+        # else:
+        #     return HttpResponse('Login credentials invalid.')
+
+        # Form class 사용시
+        form = LoginForm(data=request.POST)
+        # Bound form의 유효성 검사
+        if form.is_valid():
+            user = form.cleaned_data['user']
             django_login(request, user)
             return redirect('post:post_list')
         else:
@@ -30,7 +43,11 @@ def login(request):
         # 이미 로그인된 상태일 경우
         if request.user.is_authenticated:
             return redirect('post:post_list')
-        return render(request, 'member/login.html')
+        form = LoginForm()
+        context = {
+            'form': form,
+            }
+        return render(request, 'member/login.html', context)
 
 
 def logout(request):
