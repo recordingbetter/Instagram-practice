@@ -1,3 +1,4 @@
+from django.contrib.auth import authenticate, login as django_login
 from django.http import HttpResponse
 from django.shortcuts import render, redirect
 
@@ -11,7 +12,19 @@ def login(request):
     # member/urls.py 생성
 
     if request.method == 'POST':
-        pass
+        username = request.POST['username']
+        password = request.POST['password']
+        print(request.POST)
+        user = authenticate(
+            request,
+            username=username,
+            password=password,
+            )
+        if user is not None:
+            django_login(request, user)
+            return redirect('post:post_list')
+        else:
+            return HttpResponse('Login credentials invalid.')
     else:
         return render(request, 'member/login.html')
 
