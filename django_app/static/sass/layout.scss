@@ -1,15 +1,29 @@
 $screen-tablet: 700px;
 $header-height: 83px;
+header {
+
+}
 
 header.top-header {
   height: $header-height;
   padding: 0 10px;
   border-bottom: 1px solid rgba(0,0,0,.0975);
+
+  // overflow-x: hidden;
+  // overflow-y: hidden;
 }
 header.top-header > nav {
   max-width: 1010px;
   margin: 0 auto;
   height: $header-height;
+  position: fixed;
+  background-color: #fff;
+  top: 0;
+  left: 0;
+  right: 0;
+
+  // overflow-x: hidden;
+  // overflow-y: hidden;
   // 각 div내의 a요소들은 height와 line-height를
   // 같은 값으로 가져 수직중앙정렬되도록 함
   // img요소는 vertical-align에 middle속성으로 수직중앙정렬

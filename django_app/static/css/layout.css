@@ -8,6 +8,11 @@ header.top-header > nav {
   max-width: 1010px;
   margin: 0 auto;
   height: 83px;
+  position: fixed;
+  background-color: #fff;
+  top: 0;
+  left: 0;
+  right: 0;
 }
 
 header.top-header > nav .nav-item {
