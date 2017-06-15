@@ -11,7 +11,14 @@
     </header>
 
     <div class="post-photo-container">
+{#        # type = 'list'라는 변수에 따라 a 태그 활성/비활성#}
+        {% if type == 'list' %}
+            <a href="{% url 'post:post_detail' post.pk %}">
+        {% endif %}
         <img src="{{ post.photo.url }}" alt="">
+        {% if type == 'list' %}
+            </a>
+        {% endif %}
     </div>
 
     <div class="post-btn-container">
