@@ -11,7 +11,7 @@ input[type="text"], input[type="password"] {
     color: #262626;
     font-size: 12px;
     outline: none;
-    height: 30px;
+    height: 20px;
     padding: 3px 10px 3px 10px;
     background-color: #fafafa;
 }
@@ -23,11 +23,11 @@ input[type="text"], input[type="password"] {
     font-size: 14px;
 }
 
-a {
-    text-decoration: none;
-    color: $color-text-common;
-
-    &:hover {
-        text-decoration: underline;
-    }
-}
+//a {
+//    text-decoration: none;
+//    color: $color-text-common;
+//
+//    &:hover {
+//        text-decoration: underline;
+//    }
+//}

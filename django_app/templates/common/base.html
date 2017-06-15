@@ -53,7 +53,16 @@
                         {{ user }}가 로그인 중입니다.
                         <a href="{% url 'member:logout' %}" class="btn">LOG OUT</a>
                     {% else %}
-                        <a href="{% url 'member:login' %}" class="btn">LOG IN</a>
+                        <form action="{% url 'member:login' %}" method="post">
+                            {% csrf_token %}
+                            <label for="username">Username</label>
+                            <input type="text" name="username" id="username">
+                            <label for="password">Password</label>
+                            <input type="password" name="password" id="password">
+{#                            {{  form }}#}
+                            <input type="submit" class="btn" value="LOG IN">
+{#                            <button class="btn" type="submit">LOG IN</button>#}
+                        </form>
                     {% endif %}
                 </div>
             </nav>

@@ -15,6 +15,7 @@ def login(request):
     # 실패할 경우, HttpResponse로 'Login invalid!' 띄어주기
     # member/urls.py 생성
     if request.method == 'POST':
+        origin_html = request.environ['HTTP_REFERER']
         # Form class 미사용시
         # username = request.POST['username']
         # password = request.POST['password']
@@ -22,11 +23,10 @@ def login(request):
         #     request,
         #     username=username,
         #     password=password,
-        #     Form class 사용시,
         #     )
         # if user is not None:
         #     django_login(request, user)
-        #     return redirect('post:post_list')
+        #     return redirect(origin_html)
         # else:
         #     return HttpResponse('Login credentials invalid.')
 
@@ -36,23 +36,28 @@ def login(request):
         if form.is_valid():
             user = form.cleaned_data['user']
             django_login(request, user)
-            return redirect('post:post_list')
+            return redirect(origin_html)
         else:
             return HttpResponse('Login credentials invalid.')
+
     else:
-        # 이미 로그인된 상태일 경우
+        # 만약 이미 로그인 된 상태일 경우에는
+        # post_list로 redirect
         if request.user.is_authenticated:
             return redirect('post:post_list')
+        # LoginForm인스턴스를 생성해서 context에 넘김
         form = LoginForm()
         context = {
             'form': form,
             }
+        # render시 context에는 LoginForm클래스형 form객체가 포함됨
         return render(request, 'member/login.html', context)
 
 
 def logout(request):
+    origin_html = request.environ['HTTP_REFERER']
     django_logout(request)
-    return redirect('post:post_list')
+    return redirect(origin_html)
 
 
 def signup(request):

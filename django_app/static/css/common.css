@@ -3,4 +3,10 @@
   border: 1px solid rgba(0, 0, 0, 0.0975);
   border-radius: 3px;
   cursor: pointer;
-}
+  color: #262626;
+  background-color: #fff;
+  outline: none; }
+  .btn:hover {
+    font-weight: bolder; }
+
+/*# sourceMappingURL=common.css.map */

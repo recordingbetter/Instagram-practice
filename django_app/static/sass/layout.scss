@@ -24,9 +24,7 @@ header.top-header > nav:nth-child(1) {
   // top: 0;
   // left: 0;
   // right: 0;
-  // 각 div내의 a요소들은 height와 line-height를
-  // 같은 값으로 가져 수직중앙정렬되도록 함
-  // img요소는 vertical-align에 middle속성으로 수직중앙정렬
+
   .nav-item {
     height: $header-height;
     line-height: $header-height;
@@ -64,16 +62,18 @@ header.top-header > nav:nth-child(1) {
 }
 
 header.top-header > nav:nth-child(2) {
-        padding: 8px 10px;
+  padding: 8px 10px;
   // max-width: 1010px;
   margin: 0 auto;
-    // height: $header-height;
+  //height: 45px;
   border-top: 1px solid $color-border;
   text-align: right;
 
   > div {
       max-width: 1010px;
       margin: 0 auto;
+      height: 28px;
+
   }
 }
 

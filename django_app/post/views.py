@@ -4,6 +4,7 @@ from django.shortcuts import render, redirect
 from django.template import loader
 from django.urls import reverse
 
+
 # from member.models import User
 from .models import Post, Comment
 
@@ -162,3 +163,4 @@ def comment_delete(request, post_pk, comment_pk):
 
 def post_anyway(request):
     return redirect('post:post_list')
+
