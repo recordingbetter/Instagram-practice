@@ -1,10 +1,10 @@
-from django.contrib.auth import authenticate, login as django_login, logout as django_logout, get_user_model
+from django.contrib.auth import login as django_login, logout as django_logout, get_user_model
 # from django.contrib.auth.models import User
 from django.http import HttpResponse
 from django.shortcuts import render, redirect
 
-from member.forms import LoginForm
-from member.forms.signup import SignupForm
+from .forms import LoginForm
+from .forms.signup import SignupForm
 
 User = get_user_model()
 
@@ -40,7 +40,7 @@ def login(request):
             return redirect(origin_html)
         else:
             return HttpResponse('Login credentials invalid.')
-
+    # method가 GET 일때
     else:
         # 만약 이미 로그인 된 상태일 경우에는
         # post_list로 redirect
@@ -89,20 +89,23 @@ def signup(request):
         form = SignupForm(data=request.POST)
         # valid check of bound form
         if form.is_valid():
-            username = form.cleaned_data['username']
-            password1 = form.cleaned_data['password1']
-            password2 = form.cleaned_data['password2']
+            # username = form.cleaned_data['username']
+            # password1 = form.cleaned_data['password1']
+            # password2 = form.cleaned_data['password2']
             # 이후에 Form class 를 사용하지않는 경우를 적용해도 동작한다.
-        user = User.objects.create_user(
-            username=username,
-            password=password1,
-            )
-        django_login(request, user)
-        return redirect('post:post_list')
+            user = form.create_user()
+            django_login(request, user)
+            return redirect('post:post_list')
+        else:
+            # form = SignupForm()
+            # 에러메세지를 폼에 보여줄수있다.
+            context = {
+                'form': form,
+                }
+            return render(request, 'member/signup.html', context)
 
-    else:
-        form = SignupForm()
-    # 에러메세지를 폼에 보여줄수있다.
+    form = SignupForm()
+# 에러메세지를 폼에 보여줄수있다.
     context = {
         'form': form,
         }

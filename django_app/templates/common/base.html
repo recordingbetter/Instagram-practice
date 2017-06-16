@@ -63,6 +63,7 @@
 {#                            context_processors 사용#}
                             {{ login_form }}
                             <input type="submit" class="btn" value="LOG IN">
+                            <a href="{% url 'member:signup' %}" class="btn" type="button">SIGN UP</a>
 {#                            <button class="btn" type="submit">LOG IN</button>#}
                         </form>
                     {% endif %}
