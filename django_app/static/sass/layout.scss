@@ -77,6 +77,18 @@ header.top-header > nav:nth-child(2) {
   }
 }
 
+form.inline {
+  font-size: 11px;
+
+  label {
+    margin-right: 5px;
+  }
+  input {
+    padding: 4px 8px;
+    font-size: 10px;
+  }
+}
+
 .container {
   max-width: 1010px;
   margin: 0 auto;

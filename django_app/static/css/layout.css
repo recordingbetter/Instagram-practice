@@ -40,6 +40,14 @@ header.top-header > nav:nth-child(2) {
     margin: 0 auto;
     height: 28px; }
 
+form.inline {
+  font-size: 11px; }
+  form.inline label {
+    margin-right: 5px; }
+  form.inline input {
+    padding: 4px 8px;
+    font-size: 10px; }
+
 .container {
   max-width: 1010px;
   margin: 0 auto;
