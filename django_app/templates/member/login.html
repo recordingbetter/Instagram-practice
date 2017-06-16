@@ -3,10 +3,7 @@
 {% block content %}
     <form action="" method="POST">
         {% csrf_token %}
-{#        <input type="text" name="username">#}
-{#        <input type="password" name="password">#}
-{#        {{ form }}#}
-{#        <button type="submit">LOG IN</button>#}
+        {% include 'include/field_set.html' %}
     </form>
 
 {% endblock %}

@@ -5,29 +5,8 @@
     <h2>Sign Up</h2>
     <form action="{% url 'member:signup' %}" method="POST">
         {% csrf_token %}
-        <ul class="errors">
-        {% for error in form.non_field_errors %}
-            <li>error</li>
-        {% endfor %}
-        </ul>
-
-        {% for field in form %}
-            <div class="field-wrapper">
-                {{ field.label_tag }}
-                {{ field }}
-                {% if field.help_text %}
-                    <p class="help">{{ field.help_text }}</p>
-                {% endif %}
-                {% if field.errors %}
-                    <ul class="errors">
-                    {% for error in field.errors %}
-                        <li>{{ error }}</li>
-                    {% endfor %}
-                    </ul>
-                {% endif %}
-            </div>
-        {% endfor %}
-        <button type="submit">SIGN UP</button>
+        {% include 'include/field_set.html' %}
+        <button type="submit" class="btn">SIGN UP</button>
     </form>
 </div>
 {% endblock %}

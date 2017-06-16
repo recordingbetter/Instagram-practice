@@ -30,9 +30,6 @@ class SignupForm(forms.Form):
     # clean_<fieldname>매서드를 사용해서 username 필드에 대한 유효성 검증을 실행
     def clean_username(self):
         username = self.cleaned_data['username']
-        if User.objects.filter(username=username).exist():
+        if User.objects.filter(username=username).exists():
             raise forms.ValidationError('Username already exists!')
         return username
-
-
-

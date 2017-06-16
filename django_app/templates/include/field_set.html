@@ -1,0 +1,31 @@
+ <!--
+			form 자체에 대한 error
+			(Form의 clean()메서드에서 발생한 ValidationError)
+		-->
+        {% if form.non_field_errors %}
+            <ul class="errors">
+            {% for error in form.non_field_errors %}
+                <li>{{ error }}</li>
+            {% endfor %}
+            </ul>
+        {% endif %}
+
+    <!--form을 순회하면 form이 가진 각 필드를 매 루프마다 제공-->
+        {% for field in form %}
+            <div class="field-wrapper">
+                {{ field.label_tag }}
+                {{ field }}
+
+                {% if field.help_text %}
+                    <p class="help">{{ field.help_text }}</p>
+                {% endif %}
+
+                {% if field.errors %}
+                    <ul class="errors">
+                    {% for error in field.errors %}
+                        <li>{{ error }}</li>
+                    {% endfor %}
+                    </ul>
+                {% endif %}
+            </div>
+        {% endfor %}
