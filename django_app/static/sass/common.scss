@@ -13,3 +13,26 @@
         font-weight: bolder;
     }
 }
+
+
+.field-wrapper {
+  ul.errors {
+    font-size: 13px;
+    color: red;
+    font-weight: bold;
+      padding-left: 5px;
+  }
+  label {
+    font-size: 11px;
+  }
+  input[type=text], input[type=password] {
+    width: 100%;
+
+  }
+  p.help {
+    font-size: 10px;
+    color: #ccc;
+    margin-top: 2px;
+    margin-bottom: 0;
+  }
+}

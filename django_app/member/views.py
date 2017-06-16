@@ -4,6 +4,7 @@ from django.http import HttpResponse
 from django.shortcuts import render, redirect
 
 from member.forms import LoginForm
+from member.forms.signup import SignupForm
 
 User = get_user_model()
 
@@ -63,22 +64,43 @@ def logout(request):
 def signup(request):
     # member/signup.html을 사용하여 username, password1, password2를 받아 회원가입
     if request.method == 'POST':
-        username = request.POST['username']
-        password1 = request.POST['password1']
-        password2 = request.POST['password2']
-        # 이미유저가 존재하는지 검사
-        if User.objects.filter(username=username).exists():
-            return HttpResponse('Username is already exist!')
-        # password1, password2가 일치하는지 검사
-        elif password1 != password2:
-            return HttpResponse('Passwords are not match!')
-        # 가입 성공시 로그인시키고 post_list 로 리다이렉트
-        user = User.objects.create_user(
-            username=username,
-            password=password1,
-            )
-        # login
-        django_login(request, user)
-        return redirect('post:post_list')
+        #     # Form class 미사용시
+        #     username = request.POST['username']
+        #     password1 = request.POST['password1']
+        #     password2 = request.POST['password2']
+        #     # 이미유저가 존재하는지 검사
+        #     if User.objects.filter(username=username).exists():
+        #         return HttpResponse('Username is already exist!')
+        #     # password1, password2가 일치하는지 검사
+        #     elif password1 != password2:
+        #         return HttpResponse('Passwords are not match!')
+        #     # 가입 성공시 로그인시키고 post_list 로 리다이렉트
+        #     user = User.objects.create_user(
+        #         username=username,
+        #         password=password1,
+        #         )
+        #     # login
+        #     django_login(request, user)
+        #     return redirect('post:post_list')
+        # else:
+        #     return render(request, 'member/signup.html')
+
+        # Form class 사용시,
+        form = SignupForm(data=request.POST)
+        # valid check of bound form
+        if form.is_valid():
+            username = form.cleaned_data['username']
+            password1 = form.cleaned_data['password1']
+            password2 = form.cleaned_data['password2']
+            # 이후에 Form class 를 사용하지않는 경우를 적용해도 동작한다.
+            django_login(request, user)
+            #     return redirect('post:post_list')
+
+
     else:
-        return render(request, 'member/signup.html')
+        form = SignupForm()
+    # 에러메세지를 폼에 보여줄수있다.
+    context = {
+        'form': form,
+        }
+    return render(request, 'member/signup.html', context)

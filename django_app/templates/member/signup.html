@@ -1,24 +1,33 @@
 {% extends 'common/base.html' %}
 
 {% block content %}
+<div class="content">
     <h2>Sign Up</h2>
     <form action="{% url 'member:signup' %}" method="POST">
         {% csrf_token %}
+        <ul class="errors">
+        {% for error in form.non_field_errors %}
+            <li>error</li>
+        {% endfor %}
+        </ul>
 
-        <div>
-            <label for="id-username">Username</label>
-            <input type="text" name="username" id="id-username">
-        </div>
-        <div>
-            <label for="id-password1">Password</label>
-            <input type="password" name="password1" id="id-password1">
-        </div>
-        <div>
-            <label for="id-password2">Password check</label>
-            <input type="password" name="password2" id="id-password2">
-        </div>
+        {% for field in form %}
+            <div class="field-wrapper">
+                {{ field.label_tag }}
+                {{ field }}
+                {% if field.help_text %}
+                    <p class="help">{{ field.help_text }}</p>
+                {% endif %}
+                {% if field.errors %}
+                    <ul class="errors">
+                    {% for error in field.errors %}
+                        <li>{{ error }}</li>
+                    {% endfor %}
+                    </ul>
+                {% endif %}
+            </div>
+        {% endfor %}
         <button type="submit">SIGN UP</button>
     </form>
-
-
+</div>
 {% endblock %}
