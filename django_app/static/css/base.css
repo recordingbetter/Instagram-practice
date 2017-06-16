@@ -12,6 +12,9 @@ input[type="text"], input[type="password"] {
   padding: 3px 10px 3px 10px;
   background-color: #fafafa; }
 
+input[type=file] {
+  width: 100%; }
+
 .test {
   padding: 10px;
   color: #fff;

@@ -1,4 +1,5 @@
 from django.contrib.auth import get_user_model
+from django.contrib.auth.decorators import login_required
 from django.http import HttpResponse, HttpResponseNotFound, HttpResponseRedirect
 from django.shortcuts import render, redirect
 from django.template import loader
@@ -70,7 +71,11 @@ def post_detail(request, post_pk):
     return HttpResponse(rendered_string)
 
 
+@login_required
 def post_create(request):
+    # 로그인하지 않은 상태라면 로그인 페이지로 이동
+    if not request.user.is_authenticated:
+        return redirect('member:login')
     # POST요청을 받아 Post객체를 생성 후 post_list페이지로 redirect
     if request.method == "GET":
         form = PostForm()
@@ -79,39 +84,45 @@ def post_create(request):
             }
         return render(request, 'post/post_create.html', context)
     elif request.method == "POST":
-        # data = request.POST
-        # request.FILES에서 파일 가져오기
-        #   https://docs.djangoproject.com/en/1.11/topics/http/file-uploads/#basic-file-uploads
-        # 가져온 파일을 ImageField에 넣도록 설정
-        # 'file'은 POST요청시 input[type="photo"]이 가진 name속성
-        photo = request.FILES['photo']
-        author = User.objects.first()
-        # tags = data['tags']
-        post = Post.objects.create(
-            photo=photo,
-            author=author,
-            # tags=tags,
-        )
-        # POST요청시 name이 'comment'인 input에서 전달된 값을 가져옴
-        # dict.get()
-        #   https://www.tutorialspoint.com/python/dictionary_get.htm
-        # comment 키의 값이 없을 경우''빈값을 반환
-        comment_string = request.POST.get('comment', '')
-        # 빈문자열이나 None 모두 False이므로 데이터가 존재하는지 검사 가능
-        if comment_string:
-            # comment 값이 있을경우 Comment 객체 생성
-            post.comment_set.create(
-                author=author,
-                content=comment_string,
-            )
-            # 역참조로 가져온 RelatedManager를 사용하지 않을경우엔 아래와 같이 작업함
-            # Comment.objects.create(
-            #     post=post,
-            #     author=author,
-            #     content=comment_string,
-            # )
-
-        return redirect('post:post_detail', post_pk=post.pk)
+        # # data = request.POST
+        # # request.FILES에서 파일 가져오기
+        # #   https://docs.djangoproject.com/en/1.11/topics/http/file-uploads/#basic-file-uploads
+        # # 가져온 파일을 ImageField에 넣도록 설정
+        # # 'file'은 POST요청시 input[type="photo"]이 가진 name속성
+        # photo = request.FILES['photo']
+        # author = User.objects.first()
+        # # tags = data['tags']
+        # post = Post.objects.create(
+        #     photo=photo,
+        #     author=author,
+        #     # tags=tags,
+        # )
+        # # POST요청시 name이 'comment'인 input에서 전달된 값을 가져옴
+        # # dict.get()
+        # #   https://www.tutorialspoint.com/python/dictionary_get.htm
+        # # comment 키의 값이 없을 경우''빈값을 반환
+        # comment_string = request.POST.get('comment', '')
+        # # 빈문자열이나 None 모두 False이므로 데이터가 존재하는지 검사 가능
+        # if comment_string:
+        #     # comment 값이 있을경우 Comment 객체 생성
+        #     post.comment_set.create(
+        #         author=author,
+        #         content=comment_string,
+        #     )
+        #     # 역참조로 가져온 RelatedManager를 사용하지 않을경우엔 아래와 같이 작업함
+        #     # Comment.objects.create(
+        #     #     post=post,
+        #     #     author=author,
+        #     #     content=comment_string,
+        #     # )
+        form = PostForm(data=request.POST, files=request.FILES)
+        if form.is_valid():
+            # ModelForm의 save() 매서드를 이용해서 Post 객체를 가져옴
+            # commit=False
+            post = form.save(commit=False)
+            post.author = request.user
+            post.save()
+            return redirect('post:post_detail', post_pk=post.pk)
 
 
 def post_modify(request, post_pk):

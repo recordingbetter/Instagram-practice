@@ -16,6 +16,11 @@ input[type="text"], input[type="password"] {
     background-color: #fafafa;
 }
 
+input[type=file] {
+    width: 100%;
+
+}
+
 .test {
     padding: 10px;
     color: #fff;
