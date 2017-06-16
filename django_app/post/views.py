@@ -6,6 +6,7 @@ from django.urls import reverse
 
 
 # from member.models import User
+from .forms import PostForm
 from .models import Post, Comment
 
 # 자동으로 Django에서 인증에 사용하는 User 모델클래스를 불러온다.
@@ -72,7 +73,11 @@ def post_detail(request, post_pk):
 def post_create(request):
     # POST요청을 받아 Post객체를 생성 후 post_list페이지로 redirect
     if request.method == "GET":
-        return render(request, 'post/post_create.html')
+        form = PostForm()
+        context = {
+            'form': form,
+            }
+        return render(request, 'post/post_create.html', context)
     elif request.method == "POST":
         # data = request.POST
         # request.FILES에서 파일 가져오기

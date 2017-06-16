@@ -1,18 +1,28 @@
 from django import forms
-from django.contrib.auth import authenticate, get_user_model
+from django.contrib.auth import get_user_model
 
 User = get_user_model()
 
 
 class SignupForm(forms.Form):
     username = forms.CharField(
+        help_text='Username을 입력하세요.',
         widget=forms.TextInput(
             attrs={
                 'placeholder': 'Type Username.',
                 }
             )
         )
+    nickname = forms.CharField(
+        help_text='Nickname을 입력하세요.',
+        widget=forms.TextInput(
+            attrs={
+                'placeholder': 'Type Nickname.',
+                }
+            )
+        )
     password1 = forms.CharField(
+        help_text='Password를 입력하세요.',
         widget=forms.PasswordInput(
             attrs={
                 'placeholder': 'Type Password.',
@@ -20,6 +30,7 @@ class SignupForm(forms.Form):
             )
         )
     password2 = forms.CharField(
+        help_text='Password를 다시 입력하세요.',
         widget=forms.PasswordInput(
             attrs={
                 'placeholder': 'Type Password again.',
@@ -34,6 +45,12 @@ class SignupForm(forms.Form):
             raise forms.ValidationError('Username already exists!')
         return username
 
+    def clean_nickname(self):
+        nickname = self.cleaned_data.get('nickname')
+        if nickname and User.objects.filter(nickname=nickname).exists():
+            raise forms.ValidationError('Username already exists!')
+        return nickname
+
     def clean_password2(self):
         password1 = self.cleaned_data.get('password1')
         password2 = self.cleaned_data.get('password2')
@@ -45,7 +62,9 @@ class SignupForm(forms.Form):
         # 자신의 cleaned_data를 이용하여 유저 생성
         username = self.cleaned_data['username']
         password = self.cleaned_data['password2']
+        nickname = self.cleaned_data['nickname']
         return User.objects.Create(
             username=username,
+            nickname=nickname,
             password=password,
             )
