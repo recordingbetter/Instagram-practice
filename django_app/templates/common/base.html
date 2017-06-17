@@ -53,18 +53,13 @@
                         {{ user }}가 로그인 중입니다.
                         <a href="{% url 'member:logout' %}" class="btn">LOG OUT</a>
                     {% else %}
-                        <form action="{% url 'member:login' %}" method="post" class="inline">
+                        <form action="{% url 'member:login' %}" method="POST" class="inline">
                             {% csrf_token %}
-{#                            <label for="username">Username</label>#}
-{#                            <input type="text" name="username" id="username">#}
-{#                            <label for="password">Password</label>#}
-{#                            <input type="password" name="password" id="password">#}
-
-{#                            context_processors 사용#}
+{#                            <table>#}
                             {{ login_form }}
+{#                            </table>#}
                             <input type="submit" class="btn" value="LOG IN">
                             <a href="{% url 'member:signup' %}" class="btn" type="button">SIGN UP</a>
-{#                            <button class="btn" type="submit">LOG IN</button>#}
                         </form>
                     {% endif %}
                 </div>

@@ -1,9 +1,10 @@
 {% extends 'common/base.html' %}
 
 {% block content %}
-    <form action="" method="POST">
+    <form action="{% url 'member:login' %}" method="POST">
         {% csrf_token %}
         {% include 'include/field_set.html' %}
+        <button class="btn" type="submit">LOG IN</button>
     </form>
 
 {% endblock %}

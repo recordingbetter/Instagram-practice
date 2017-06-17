@@ -1,3 +1,14 @@
-article.post .post-photo-container img {
-  width: 100%;
-}
+article.post {
+  padding: 10px 0; }
+  article.post .post-photo-container {
+    padding: 10px 0; }
+    article.post .post-photo-container img {
+      width: 100%; }
+  article.post .post-comment-container {
+    padding-bottom: 20px; }
+  article.post .created a {
+    color: #747474; }
+  article.post form.comment {
+    padding-bottom: 20px; }
+
+/*# sourceMappingURL=post.css.map */

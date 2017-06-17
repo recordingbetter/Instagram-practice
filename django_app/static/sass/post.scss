@@ -1,8 +1,24 @@
 article.post {
+        padding: 10px 0;
     // overflow-y: scroll;
-    .post-photo-container {
+     .post-photo-container {
+         padding: 10px 0;
         img {
             width: 100%;
         }
+    }
+
+     .post-comment-container {
+        padding-bottom: 20px;
+    }
+    .created {
+        a {
+            color: #747474;
+        }
+    }
+
+    form.comment {
+        padding-bottom: 20px;
+
     }
 }

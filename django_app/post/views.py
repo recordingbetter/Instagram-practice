@@ -5,7 +5,6 @@ from django.shortcuts import render, redirect
 from django.template import loader
 from django.urls import reverse
 
-
 # from member.models import User
 from .forms import PostForm
 from .models import Post, Comment
@@ -20,10 +19,11 @@ def post_list(request):
     # post/post_list.html을 template으로 사용한다.
     context = {
         'posts': Post.objects.all(),
-    }
+        }
     return render(request, 'post/post_list.html', context)
 
 
+@login_required
 def post_detail(request, post_pk):
     # Model(DB)에서 post_pk에 해당하는 Post객체를 가져와 변수에 할당
     # ModelManager의 get메서드를 사용해서 단 한개의 객체만 가져온다
@@ -63,7 +63,7 @@ def post_detail(request, post_pk):
     context = {
         'post': post,
         # 'post_pk': post_pk,
-    }
+        }
     # return render(request, 'post/post_detail.html', context)
     # template에 인자로 주어진 context, request를 render 함수를 사용해서 해당 template을 string으로 변환
     rendered_string = template.render(context=context, request=request)
@@ -130,7 +130,7 @@ def post_modify(request, post_pk):
     if request.method == "GET":
         context = {
             'post': post,
-        }
+            }
         return render(request, 'post/post_modify.html', context)
     elif request.method == "POST":
         # data = request.POST
@@ -161,7 +161,7 @@ def comment_create(request, post_pk):
             content=data['comment'],
             author=User.objects.get(pk=2),
             post_id=data['post_pk'],
-        )
+            )
         return redirect('post:post_list')
     else:
         return HttpResponse('not allowed')
@@ -179,4 +179,3 @@ def comment_delete(request, post_pk, comment_pk):
 
 def post_anyway(request):
     return redirect('post:post_list')
-

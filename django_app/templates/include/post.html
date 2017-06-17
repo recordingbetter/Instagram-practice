@@ -1,7 +1,7 @@
 <article class="post">
     <header>
         <div class="post-header-left">
-            <img src="" alt="">
+{#            <img src="" alt="">#}
             <span>{{ post.author }}</span>
         </div>
 
@@ -14,21 +14,14 @@
 {#        # type = 'list'라는 변수에 따라 a 태그 활성/비활성#}
         {% if type == 'list' %}
             <a href="{% url 'post:post_detail' post.pk %}">
-        {% endif %}
-        <img src="{{ post.photo.url }}" alt="">
-        {% if type == 'list' %}
+                <img src="{{ post.photo.url }}" alt="">
             </a>
+        {% else %}
+            <img src="{{ post.photo.url }}" alt="">
         {% endif %}
     </div>
 
-    <div class="post-btn-container">
-        <a href="#">
-            <img src="" alt="">
-        </a>
-        <a href="#">
-            <img src="" alt="">
-        </a>
-    </div>
+
     <p>좋아요 {{ post.like_count }}개</p>
     <div class="post-comment-container">
         {% for comment in post.comment_set.all %}
@@ -42,7 +35,7 @@
     </div>
     <p class="created"><a href="{% url "post:post_detail" post.pk %}">{{ post.created_date }}</a></p>
 
-    <form class="" action="" method="">
+    <form class="comment" action="" method="">
         <input type="text" placeholder="댓글달기">
     </form>
     
