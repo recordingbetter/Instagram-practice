@@ -11,7 +11,7 @@ class PostForm(forms.ModelForm):
         self.fields['photo'].required = True
 
         if self.instance.my_comment:
-            self.fields['comment'].initial = self.instance.my_comment
+            self.fields['comment'].initial = self.instance.my_comment.content
 
     comment = forms.CharField(
         required=False,
@@ -49,7 +49,7 @@ class PostForm(forms.ModelForm):
                 instance.my_comment.content = comment_string
                 instance.my_comment.save()
             else:
-                instance.my_comment = Comment.objects.get_or_create(
+                instance.my_comment = Comment.objects.create(
             # comment, comment_created = Comment.objects.get_or_create(
                     post=instance,
                     author=author,

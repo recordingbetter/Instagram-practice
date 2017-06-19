@@ -22,25 +22,56 @@
         {% endif %}
     </div>
   <div class="post-bottom">
-    <div class="post-btn-container">
-        <a href="#">
-            <img src="{% static 'images/post-heart.png' %}" alt="">
-        </a>
-        <a href="#">
-            <img src="{% static 'images/post-comment.png' %}" alt="">
-        </a>
+    <div class="post-btn-container clearfix">
+        <div class="btn-left">
+            <a href="#">
+                <img src="{% static 'images/post-heart.png' %}" alt="">
+            </a>
+            <a href="#">
+                <img src="{% static 'images/post-comment.png' %}" alt="">
+            </a>
+        </div>
+
+        <div class="btn-right">
+            <a href="" class="btn">MODIFY</a>
+            <a href="" class="btn">DELETE</a>
+{#            <form action="{% url 'post:post_modify' post.pk %}" method="GET">#}
+{#                {% csrf_token %}#}
+{#                <button type="button">MODIFY</button>#}
+{#            </form>#}
+{#            <form action="{% url 'post:post_delete' post.pk %}" method="POST">#}
+{#                {% csrf_token %}#}
+{#                <button type="submit">DELETE</button>#}
+{#            </form>#}
+
+        </div>
     </div>
+
 
     <p class="comment">좋아요 {{ post.like_count }}개</p>
 
     <div class="post-comment-container">
-        {% for comment in post.comment_set.all %}
-            <div class="post-comment">
-                <a href="" class="comment-author">{{ comment.author }}</a>
-                <span class="comment-content">{{ comment.content }}</span>
-                <a href="" class="comment-tag"></a>
+{#        자기코멘트 따로 빼내기#}
+        {% if post.my_comment %}
+            {% include 'include/post_comment.html' with comment=post.my_comment style='red' %}
+{#            <div class="post-comment">#}
+{#                <a href="" class="comment-author">{{ comment.author }}</a>#}
+{#                <span class="comment-content">{{ comment.content }}</span>#}
+{#                <a href="" class="comment-tag"></a>#}
 {#                <p class="comment-created">{{ comment.created_date }}</p>#}
-            </div>
+{#            </div>#}
+        {% endif %}
+
+        {% for comment in post.comment_set.all %}
+            {% if comment != post.my_comment %}
+                {% include 'include/post_comment.html' %}
+{#            <div class="post-comment">#}
+{#                <a href="" class="comment-author">{{ comment.author }}</a>#}
+{#                <span class="comment-content">{{ comment.content }}</span>#}
+{#                <a href="" class="comment-tag"></a>#}
+{#                <p class="comment-created">{{ comment.created_date }}</p>#}
+{#            </div>#}
+            {% endif %}
         {% endfor %}
     </div>
 
@@ -52,10 +83,7 @@
         <input type="text" placeholder="댓글달기" class="input-comment">
     </form>
 
-    <form action="{% url 'post:post_delete' post.pk %}" method="POST">
-        {% csrf_token %}
-            <button type="submit">DELETE</button>
-    </form>
+
 
 
   </div>

@@ -74,16 +74,16 @@ def post_detail(request, post_pk):
 @login_required
 def post_create(request):
     # 로그인하지 않은 상태라면 로그인 페이지로 이동
-    if not request.user.is_authenticated:
-        return redirect('member:login')
+    # if not request.user.is_authenticated:
+    #     return redirect('member:login')
     # POST요청을 받아 Post객체를 생성 후 post_list페이지로 redirect
     if request.method == "GET":
         form = PostForm()
-        context = {
-            'form': form,
-            }
-        return render(request, 'post/post_create.html', context)
-    elif request.method == "POST":
+        # context = {
+        #     'form': form,
+        #     }
+        # return render(request, 'post/post_create.html', context)
+    else:
         # # data = request.POST
         # # request.FILES에서 파일 가져오기
         # #   https://docs.djangoproject.com/en/1.11/topics/http/file-uploads/#basic-file-uploads
@@ -135,13 +135,13 @@ def post_create(request):
             #         content=comment_string,
             #         )
             return redirect('post:post_detail', post_pk=post.pk)
-        else:
-            # post/post_create.html을 render해서 리턴
-            form = PostForm()
-            context = {
-                'form': form,
-                }
-            return render(request, 'post/post_create.html', context)
+
+        # post/post_create.html을 render해서 리턴
+
+    context = {
+        'form': form,
+        }
+    return render(request, 'post/post_create.html', context)
 
 
 def post_modify(request, post_pk):
@@ -150,10 +150,11 @@ def post_modify(request, post_pk):
     if request.method == "GET":
         form = PostForm(instance=post)
     else:
-        form = PostForm(data=request.POST, files=request.FILES)
+        form = PostForm(data=request.POST, files=request.FILES, instance=post)
         # photo = request.FILES['photo']
         # post.photo = photo
         form.save()
+        return redirect('post:post_detail', post_pk=post.pk)
     context = {
         'form': form,
         }
