@@ -135,6 +135,13 @@ def post_create(request):
             #         content=comment_string,
             #         )
             return redirect('post:post_detail', post_pk=post.pk)
+        else:
+            # post/post_create.html을 render해서 리턴
+            form = PostForm()
+            context = {
+                'form': form,
+                }
+            return render(request, 'post/post_create.html', context)
 
 
 def post_modify(request, post_pk):
