@@ -2,29 +2,19 @@
 
 $screen-tablet: 700px;
 $header-height: 83px;
-header {
-
-}
-
 header.top-header {
-  // height: $header-height;
-
+  background-color: #fff;
   border-bottom: 1px solid $color-border;
-
-  // overflow-x: hidden;
-  // overflow-y: hidden;
 }
 header.top-header > nav:nth-child(1) {
-
   max-width: 1010px;
   margin: 0 auto;
-  height: $header-height;
-  // position: fixed;
-  // background-color: #fff;
-  // top: 0;
-  // left: 0;
-  // right: 0;
+  padding: 0 10px;
 
+  height: $header-height;
+  // 각 div내의 a요소들은 height와 line-height를
+  // 같은 값으로 가져 수직중앙정렬되도록 함
+  // img요소는 vertical-align에 middle속성으로 수직중앙정렬
   .nav-item {
     height: $header-height;
     line-height: $header-height;
@@ -53,42 +43,36 @@ header.top-header > nav:nth-child(1) {
     }
   }
   .nav-right {
-    width: 160px;
+    width: 150px;
     float: right;
     a {
       padding: 0 10px;
     }
   }
 }
-
 header.top-header > nav:nth-child(2) {
-  padding: 8px 10px;
-  // max-width: 1010px;
-  margin: 0 auto;
-  //height: 45px;
   border-top: 1px solid $color-border;
+  padding: 8px 0;
   text-align: right;
 
   > div {
-      max-width: 1010px;
-      margin: 0 auto;
-      height: 28px;
-
+    max-width: 1010px;
+    margin: 0 auto;
   }
 }
 
-form.inline {
+form.form-inline-login {
   font-size: 11px;
 
   label {
     margin-right: 5px;
   }
   input {
-    padding: 4px 8px;
-    font-size: 10px;
+    padding: 5px 8px;
+    font-size: 11px;
+    margin-right: 6px;
   }
 }
-
 .container {
   max-width: 1010px;
   margin: 0 auto;
@@ -97,7 +81,6 @@ form.inline {
     padding-top: 0;
   }
 }
-
 .container > .content {
   padding: 10px;
 }

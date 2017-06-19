@@ -1,8 +1,9 @@
+{% load static %}
 <article class="post">
     <header>
         <div class="post-header-left">
-{#            <img src="" alt="">#}
-            <span>{{ post.author }}</span>
+            <img src="" alt="">
+            <span class="header-author">{{ post.author }}</span>
         </div>
 
         <div class="post-header-right">
@@ -20,9 +21,18 @@
             <img src="{{ post.photo.url }}" alt="">
         {% endif %}
     </div>
+  <div class="post-bottom">
+    <div class="post-btn-container">
+        <a href="#">
+            <img src="{% static 'images/post-heart.png' %}" alt="">
+        </a>
+        <a href="#">
+            <img src="{% static 'images/post-comment.png' %}" alt="">
+        </a>
+    </div>
 
+    <p class="comment">좋아요 {{ post.like_count }}개</p>
 
-    <p>좋아요 {{ post.like_count }}개</p>
     <div class="post-comment-container">
         {% for comment in post.comment_set.all %}
             <div class="post-comment">
@@ -33,10 +43,20 @@
             </div>
         {% endfor %}
     </div>
-    <p class="created"><a href="{% url "post:post_detail" post.pk %}">{{ post.created_date }}</a></p>
+
+    <p class="created">
+        <a href="{% url "post:post_detail" post.pk %}">{{ post.created_date }}</a>
+    </p>
 
     <form class="comment" action="" method="">
-        <input type="text" placeholder="댓글달기">
+        <input type="text" placeholder="댓글달기" class="input-comment">
     </form>
-    
+
+    <form action="{% url 'post:post_delete' post.pk %}" method="POST">
+        {% csrf_token %}
+            <button type="submit">DELETE</button>
+    </form>
+
+
+  </div>
 </article>

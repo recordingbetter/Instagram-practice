@@ -23,7 +23,7 @@ def post_list(request):
     return render(request, 'post/post_list.html', context)
 
 
-@login_required
+# @login_required
 def post_detail(request, post_pk):
     # Model(DB)에서 post_pk에 해당하는 Post객체를 가져와 변수에 할당
     # ModelManager의 get메서드를 사용해서 단 한개의 객체만 가져온다
@@ -145,20 +145,19 @@ def post_create(request):
 
 
 def post_modify(request, post_pk):
+    # 수정하고자하는 Post 객체
     post = Post.objects.get(pk=post_pk)
     if request.method == "GET":
-        context = {
-            'post': post,
-            }
-        return render(request, 'post/post_modify.html', context)
-    elif request.method == "POST":
-        # data = request.POST
-        photo = request.FILES['photo']
-        # tags = data['tags']
-        post.photo = photo
-        # tags=tags,
-        post.save()
-        return redirect('post:post_detail', post_pk)
+        form = PostForm(instance=post)
+    else:
+        form = PostForm(data=request.POST, files=request.FILES)
+        # photo = request.FILES['photo']
+        # post.photo = photo
+        form.save()
+    context = {
+        'form': form,
+        }
+    return render(request, 'post/post_create.html', context)
 
 
 def post_delete(request, post_pk):

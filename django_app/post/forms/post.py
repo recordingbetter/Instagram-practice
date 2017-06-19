@@ -9,6 +9,10 @@ class PostForm(forms.ModelForm):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         self.fields['photo'].required = True
+
+        if self.instance.my_comment:
+            self.fields['comment'].initial = self.instance.my_comment
+
     comment = forms.CharField(
         required=False,
         widget=forms.TextInput,
@@ -49,7 +53,7 @@ class PostForm(forms.ModelForm):
             # comment, comment_created = Comment.objects.get_or_create(
                     post=instance,
                     author=author,
-                    defaults={'content': comment_string}
+                    content=comment_string,
                     )
                 instance.save()
             # if not comment_string:
@@ -59,5 +63,4 @@ class PostForm(forms.ModelForm):
             #     author=instance.author,
             #     content=comment_string,
             #     )
-
         return instance

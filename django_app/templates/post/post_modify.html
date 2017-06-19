@@ -1,13 +1,22 @@
 {% extends 'common/base.html' %}
 
 {% block content %}
-
-    <form action="" method="POST" enctype="multipart/form-data">
+        <form action="" method="POST" enctype="multipart/form-data">
         {% csrf_token %}
-        <img src="{{ post.photo.url }}" alt="">
-        <input type="file" name="photo">
-        <input type="text" name="tags">
-        <input type="submit">
+{#        {{ form }}#}
+        {% include 'include/field_set.html' %}
+{#        <input type="file" name="photo">#}
+{#        <input type="text" placeholder="댓글" name="comment">#}
+
+        <button type="submit" class="btn">ADD</button>
     </form>
+
+{#    <form action="" method="POST" enctype="multipart/form-data">#}
+{#        {% csrf_token %}#}
+{#        <img src="{{ post.photo.url }}" alt="">#}
+{#        <input type="file" name="photo">#}
+{#        <input type="text" name="tags">#}
+{#        <input type="submit">#}
+{#    </form>#}
 
 {% endblock %}

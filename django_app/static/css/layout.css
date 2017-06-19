@@ -1,9 +1,11 @@
 header.top-header {
+  background-color: #fff;
   border-bottom: 1px solid rgba(0, 0, 0, 0.0975); }
 
 header.top-header > nav:nth-child(1) {
   max-width: 1010px;
   margin: 0 auto;
+  padding: 0 10px;
   height: 83px; }
   header.top-header > nav:nth-child(1) .nav-item {
     height: 83px;
@@ -25,28 +27,27 @@ header.top-header > nav:nth-child(1) {
     header.top-header > nav:nth-child(1) .nav-center {
       display: none; } }
   header.top-header > nav:nth-child(1) .nav-right {
-    width: 160px;
+    width: 150px;
     float: right; }
     header.top-header > nav:nth-child(1) .nav-right a {
       padding: 0 10px; }
 
 header.top-header > nav:nth-child(2) {
-  padding: 8px 10px;
-  margin: 0 auto;
   border-top: 1px solid rgba(0, 0, 0, 0.0975);
+  padding: 8px 0;
   text-align: right; }
   header.top-header > nav:nth-child(2) > div {
     max-width: 1010px;
-    margin: 0 auto;
-    height: 28px; }
+    margin: 0 auto; }
 
-form.inline {
+form.form-inline-login {
   font-size: 11px; }
-  form.inline label {
+  form.form-inline-login label {
     margin-right: 5px; }
-  form.inline input {
-    padding: 4px 8px;
-    font-size: 10px; }
+  form.form-inline-login input {
+    padding: 5px 8px;
+    font-size: 11px;
+    margin-right: 6px; }
 
 .container {
   max-width: 1010px;

@@ -1,38 +1,38 @@
-@import "variables";
+@import 'variables';
 
 html, body {
-    font-size: 14px;
-    line-height: 18px;
+  font-size: 14px;
+  line-height: 18px;
+  background-color: #fafafa;
 }
-
-input[type="text"], input[type="password"] {
-    border: 1px solid #dbdbdb;
-    border-radius: 3px;
-    color: #262626;
-    font-size: 12px;
-    outline: none;
-    height: 20px;
-    padding: 3px 10px 3px 10px;
-    background-color: #fafafa;
+input[type=text], input[type=password] {
+  border: 1px solid #dbdbdb;
+  border-radius: 3px;
+  color: #262626;
+  font-size: 12px;
+  outline: none;
+  padding: 6px 10px;
+  background-color: #fafafa;
 }
-
 input[type=file] {
-    width: 100%;
-
+  font-size: 10px;
 }
+a {
+  color: $color-text-common;
+  text-decoration: none;
 
+  &:hover {
+    text-decoration: underline;
+  }
+}
+ul, ol {
+  margin: 0;
+  padding: 0;
+  list-style-type: none;
+}
 .test {
-    padding: 10px;
-    color: #fff;
-    background: red;
-    font-size: 14px;
+  padding: 10px;
+  color: white;
+  background-color: red;
+  font-size: 14px;
 }
-
-//a {
-//    text-decoration: none;
-//    color: $color-text-common;
-//
-//    &:hover {
-//        text-decoration: underline;
-//    }
-//}
