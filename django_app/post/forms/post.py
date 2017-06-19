@@ -10,6 +10,7 @@ class PostForm(forms.ModelForm):
         super().__init__(*args, **kwargs)
         self.fields['photo'].required = True
     comment = forms.CharField(
+        required=False,
         widget=forms.TextInput,
         )
 
@@ -17,4 +18,5 @@ class PostForm(forms.ModelForm):
         model = Post
         fields = (
             'photo',
+            'comment',
         )

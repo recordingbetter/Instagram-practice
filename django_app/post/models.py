@@ -23,6 +23,9 @@ class Post(models.Model):
     modified_date = models.DateTimeField(auto_now=True)
     tags = models.ManyToManyField('Tag', blank=True)
 
+    class Meta:
+        ordering = ['-pk',]
+
     def add_comment(self, user, content):
         """
         자신을 post 로 갖고, 전달받은 user 를 author 로 가지며 content 를 content 필드내용으로넣는 Comment 객체 생성
@@ -77,6 +80,9 @@ class Comment(models.Model):
         settings.AUTH_USER_MODEL,
         through='CommentLike',
         related_name='like_comments', )
+
+    # class Meta:
+    #     ordering =
 
     def __str__(self):
         return '{} by {}'.format(self.content, self.author)
