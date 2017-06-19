@@ -33,8 +33,10 @@
         </div>
 
         <div class="btn-right">
+            {% if user == post.author %}
             <a href="{% url 'post:post_modify' post_pk=post.pk %}" class="btn">MODIFY</a>
             <a href="" class="btn">DELETE</a>
+            {% endif %}
 
         </div>
     </div>
@@ -46,23 +48,11 @@
 {#        자기코멘트 따로 빼내기#}
         {% if post.my_comment %}
             {% include 'include/post_comment.html' with comment=post.my_comment style='red' %}
-{#            <div class="post-comment">#}
-{#                <a href="" class="comment-author">{{ comment.author }}</a>#}
-{#                <span class="comment-content">{{ comment.content }}</span>#}
-{#                <a href="" class="comment-tag"></a>#}
-{#                <p class="comment-created">{{ comment.created_date }}</p>#}
-{#            </div>#}
         {% endif %}
 
         {% for comment in post.comment_set.all %}
             {% if comment != post.my_comment %}
                 {% include 'include/post_comment.html' %}
-{#            <div class="post-comment">#}
-{#                <a href="" class="comment-author">{{ comment.author }}</a>#}
-{#                <span class="comment-content">{{ comment.content }}</span>#}
-{#                <a href="" class="comment-tag"></a>#}
-{#                <p class="comment-created">{{ comment.created_date }}</p>#}
-{#            </div>#}
             {% endif %}
         {% endfor %}
     </div>

@@ -6,6 +6,7 @@ from django.template import loader
 from django.urls import reverse
 
 # from member.models import User
+from .decorators import post_owner
 from .forms import PostForm
 from .models import Post, Comment
 
@@ -143,7 +144,8 @@ def post_create(request):
         }
     return render(request, 'post/post_modify.html', context)
 
-
+@post_owner
+@login_required
 def post_modify(request, post_pk):
     # 수정하고자하는 Post 객체
     post = Post.objects.get(pk=post_pk)
