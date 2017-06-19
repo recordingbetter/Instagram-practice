@@ -17,8 +17,16 @@ from django.conf import settings
 from django.conf.urls import url, include
 from django.conf.urls.static import static
 from django.contrib import admin
+from django.views.generic import RedirectView
+
+from . import views
 
 urlpatterns = [
+    url(r'^$', views.index, name='index'),
+
+    # 내장된 클래스를 사용하여 만들어져있는 url로 리다이렉트.(view 만들 필요 없음)
+    # url(r'^$', RedirectView.as_view(pattern_name='post:post_list')),
+
     url(r'^admin/', admin.site.urls),
     # post앱의 urls.py모듈을 include시킨다
     url(r'^post/', include('post.urls')),
