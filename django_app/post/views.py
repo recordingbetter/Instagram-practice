@@ -7,7 +7,7 @@ from django.urls import reverse
 
 # from member.models import User
 
-from .decorators import post_owner
+from .decorators import post_owner, comment_owner
 from .forms import PostForm, CommentForm
 from .models import Post, Comment
 
@@ -184,16 +184,29 @@ def comment_create(request, post_pk):
         return HttpResponse('not allowed')
 
 
-@post_owner
+@comment_owner
 @login_required
-def comment_modify(request, post_pk):
+def comment_modify(request, comment_pk):
+    origin_html = request.environ['HTTP_REFERER']
+    # post = Post.objects.get(pk=post_pk)
+    comment = Comment.objects.get(pk=comment_pk)
+    if request.method == "POST":
+        form = CommentForm(data=request.POST, instance=comment)
+        form.save()
+    else:
+        form = CommentForm(instance=comment)
+    context = {
+        'form': form,
+        }
+    return render(request, origin_html, context)
 
-    pass
 
-
-def comment_delete(request, post_pk, comment_pk):
+def comment_delete(request, comment_pk):
     # POST요청을 받아 Comment객체를 delete, 이후 post_detail페이지로 redirect
-    pass
+    comment = get_object_or_404(Comment, pk=comment_pk)
+    comment.delete()
+    return redirect(request.environ['HTTP_REFERER'])
+
 
 
 def post_anyway(request):
