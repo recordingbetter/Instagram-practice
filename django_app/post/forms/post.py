@@ -28,7 +28,7 @@ class PostForm(forms.ModelForm):
         fields = (
             'photo',
             'comment',
-        )
+            )
 
     def save(self, **kwargs):
         # 전달된 키워드인수중 'commit'키 값을 가져옴
@@ -59,17 +59,17 @@ class PostForm(forms.ModelForm):
                 instance.my_comment.save()
             else:
                 instance.my_comment = Comment.objects.create(
-            # comment, comment_created = Comment.objects.get_or_create(
+                    # comment, comment_created = Comment.objects.get_or_create(
                     post=instance,
-                    author=author,
+                    author=instance.author,
                     content=comment_string,
                     )
-                instance.save()
-            # if not comment_string:
-            #     comment.content = comment_string
-            # # RelateManager를 이용해 Comment 객체 생성 및 저장
-            # instance.comment_set.create(
-            #     author=instance.author,
-            #     content=comment_string,
-            #     )
+            instance.save()
+                # if not comment_string:
+                #     comment.content = comment_string
+                # # RelateManager를 이용해 Comment 객체 생성 및 저장
+                # instance.comment_set.create(
+                #     author=instance.author,
+                #     content=comment_string,
+                #     )
         return instance

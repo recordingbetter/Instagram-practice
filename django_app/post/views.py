@@ -6,8 +6,9 @@ from django.template import loader
 from django.urls import reverse
 
 # from member.models import User
+
 from .decorators import post_owner
-from .forms import PostForm
+from .forms import PostForm, CommentForm
 from .models import Post, Comment
 
 # 자동으로 Django에서 인증에 사용하는 User 모델클래스를 불러온다.
@@ -165,22 +166,28 @@ def post_delete(request, post_pk):
     return redirect('post:post_list')
 
 
+@login_required
 def comment_create(request, post_pk):
     # POST요청을 받아 Comment객체를 생성 후 post_detail페이지로 redirect
     if request.method == "POST":
-        data = request.POST
+        form = CommentForm(data=request.POST)
+        # if form.is_valid():
         Comment.objects.create(
-            content=data['comment'],
-            author=User.objects.get(pk=2),
-            post_id=data['post_pk'],
+            content=form.data['comment_field'],
+            author=request.user,
+            post_id=post_pk,
             )
         return redirect('post:post_list')
+        # else:
+        #     return HttpResponse('DATE is not valid')
     else:
         return HttpResponse('not allowed')
 
 
+@post_owner
+@login_required
 def comment_modify(request, post_pk):
-    # 수정
+
     pass
 
 

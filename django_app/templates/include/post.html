@@ -39,9 +39,7 @@
                 {% csrf_token %}
                 <button type="submit" class="btn">DELETE</button>
             </form>
-
             {% endif %}
-
         </div>
     </div>
 
@@ -65,8 +63,10 @@
         <a href="{% url "post:post_detail" post.pk %}">{{ post.created_date }}</a>
     </p>
 
-    <form class="comment" action="" method="">
-        <input type="text" placeholder="댓글달기" class="input-comment">
+    <form class="comment" action="{% url 'post:comment_create' post_pk=post.pk %}" method="POST">
+        {% csrf_token %}
+        <input type="text" placeholder="댓글달기" class="input-comment" name="comment_field">
+        <button type="submit" class="btn">POST</button>
     </form>
 
 
