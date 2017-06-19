@@ -6,13 +6,16 @@ from ..models import Post, Comment
 
 User = get_user_model()
 
+
 class PostForm(forms.ModelForm):
     # 생성자를 조작해서 실제 Post의 photo 필드는 null=True이지만 Form을 사용할때에는 반드시 photo를 입력하게함.
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         self.fields['photo'].required = True
 
+        # instance.my_comment가 있을 경우 -> 수정할 경우
         if self.instance.my_comment:
+            # comment 초기값에 instance.my_comment.content를 넣어준다.
             self.fields['comment'].initial = self.instance.my_comment.content
 
     comment = forms.CharField(

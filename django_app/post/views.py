@@ -80,10 +80,6 @@ def post_create(request):
     # POST요청을 받아 Post객체를 생성 후 post_list페이지로 redirect
     if request.method == "GET":
         form = PostForm()
-        # context = {
-        #     'form': form,
-        #     }
-        # return render(request, 'post/post_create.html', context)
     else:
         # # data = request.POST
         # # request.FILES에서 파일 가져오기
@@ -119,9 +115,7 @@ def post_create(request):
         form = PostForm(data=request.POST, files=request.FILES)
         if form.is_valid():
             # ModelForm의 save() 매서드를 이용해서 Post 객체를 가져옴
-            # commit=False
             post = form.save(
-                # commit=False,
                 author=request.user,
                 )
             # post.comment = request.comment
@@ -135,14 +129,14 @@ def post_create(request):
             #         author=post.author,
             #         content=comment_string,
             #         )
-            return redirect('post:post_create', post_pk=post.pk)
+            return redirect('post:post_detail', post_pk=post.pk)
 
         # post/post_create.html을 render해서 리턴
-
     context = {
         'form': form,
         }
-    return render(request, 'post/post_modify.html', context)
+    return render(request, 'post/post_create.html', context)
+
 
 @post_owner
 @login_required
@@ -153,8 +147,6 @@ def post_modify(request, post_pk):
         form = PostForm(instance=post)
     else:
         form = PostForm(data=request.POST, files=request.FILES, instance=post)
-        # photo = request.FILES['photo']
-        # post.photo = photo
         form.save()
         return redirect('post:post_detail', post_pk=post.pk)
     context = {
