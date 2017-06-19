@@ -134,14 +134,14 @@ def post_create(request):
             #         author=post.author,
             #         content=comment_string,
             #         )
-            return redirect('post:post_detail', post_pk=post.pk)
+            return redirect('post:post_create', post_pk=post.pk)
 
         # post/post_create.html을 render해서 리턴
 
     context = {
         'form': form,
         }
-    return render(request, 'post/post_create.html', context)
+    return render(request, 'post/post_modify.html', context)
 
 
 def post_modify(request, post_pk):
@@ -158,7 +158,7 @@ def post_modify(request, post_pk):
     context = {
         'form': form,
         }
-    return render(request, 'post/post_create.html', context)
+    return render(request, 'post/post_modify.html', context)
 
 
 def post_delete(request, post_pk):

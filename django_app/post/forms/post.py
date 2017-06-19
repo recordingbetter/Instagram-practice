@@ -1,8 +1,10 @@
 from django import forms
-
+from django.contrib.auth import get_user_model
+from django.contrib.auth.models import AnonymousUser
 
 from ..models import Post, Comment
 
+User = get_user_model()
 
 class PostForm(forms.ModelForm):
     # 생성자를 조작해서 실제 Post의 photo 필드는 null=True이지만 Form을 사용할때에는 반드시 photo를 입력하게함.
@@ -26,10 +28,14 @@ class PostForm(forms.ModelForm):
         )
 
     def save(self, **kwargs):
+        # 전달된 키워드인수중 'commit'키 값을 가져옴
         commit = kwargs.get('commit', True)
+        # 전달된 키워드인수중 'author'키 값을 가져오고, 기존 kwargs dict에서 제외
         # author 키워드인자는 삭제하여 부모 save()에 전달
         author = kwargs.pop('author', None)
-        self.instance.author = author
+        # self.instance.pk가 존재하면 update하는 중
+        if not self.instance.pk or isinstance(author, User):
+            self.instance.author = author
         # 부모 save() 호출
         instance = super().save(**kwargs)
         # # commit(DB에 저장)이며, author가 None인 경우
