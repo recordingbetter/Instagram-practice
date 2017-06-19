@@ -1,7 +1,7 @@
 from django import forms
 
 
-from ..models import Post
+from ..models import Post, Comment
 
 
 class PostForm(forms.ModelForm):
@@ -34,11 +34,30 @@ class PostForm(forms.ModelForm):
         #         'author is required field'
         #         )
         # if commit:
+
+        # commit인수가 True이며 comment필드가 채워져 있을 경우 Comment생성 로직을 진행
+        # 해당 comment는 instance의 my_comment 필드를 채워준다.
+        #   (이 위에서 super().save()를 실행하기 때문에
+        #       현재위치에서는 author나 pk에 대한 검증이 끝난 상태)
         comment_string = self.cleaned_data['comment']
         if commit and comment_string:
-            # RelateManager를 이용해 Comment 객체 생성 및 저장
-            instance.comment_set.create(
-                author=instance.author,
-                content=comment_string,
-                )
+            if instance.my_comment:
+                instance.my_comment.content = comment_string
+                instance.my_comment.save()
+            else:
+                instance.my_comment = Comment.objects.get_or_create(
+            # comment, comment_created = Comment.objects.get_or_create(
+                    post=instance,
+                    author=author,
+                    defaults={'content': comment_string}
+                    )
+                instance.save()
+            # if not comment_string:
+            #     comment.content = comment_string
+            # # RelateManager를 이용해 Comment 객체 생성 및 저장
+            # instance.comment_set.create(
+            #     author=instance.author,
+            #     content=comment_string,
+            #     )
+
         return instance
