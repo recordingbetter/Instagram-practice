@@ -119,9 +119,21 @@ def post_create(request):
         if form.is_valid():
             # ModelForm의 save() 매서드를 이용해서 Post 객체를 가져옴
             # commit=False
-            post = form.save(commit=False)
-            post.author = request.user
-            post.save()
+            post = form.save(
+                # commit=False,
+                author=request.user,
+                )
+            # post.comment = request.comment
+            # post.author = request.user
+            # post.save()
+
+            # comment 확인한 내용으로 저장 ( views 에서 comment를 저장하는 방법)
+            # comment_string = form.cleaned_data['comment']
+            # if comment_string:
+            #     post.comment_set.create(
+            #         author=post.author,
+            #         content=comment_string,
+            #         )
             return redirect('post:post_detail', post_pk=post.pk)
 
 
