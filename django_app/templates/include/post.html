@@ -35,10 +35,11 @@
         <div class="btn-right">
             {% if user == post.author %}
             <a href="{% url 'post:post_modify' post_pk=post.pk %}" class="btn">MODIFY</a>
-            <form action="{% url 'post:post_delete' post_pk=post.pk %}" method="POST" class="form-inline">
-                {% csrf_token %}
-                <button type="submit" class="btn">DELETE</button>
-            </form>
+            <a href="{% url 'post:post_delete' post_pk=post.pk %}" class="btn">DELETE</a>
+{#            <form action="{% url 'post:post_delete' post_pk=post.pk %}" method="POST" class="form-inline">#}
+{#                {% csrf_token %}#}
+{#                <button type="submit" class="btn">DELETE</button>#}
+{#            </form>#}
             {% endif %}
         </div>
     </div>

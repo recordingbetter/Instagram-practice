@@ -6,6 +6,7 @@ from django.template import loader
 from django.urls import reverse
 
 # from member.models import User
+from django.views.decorators.http import require_POST
 
 from .decorators import post_owner, comment_owner
 from .forms import PostForm, CommentForm
@@ -21,6 +22,7 @@ def post_list(request):
     # post/post_list.html을 template으로 사용한다.
     context = {
         'posts': Post.objects.all(),
+
         }
     return render(request, 'post/post_list.html', context)
 
@@ -162,26 +164,32 @@ def post_delete(request, post_pk):
     # post_pk에 해당하는 Post에 대한 delete요청만을 받음
     # 처리완료후에는 post_list페이지로 redirect
     post = get_object_or_404(Post, pk=post_pk)
-    post.delete()
-    return redirect('post:post_list')
+    if request.method == 'POST':
+        post.delete()
+        return redirect('post:post_list')
+    else:
+        context = {
+            'post': post,
+            }
+        return render(request, 'post/post_delete.html', context)
 
 
+# POST 요청만 받음
+@require_POST
 @login_required
 def comment_create(request, post_pk):
     # POST요청을 받아 Comment객체를 생성 후 post_detail페이지로 redirect
-    if request.method == "POST":
-        form = CommentForm(data=request.POST)
-        # if form.is_valid():
+    post = get_object_or_404(Post, pk=post_pk)
+    form = CommentForm(request.POST)
+    if form.is_valid():
         Comment.objects.create(
             content=form.data['comment_field'],
             author=request.user,
             post_id=post_pk,
             )
-        return redirect('post:post_list')
-        # else:
-        #     return HttpResponse('DATE is not valid')
-    else:
-        return HttpResponse('not allowed')
+        form.save()
+    return redirect('post:post_detail', post_pk=post.pk)
+
 
 
 @comment_owner
@@ -201,12 +209,13 @@ def comment_modify(request, comment_pk):
     return render(request, origin_html, context)
 
 
+@comment_owner
+@login_required
 def comment_delete(request, comment_pk):
     # POST요청을 받아 Comment객체를 delete, 이후 post_detail페이지로 redirect
     comment = get_object_or_404(Comment, pk=comment_pk)
     comment.delete()
     return redirect(request.environ['HTTP_REFERER'])
-
 
 
 def post_anyway(request):
