@@ -97,6 +97,8 @@ class Comment(models.Model):
         return '{} by {}'.format(self.content, self.author)
 
     def save(self, *args, **kwargs):
+        if not self.pk:
+            super().save(*args, **kwargs)
         self.make_html_content_and_add_tags()
         super().save(*args, **kwargs)
 
@@ -111,9 +113,9 @@ class Comment(models.Model):
             # Tag 객체를 가져오거나 생성. 생성여부는 쓰지않는 변수이므로 _ 처리
             tag, _ = Tag.objects.get_or_create(name=tag_name.replace('#', ''))
             # 기존 content 내용을 변경
-            ori_content = ori_content.replace(
-                tag_name, '<a href="#" class="hash-tag">{}</a>'.format(tag_name)
-                )
+            change_tag = '<a href="#" class="hash-tag">{}</a>'.format(tag_name)
+            print(tag_name)
+            ori_content = re.sub(r'{}(?![<\w])'.format(tag_name), change_tag, ori_content, count=1)
             # content에 포함된 tag 목록을 자신의 tags 필드에 추가
             if not self.tags.filter(pk=tag.pk).exists():
                 self.tags.add(tag)
