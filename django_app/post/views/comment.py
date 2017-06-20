@@ -46,18 +46,19 @@ def comment_create(request, post_pk):
 @comment_owner
 @login_required
 def comment_modify(request, comment_pk):
-    origin_html = request.environ['HTTP_REFERER']
+    # origin_html = request.environ['HTTP_REFERER']
     # post = Post.objects.get(pk=post_pk)
-    comment = Comment.objects.get(pk=comment_pk)
+    comment = get_object_or_404(Comment, pk=comment_pk)
     if request.method == "POST":
-        form = CommentForm(data=request.POST, instance=comment)
-        form.save()
+        pass
+        # form = CommentForm(data=request.POST, instance=comment)
+        # form.save()
     else:
         form = CommentForm(instance=comment)
     context = {
         'form': form,
         }
-    return render(request, origin_html, context)
+    return render(request, 'post/comment_modify.html', context)
 
 
 @comment_owner
