@@ -8,7 +8,7 @@
                 <button class="btn" type="submit">DELETE</button>
             </form>
 
-            <a href="{% url 'post:comment_modify' comment_pk=comment.pk %}">MODIFY</a>
+            <a href="{% url 'post:comment_modify' comment_pk=comment.pk %}?next={{ request.path }}#post-{{ comment.post.pk }}"  class="btn">MODIFY</a>
         {% endif %}
         <a href="" class="comment-tag"></a>
 {#                <p class="comment-created">{{ comment.created_date }}</p>#}
