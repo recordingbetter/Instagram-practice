@@ -3,7 +3,7 @@
         <span class="comment-content">{{ comment.content }}</span>
 {#        <span>{{ comment.pk }}</span>#}
         {% if comment.author == request.user %}
-            <form action="{% url 'post:comment_delete' comment_pk=comment.pk %}" method="POST" class="form-inline">
+            <form action="{% url 'post:comment_delete' comment_pk=comment.pk %}?next={{ request.path }}#post-{{ comment.post.pk }}" method="POST" class="form-inline">
             {% csrf_token %}
                 <button class="btn" type="submit">DELETE</button>
             </form>

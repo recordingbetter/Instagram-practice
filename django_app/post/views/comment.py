@@ -64,9 +64,14 @@ def comment_modify(request, comment_pk):
 
 
 @comment_owner
+@require_POST
 @login_required
 def comment_delete(request, comment_pk):
+    next_ = request.GET.get('next')
     # POST요청을 받아 Comment객체를 delete, 이후 post_detail페이지로 redirect
     comment = get_object_or_404(Comment, pk=comment_pk)
+    post = comment.post
     comment.delete()
-    return redirect(request.environ['HTTP_REFERER'])
+    if next_:
+        return redirect(next_)
+    return redirect('post:post_detail', post_pk=post.pk)
