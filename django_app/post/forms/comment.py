@@ -1,4 +1,5 @@
 from django import forms
+from django.core.exceptions import ValidationError
 
 from ..models import Comment
 
@@ -21,4 +22,11 @@ class CommentForm(forms.ModelForm):
                 )
             }
 
-
+    # comment를 최소 3자 이상 적게하기위해 clean을 재정의
+    def clean_content(self):
+        content = self.cleaned_data['content']
+        if len(content) < 3:
+            raise ValidationError(
+                '댓글은 최소 3자 이상이어야 합니다.'
+                )
+        return content

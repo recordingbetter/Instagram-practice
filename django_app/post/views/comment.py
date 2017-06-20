@@ -1,3 +1,4 @@
+from django.contrib import messages
 from django.contrib.auth import get_user_model
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import render, redirect, get_object_or_404
@@ -25,14 +26,20 @@ __all__ = (
 def comment_create(request, post_pk):
     # POST요청을 받아 Comment객체를 생성 후 post_detail페이지로 redirect
     post = get_object_or_404(Post, pk=post_pk)
+    next_ = request.GET.get('next')
     form = CommentForm(request.POST)
     if form.is_valid():
-        # Comment.objects.create(
-        #     content=form.data['comment_field'],
-        #     author=request.user,
-        #     post_id=post_pk,
-        #     )
-        form.save()
+        # commit=False하면 comment 인스턴스가 튀어나옴
+        comment = form.save(commit=False)
+        comment.author = request.user
+        comment.post = post
+        comment.save()
+    else:
+        result = '<br>'.join(['<br>'.join(v) for v in form.errors.values()])
+        messages.error(request, result)
+    if next_:
+        return redirect(next_)
+
     return redirect('post:post_detail', post_pk=post.pk)
 
 

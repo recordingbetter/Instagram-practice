@@ -1,5 +1,6 @@
 {% load static %}
-<article class="post">
+{#id에 post pk 추가하여 앵커 사용#}
+<article class="post" id="post-{{ post.pk }}">
     <header>
         <div class="post-header-left">
             <img src="" alt="">
@@ -64,7 +65,8 @@
         <a href="{% url "post:post_detail" post.pk %}">{{ post.created_date }}</a>
     </p>
       <div class="comment-create">
-        <form class="comment form-inline" action="{% url 'post:comment_create' post_pk=post.pk %}" method="POST">
+{#          # 이후부분에 앵커(a 태그) 속성 추가#}
+        <form class="comment form-inline" action="{% url 'post:comment_create' post_pk=post.pk %}?next={{ request.path }}#post-{{ post.pk }}" method="POST">
             {% csrf_token %}
 {#            <input type="text" placeholder="댓글달기" name="comment_field">#}
 {#            정확한 필드명까지 적어주면 레이블이 안생김 (comment_form 과 비교)#}
