@@ -1,3 +1,5 @@
+import re
+
 from django.conf import settings
 from django.db import models
 
@@ -18,10 +20,9 @@ class Post(models.Model):
         settings.AUTH_USER_MODEL,
         through='PostLike',
         related_name='like_posts',
-    )
+        )
     created_date = models.DateTimeField(auto_now_add=True)
     modified_date = models.DateTimeField(auto_now=True)
-    tags = models.ManyToManyField('Tag', blank=True)
     my_comment = models.OneToOneField(
         'Comment',
         blank=True,
@@ -30,7 +31,7 @@ class Post(models.Model):
         )
 
     class Meta:
-        ordering = ['-pk',]
+        ordering = ['-pk', ]
 
     def add_comment(self, user, content):
         """
@@ -42,16 +43,16 @@ class Post(models.Model):
         return self.comment_set.create(author=user, content=content)
         # return Comment.objects.create(post = self.post, author = user, content = content)
 
-    def add_tag(self, tag_name):
-        """
-        # tags 에 tag 매개변수로 전달된 str 을 name 으로 갖는 Tag 객체를 (이미 존대하면) 가져오고없으면 생성하여 자신의 tags 에 추가
-        :param tag_name:
-        :return:
-        """
-        # tag가 있으면 True, 없으면 False + 객체 생성
-        tag, tag_created = Tag.objects.get_or_create(name=tag_name)
-        if not self.tags.filter(name=tag_name).exists():
-            self.tags.add(tag)
+    # def add_tag(self, tag_name):
+    #     """
+    #     # tags 에 tag 매개변수로 전달된 str 을 name 으로 갖는 Tag 객체를 (이미 존대하면) 가져오고없으면 생성하여 자신의 tags 에 추가
+    #     :param tag_name:
+    #     :return:
+    #     """
+    #     # tag가 있으면 True, 없으면 False + 객체 생성
+    #     tag, tag_created = Tag.objects.get_or_create(name=tag_name)
+    #     if not self.tags.filter(name=tag_name).exists():
+    #         self.tags.add(tag)
 
     def __str__(self):
         return '{} uploaded {} at {} liked by {}'.format(self.author, self.photo.name, self.created_date,
@@ -79,7 +80,9 @@ class PostLike(models.Model):
 class Comment(models.Model):
     post = models.ForeignKey(Post, on_delete=models.CASCADE)
     content = models.TextField()
+    html_content = models.TextField(blank=True)
     author = models.ForeignKey(settings.AUTH_USER_MODEL)
+    tags = models.ManyToManyField('Tag')
     created_date = models.DateTimeField(auto_now_add=True)
     modified_date = models.DateTimeField(auto_now=True)
     like_users = models.ManyToManyField(
@@ -92,6 +95,29 @@ class Comment(models.Model):
 
     def __str__(self):
         return '{} by {}'.format(self.content, self.author)
+
+    def save(self, *args, **kwargs):
+        self.make_html_content_and_add_tags()
+        super().save(*args, **kwargs)
+
+    def make_html_content_and_add_tags(self):
+        # 해쉬태그를 찾아냄
+        p = re.compile(r'#\w+')
+        tag_name_list = re.findall(p, self.content)
+        # 원래 content를 기억한뒤
+        ori_content = self.content
+        # tag 리스트를 순회하며
+        for tag_name in tag_name_list:
+            # Tag 객체를 가져오거나 생성. 생성여부는 쓰지않는 변수이므로 _ 처리
+            tag, _ = Tag.objects.get_or_create(name=tag_name.replace('#', ''))
+            # 기존 content 내용을 변경
+            ori_content = ori_content.replace(
+                tag_name, '<a href="#" class="hash-tag">{}</a>'.format(tag_name)
+                )
+            # content에 포함된 tag 목록을 자신의 tags 필드에 추가
+            if not self.tags.filter(pk=tag.pk).exists():
+                self.tags.add(tag)
+        self.html_content = ori_content
 
 
 class CommentLike(models.Model):
