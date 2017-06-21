@@ -35,12 +35,17 @@ article.post {
     }
 
     p.comment {
+      margin-top: 4px;
       margin-bottom: 6px;
     }
-    span.comment {
-      padding-bottom: 6px;
-    }
     .post-comment {
+      > * {
+        display: inline-block;
+        vertical-align: middle;
+      }
+      > p {
+        margin: 0;
+      }
       .comment-author {
         font-weight: bold;
         margin-right: 3px;

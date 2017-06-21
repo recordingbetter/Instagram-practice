@@ -26,8 +26,7 @@
   <div class="post-bottom">
     <div class="post-btn-container clearfix">
         <div class="btn-left">
-
-
+{#            좋아요#}
             <a href="{% url 'post:post_like' post_pk=post.pk %}?next={{ request.path }}{{ request.GET|query_string }}#post-{{ post.pk }}">
             {% if user in post.like_users.all %}
 {#            현재 유저가 해당 포스트를 좋아요했던 경우#}
@@ -41,7 +40,6 @@
 {#                <img src="{% static 'images/post-heart.png' %}" alt="">#}
             </a>
 
-
             <a href="#">
                 <img src="{% static 'images/post-comment.png' %}" alt="">
             </a>
@@ -49,21 +47,17 @@
 
         <div class="btn-right">
             {% if user == post.author %}
-            <a href="{% url 'post:post_modify' post_pk=post.pk %}" class="btn">MODIFY</a>
-            <a href="{% url 'post:post_delete' post_pk=post.pk %}" class="btn">DELETE</a>
-{#            <form action="{% url 'post:post_delete' post_pk=post.pk %}" method="POST" class="form-inline">#}
-{#                {% csrf_token %}#}
-{#                <button type="submit" class="btn">DELETE</button>#}
-{#            </form>#}
+                <a href="{% url 'post:post_modify' post_pk=post.pk %}" class="btn">MODIFY</a>
+                <a href="{% url 'post:post_delete' post_pk=post.pk %}" class="btn">DELETE</a>
             {% endif %}
         </div>
     </div>
 
 
     <p class="comment">좋아요 {{ post.like_count }}개</p>
-    {% for user in post.like_users.all %}
-    <span class="comment">{{ user }} </span>
-    {% endfor %}
+        {% for user in post.like_users.all %}
+            <span class="comment">{{ user }} </span>
+        {% endfor %}
 
 
     <div class="post-comment-container">

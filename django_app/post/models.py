@@ -125,7 +125,9 @@ class Comment(models.Model):
             # content에 포함된 tag 목록을 자신의 tags 필드에 추가
             if not self.tags.filter(pk=tag.pk).exists():
                 self.tags.add(tag)
+        # 편집이 완료된 문자열을 html_content에 저장
         self.html_content = ori_content
+        super().save(update_fields=['html_content'])
 
 
 class CommentLike(models.Model):

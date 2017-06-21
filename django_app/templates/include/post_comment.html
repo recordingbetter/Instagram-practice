@@ -1,15 +1,16 @@
- <div class="post-comment" {% if style == 'red' %}style="color: red;"{% endif %}>
+{% load custom_tags %}
+
+<div class="post-comment" {% if style == 'red' %}style="color: red;"{% endif %}>
         <a href="" class="comment-author">{{ comment.author }}</a>
         <p class="comment-content">{{ comment.html_content|safe }}</p>
 {#        <span>{{ comment.pk }}</span>#}
         {% if comment.author == request.user %}
-            <form action="{% url 'post:comment_delete' comment_pk=comment.pk %}?next={{ request.path }}#post-{{ comment.post.pk }}" method="POST" class="form-inline">
+            <form action="{% url 'post:comment_delete' comment_pk=comment.pk %}?next={{ request.path }}{{ request.GET|query_string }}#post-{{ comment.post.pk }}" method="POST" class="form-inline">
             {% csrf_token %}
-                <button class="btn" type="submit">DELETE</button>
+                <button class="btn btn-xs" type="submit">DELETE</button>
             </form>
 
-            <a href="{% url 'post:comment_modify' comment_pk=comment.pk %}?next={{ request.path }}#post-{{ comment.post.pk }}"  class="btn">MODIFY</a>
+            <a href="{% url 'post:comment_modify' comment_pk=comment.pk %}?next={{ request.path }}{{ request.GET|query_string }}#post-{{ comment.post.pk }}"  class="btn btn-xs">MODIFY</a>
         {% endif %}
         <a href="" class="comment-tag"></a>
-{#                <p class="comment-created">{{ comment.created_date }}</p>#}
 </div>

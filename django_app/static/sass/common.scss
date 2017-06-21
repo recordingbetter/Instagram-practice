@@ -1,7 +1,7 @@
 @import "variables";
 
 .btn {
-padding: 6px 12px;
+  padding: 6px 12px;
   border: 1px solid $color-border;
   background-color: #fff;
   border-radius: 3px;
@@ -16,6 +16,10 @@ padding: 6px 12px;
 }
 
 .btn-xs {
+  font-size: 10px;
+  padding: 2px 6px;
+  border-radius: 1px;
+  line-height: 1.6;
 
 }
 

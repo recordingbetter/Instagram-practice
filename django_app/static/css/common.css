@@ -10,6 +10,12 @@
   .btn:hover {
     font-weight: bolder; }
 
+.btn-xs {
+  font-size: 10px;
+  padding: 2px 6px;
+  border-radius: 1px;
+  line-height: 1.6; }
+
 .field-wrapper {
   margin-bottom: 10px; }
   .field-wrapper ul.errors {
