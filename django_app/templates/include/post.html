@@ -1,4 +1,5 @@
 {% load static %}
+{% load custom_tags %}
 {#id에 post pk 추가하여 앵커 사용#}
 <article class="post" id="post-{{ post.pk }}">
     <header>
@@ -25,9 +26,29 @@
   <div class="post-bottom">
     <div class="post-btn-container clearfix">
         <div class="btn-left">
-            <a href="#">
-                <img src="{% static 'images/post-heart.png' %}" alt="">
+
+{#            현재 유저가 해당 포스트를 좋아요했던 경우#}
+            {% if user in post.like_users.all %}
+            <a href="{% url 'post:post_like' post_pk=post.pk %}">
+                <svg class="heart-red" viewBox="0 0 32 29.6">
+                    <path d="M23.6,0c-3.4,0-6.3,2.7-7.6,5.6C14.7,2.7,11.8,0,8.4,0C3.8,0,0,3.8,0,8.4c0,9.4,9.5,11.9,16,21.2
+	c6.1-9.3,16-12.1,16-21.2C32,3.8,28.2,0,23.6,0z"/>
+                </svg>
+{#                <img src="{% static 'images/post-heart.png' %}" alt="">#}
             </a>
+            {% endif %}
+
+{#            현재 유저가 해당 포스트를 좋아요 안했던 경우#}
+            {% if not user in post.like_users.all %}
+            <a href="{% url 'post:post_like' post_pk=post.pk %}">
+                <svg class="heart-black" viewBox="0 0 32 29.6">
+                    <path d="M23.6,0c-3.4,0-6.3,2.7-7.6,5.6C14.7,2.7,11.8,0,8.4,0C3.8,0,0,3.8,0,8.4c0,9.4,9.5,11.9,16,21.2
+	c6.1-9.3,16-12.1,16-21.2C32,3.8,28.2,0,23.6,0z"/>
+                </svg>
+{#                <img src="{% static 'images/post-heart.png' %}" alt="">#}
+            </a>
+            {% endif %}
+
             <a href="#">
                 <img src="{% static 'images/post-comment.png' %}" alt="">
             </a>
@@ -47,6 +68,10 @@
 
 
     <p class="comment">좋아요 {{ post.like_count }}개</p>
+    {% for user in post.like_users.all %}
+    <span class="comment">{{ user }} </span>
+    {% endfor %}
+
 
     <div class="post-comment-container">
 {#        자기코멘트 따로 빼내기#}
@@ -66,7 +91,7 @@
     </p>
       <div class="comment-create">
 {#          # 이후부분에 앵커(a 태그) 속성 추가#}
-        <form class="comment form-inline" action="{% url 'post:comment_create' post_pk=post.pk %}?next={{ request.path }}#post-{{ post.pk }}" method="POST">
+        <form class="comment form-inline" action="{% url 'post:comment_create' post_pk=post.pk %}?next={{ request.path }}{{ request.GET|query_string }}#post-{{ post.pk }}" method="POST">
             {% csrf_token %}
 {#            <input type="text" placeholder="댓글달기" name="comment_field">#}
 {#            정확한 필드명까지 적어주면 레이블이 안생김 (comment_form 과 비교)#}

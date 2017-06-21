@@ -1,5 +1,6 @@
 from django.contrib.auth import get_user_model
 from django.contrib.auth.decorators import login_required
+from django.core.paginator import Paginator, PageNotAnInteger, EmptyPage
 from django.http import HttpResponse, HttpResponseRedirect
 from django.shortcuts import render, redirect, get_object_or_404
 from django.template import loader
@@ -7,7 +8,7 @@ from django.urls import reverse
 
 from ..decorators import post_owner
 from ..forms import PostForm, CommentForm
-from ..models import Post
+from ..models import Post, Tag
 
 # from member.models import User
 
@@ -22,15 +23,35 @@ __all__ = (
     'post_create',
     'post_modify',
     'post_delete',
+    'hashtag_post_list',
+    'post_like',
     )
 
 
-def post_list(request):
+def post_list_original(request):
     # 모든 Post 목록을 'post'라는 key로 context에 담아 return render 처리
     # post/post_list.html을 template으로 사용한다.
     context = {
         'posts': Post.objects.all(),
         # comment를 위해 CommentForm을 전달. post에서 CommentFormㅇ
+        'comment_form': CommentForm(),
+        }
+    return render(request, 'post/post_list.html', context)
+
+
+def post_list(request):
+    all_posts = Post.objects.all()
+    p = Paginator(all_posts, 2)
+    page = request.GET.get('page')
+    try:
+        posts = p.page(page)
+    except PageNotAnInteger:
+        posts = p.page(1)
+    except EmptyPage:
+        posts = p.page(p.num_pages)
+
+    context = {
+        'posts': posts,
         'comment_form': CommentForm(),
         }
     return render(request, 'post/post_list.html', context)
@@ -150,8 +171,8 @@ def post_create(request):
     return render(request, 'post/post_create.html', context)
 
 
-@post_owner
-@login_required
+# @post_owner
+# @login_required
 def post_modify(request, post_pk):
     # 수정하고자하는 Post 객체
     post = Post.objects.get(pk=post_pk)
@@ -198,6 +219,31 @@ def hashtag_post_list(request, tag_name):
     # 4. 해당 쿼리셋을 적절히 리턴
     # 5. Comment의 make_html_and_add_tags()메서드의
     #    a태그를 생성하는 부분에 이 view에 연결되는 URL을 삽입
-    pass
+    tag = get_object_or_404(Tag, name=tag_name)
+    # Post에 달린 댓글의 Tag까지 검색할때
+    # post = Post.objects.filter(comment__tags=tag).distinct()
+    # Post의 mt_comment에 있는 Tag만 검색할때
+    posts = Post.objects.filter(my_comment__tags=tag)
+    posts_count = posts.count()
+
+    context = {
+        'tag': tag,
+        'posts': posts,
+        'posts_count': posts_count,
+        }
+    return render(request, 'post/hashtag_post_list.html', context)
+
+
+@login_required
+def post_like(request, post_pk):
+    post = Post.objects.get(pk=post_pk)
+    user = request.user
+    if request.user in post.like_users.all():
+        postlike = post.postlike_set.filter(user_id=user.pk)
+        postlike.delete()
+        return redirect('post:post_list')
+    else:
+        post.postlike_set.create(user_id=user.pk)
+        return redirect('post:post_list')
 
 

@@ -20,6 +20,8 @@ article.post {
       float: left; }
     article.post .post-bottom p.comment {
       margin-bottom: 6px; }
+    article.post .post-bottom span.comment {
+      padding-bottom: 6px; }
     article.post .post-bottom .post-comment .comment-author {
       font-weight: bold;
       margin-right: 3px; }
@@ -31,5 +33,29 @@ article.post {
     article.post .post-bottom input.input-comment {
       width: 100%;
       box-sizing: border-box; }
+
+.heart-red {
+  float: left;
+  fill: red;
+  position: relative;
+  top: 5px;
+  width: 18px;
+  padding-right: 5px;
+  animation: pulse 1s ease infinite; }
+
+@keyframes pulse {
+  0% {
+    transform: scale(1); }
+  50% {
+    transform: scale(1.3); }
+  100% {
+    transform: scale(1); } }
+.heart-black {
+  float: left;
+  fill: black;
+  position: relative;
+  top: 5px;
+  width: 22px;
+  padding-right: 5px; }
 
 /*# sourceMappingURL=post.css.map */

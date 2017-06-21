@@ -1,4 +1,8 @@
 {% extends 'common/base.html' %}
+
+{#custom filter를 사용하기 위함#}
+{% load custom_tags %}
+
 	<!--4. post_list.html에서 for loop사용해 전달된 posts변수 순환 및 출력-->
 	<!--
 		include
@@ -13,5 +17,35 @@
 
 
     {% endfor %}
+
+{#    Query String TEST#}
+{#    <div class="test">{{ request.GET }}</div>#}
+{#	<div class="test">#}
+{#		{{ request.GET.lists }}#}
+{#	</div>#}
+{#	<div class="test">#}
+{#		<!--{{ request.GET|query_string }}-->#}
+{#		{% for k, v_list in request.GET.lists %}{% for v in v_list %}&{{ k }}={{ v }}{% endfor %}{% endfor %}#}
+{#	</div>#}
+    <div>
+    {{ request.GET|query_string }}
+    </div>
+
+    <div class="pages">
+
+        {% if posts.has_previous %}
+            <a href="{{ request.path }}?page=1" class="btn">First Page</a>
+            <a href="{{ request.path }}?page={{ posts.previous_page_number }}" class="btn">Previous {{ posts.previous_page_number}}</a>
+        {% endif %}
+
+        <a href="" class="btn">{{ posts.number }}</a>
+
+        {% if posts.has_next %}
+            <a href="{{ request.path }}?page={{ posts.next_page_number }}" class="btn">Next {{ posts.next_page_number }}</a>
+            {#        마지막 페이지로 가는 버튼. num_pages는 paginator에서 호출할 수있음#}
+            <a href="{{ request.path }}?page={{ posts.paginator.num_pages }}" class="btn">Last Page</a>
+        {% endif %}
+
+    </div>
 
 {% endblock %}

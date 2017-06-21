@@ -1,0 +1,17 @@
+{% extends 'common/base.html' %}
+
+{% block content %}
+    <div class="content">
+        <h3>{{ tag.name }}</h3>
+        <h5>게시물 총 {{ posts_count }}개</h5>
+
+        {% for post in posts %}
+        <ul class="post-list">
+            <li><img src="{{ post.photo.url }}" alt="" width="33%"></li>
+        </ul>
+        {% endfor %}
+    </div>
+
+        {% include 'include/field_set.html' %}
+
+{% endblock %}

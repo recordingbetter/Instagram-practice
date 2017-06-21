@@ -72,4 +72,8 @@ form.form-inline-login {
 .container > .content {
   padding: 10px; }
 
+.pages > a {
+  color: aqua;
+  left: 50%; }
+
 /*# sourceMappingURL=layout.css.map */
