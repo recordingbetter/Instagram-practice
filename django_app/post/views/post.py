@@ -236,14 +236,19 @@ def hashtag_post_list(request, tag_name):
 
 @login_required
 def post_like(request, post_pk):
+    next_ = request.GET.get('next')
     post = Post.objects.get(pk=post_pk)
     user = request.user
     if request.user in post.like_users.all():
         postlike = post.postlike_set.filter(user_id=user.pk)
         postlike.delete()
+        if next_:
+            return redirect(next_)
         return redirect('post:post_list')
     else:
         post.postlike_set.create(user_id=user.pk)
+        if next_:
+            return redirect(next_)
         return redirect('post:post_list')
 
 

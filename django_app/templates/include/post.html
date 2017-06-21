@@ -27,27 +27,20 @@
     <div class="post-btn-container clearfix">
         <div class="btn-left">
 
-{#            현재 유저가 해당 포스트를 좋아요했던 경우#}
-            {% if user in post.like_users.all %}
-            <a href="{% url 'post:post_like' post_pk=post.pk %}">
-                <svg class="heart-red" viewBox="0 0 32 29.6">
-                    <path d="M23.6,0c-3.4,0-6.3,2.7-7.6,5.6C14.7,2.7,11.8,0,8.4,0C3.8,0,0,3.8,0,8.4c0,9.4,9.5,11.9,16,21.2
-	c6.1-9.3,16-12.1,16-21.2C32,3.8,28.2,0,23.6,0z"/>
-                </svg>
-{#                <img src="{% static 'images/post-heart.png' %}" alt="">#}
-            </a>
-            {% endif %}
 
+            <a href="{% url 'post:post_like' post_pk=post.pk %}?next={{ request.path }}{{ request.GET|query_string }}#post-{{ post.pk }}">
+            {% if user in post.like_users.all %}
+{#            현재 유저가 해당 포스트를 좋아요했던 경우#}
+                <svg class="heart-red" viewBox="0 0 32 29.6">
+            {% else %}
 {#            현재 유저가 해당 포스트를 좋아요 안했던 경우#}
-            {% if not user in post.like_users.all %}
-            <a href="{% url 'post:post_like' post_pk=post.pk %}">
                 <svg class="heart-black" viewBox="0 0 32 29.6">
-                    <path d="M23.6,0c-3.4,0-6.3,2.7-7.6,5.6C14.7,2.7,11.8,0,8.4,0C3.8,0,0,3.8,0,8.4c0,9.4,9.5,11.9,16,21.2
-	c6.1-9.3,16-12.1,16-21.2C32,3.8,28.2,0,23.6,0z"/>
+            {% endif %}
+                <path d="M23.6,0c-3.4,0-6.3,2.7-7.6,5.6C14.7,2.7,11.8,0,8.4,0C3.8,0,0,3.8,0,8.4c0,9.4,9.5,11.9,16,21.2c6.1-9.3,16-12.1,16-21.2C32,3.8,28.2,0,23.6,0z"></path>
                 </svg>
 {#                <img src="{% static 'images/post-heart.png' %}" alt="">#}
             </a>
-            {% endif %}
+
 
             <a href="#">
                 <img src="{% static 'images/post-comment.png' %}" alt="">
