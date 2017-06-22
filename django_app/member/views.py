@@ -1,6 +1,7 @@
 from django.contrib.auth import login as django_login, logout as django_logout, get_user_model
 # from django.contrib.auth.models import User
 from django.contrib.auth.decorators import login_required
+from django.core.paginator import Paginator
 from django.http import HttpResponse
 from django.shortcuts import render, redirect, get_object_or_404
 from django.views.decorators.http import require_POST
@@ -136,11 +137,14 @@ def profile(request, user_pk=None):
         user = get_object_or_404(User, pk=user_pk)
     else:
         user = request.user
-    posts = user.post_set.all().order_by('-created_date')[:9]
-    # photos =
+    # url에 있는 page 번호를 int로 가져옴
+    page = int(request.GET.get('page'))
+    # posts는 page 번호에 따라 9개씩 전달
+    posts = user.post_set.all().order_by('-created_date')[9*(page-1): 9*page]
     context = {
         'cur_user': user,
         'posts': posts,
+        'page': page,
         }
     return render(request, 'member/profile.html', context)
 

@@ -5,7 +5,7 @@
     <header>
         <div class="post-header-left">
             <img src="" alt="">
-            <a href="{% url 'member:profile' user_pk=post.author.pk %}"><span class="header-author">{{ post.author }}</span></a>
+            <a href="{% url 'member:profile' user_pk=post.author.pk %}?page=1"><span class="header-author">{{ post.author }}</span></a>
         </div>
 
         <div class="post-header-right">

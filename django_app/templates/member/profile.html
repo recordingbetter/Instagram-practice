@@ -33,14 +33,14 @@
         <p class="list-title">Following list</p>
         {% for follow in cur_user.following %}
             <div>
-                <a href="{% url "member:profile" user_pk=follow.pk %}">{{ follow }}</a>
+                <a href="{% url "member:profile" user_pk=follow.pk %}?page=1">{{ follow }}</a>
             </div>
         {% endfor %}
 {#팔로워 리스트 시작#}
         <p class="list-title">Followers list</p>
         {% for follower in cur_user.followers %}
             <div>
-                <a href="{% url "member:profile" user_pk=follower.pk %}">{{ follower }}</a>
+                <a href="{% url "member:profile" user_pk=follower.pk %}?page=1">{{ follower }}</a>
             </div>
         {% endfor %}
     </div>
@@ -48,7 +48,6 @@
     <div class="content profile-photo">
         {% for post in posts %}
             <img src="{{ post.photo.url }}" alt="" width="250">
-{#            <img src="{{ post.photo.url|dictsort:"-created_date" }}" alt="">#}
         {% endfor %}
     </div>
 {% endblock %}
