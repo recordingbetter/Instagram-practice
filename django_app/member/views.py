@@ -137,14 +137,17 @@ def profile(request, user_pk=None):
         user = get_object_or_404(User, pk=user_pk)
     else:
         user = request.user
+    if request.GET.get('page'):
     # url에 있는 page 번호를 int로 가져옴
-    page = int(request.GET.get('page'))
-    # posts는 page 번호에 따라 9개씩 전달
+        page = int(request.GET.get('page'))
+    else:
+        page = 1
+        # posts는 page 번호에 따라 9개씩 전달
     posts = user.post_set.all().order_by('-created_date')[9*(page-1): 9*page]
+
     context = {
         'cur_user': user,
         'posts': posts,
-        'page': page,
         }
     return render(request, 'member/profile.html', context)
 
