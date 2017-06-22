@@ -79,12 +79,12 @@ class User(AbstractUser):
     @property
     def following(self):
         relations = self.follow_relations.all()
-        return User.objects.filter(pk__in=relations.values('pk'))
+        return User.objects.filter(pk__in=relations.values('to_user'))
 
     @property
     def followers(self):
         relations = self.follower_relations.all()
-        return User.objects.filter(pk__in=relations.values('pk'))
+        return User.objects.filter(pk__in=relations.values('from_user'))
 
 
 class Relation(models.Model):

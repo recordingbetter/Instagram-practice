@@ -82,7 +82,7 @@ SECRET_KEY = '(-kvu&sn0)yzn(i@64@uvp#3f8#mis9!q2vl5su2_$o)@vcw!o'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['*',]
 
 # Application definition
 INSTALLED_APPS = [
