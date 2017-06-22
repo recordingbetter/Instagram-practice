@@ -12,10 +12,10 @@
     <a href="{% url 'post:post_create' %}" type="button" class="btn">ADD POST</a>
 
     {% for post in posts %}
-
-        {% include 'include/post.html' with type='list' %}
-
-
+{#        post 작성자가 현재 로그인 유저가 block한 유저일경우 post 안보임#}
+        {% if post.author not in user.blocking %}
+            {% include 'include/post.html' with type='list' %}
+        {% endif %}
     {% endfor %}
 
 {#    Query String TEST#}
@@ -28,7 +28,7 @@
 {#		{% for k, v_list in request.GET.lists %}{% for v in v_list %}&{{ k }}={{ v }}{% endfor %}{% endfor %}#}
 {#	</div>#}
     <div>
-    {{ request.GET|query_string }}
+{#    {{ request.GET|query_string }}#}
     </div>
 
     <div class="pages">
