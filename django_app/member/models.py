@@ -29,20 +29,6 @@ class User(AbstractUser):
         return self.nickname or self.username
         # return self.nickname if self.nickname else self.username
 
-
-class Relation(models.Model):
-    # user who follows
-    from_user = models.ForeignKey(User, related_name="follow_relations")
-    # user who is followed
-    to_user = models.ForeignKey(User, related_name="follower_relations")
-    created_date = models.DateTimeField(auto_now_add=True)
-
-    def __str__(self):
-        return "Relation from {} to {}".format(
-            self.from_user,
-            self.to_user
-            )
-
     def follow(self, user):
         if not isinstance(user, User):
             raise ValueError('"user argument must <User> class')
@@ -89,6 +75,30 @@ class Relation(models.Model):
         if not isinstance(user, User):
             raise ValueError('"user argument must <User> class')
         return self.follower_relations.filter(from_user=user).exists()
+
+    @property
+    def following(self):
+        relations = self.follow_relations.all()
+        return User.objects.filter(pk__in=relations.values('pk'))
+
+    @property
+    def followers(self):
+        relations = self.follower_relations.all()
+        return User.objects.filter(pk__in=relations.values('pk'))
+
+
+class Relation(models.Model):
+    # user who follows
+    from_user = models.ForeignKey(User, related_name="follow_relations")
+    # user who is followed
+    to_user = models.ForeignKey(User, related_name="follower_relations")
+    created_date = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return "Relation from {} to {}".format(
+            self.from_user,
+            self.to_user
+            )
 
     class Meta:
         unique_together = (
