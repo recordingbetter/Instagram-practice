@@ -72,6 +72,20 @@ form.form-inline-login {
 .container > .content {
   padding: 10px; }
 
+.content-profile {
+  float: right;
+  width: 450px;
+  padding-right: 20px; }
+
+.username-profile {
+  float: left;
+  font-size: 30px;
+  padding: 0; }
+
+div > p.list-title {
+  font-size: 20px;
+  clear: both; }
+
 .pages {
   margin: 0 auto;
   max-width: 600px;

@@ -1,30 +1,36 @@
 {% extends 'common/base.html' %}
 
 {% block content %}
-    <div class="content">
-        <h2>{{ cur_user.username }}</h2>
-
+    <div class="content-profile">
+        <p class="username-profile">{{ cur_user.username }}</p>
+{#        로그인한 유저가 프로필을 보려은 유저가 아닐때 Follow/Unfollow 버튼을 보여줌#}
         {% if cur_user != user %}
+{#            로그인 유저가 프로필 유저를 팔로우하고 있을때#}
             {% if cur_user in user.following %}
-                <button class="btn" type="submit">Unfollow</button>
+                <button class="btn follow-btn" type="submit">Unfollow</button>
+{#            로그인 유저가 프로필 유저를 팔로우 안하고 있을때#}
             {% else %}
-                <button class="btn" type="submit">Follow</button>
+                <button class="btn follow-btn" type="submit">Follow</button>
             {% endif %}
         {% endif %}
 
-        <h3>Following list</h3>
+        <p class="list-title">Following list</p>
         {% for follow in cur_user.following %}
             <div>
                 <a href="{% url "member:profile" user_pk=follow.pk %}">{{ follow }}</a>
             </div>
         {% endfor %}
 
-        <h3>Followers list</h3>
+        <p class="list-title">Followers list</p>
         {% for follower in cur_user.followers %}
             <div>
                 <a href="{% url "member:profile" user_pk=follower.pk %}">{{ follower }}</a>
             </div>
         {% endfor %}
+    </div>
+
+    <div class="container">
+        
     </div>
 
 

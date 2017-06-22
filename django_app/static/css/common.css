@@ -40,4 +40,8 @@ form.form-inline {
 a.hash-tag {
   color: #44709c; }
 
+.follow-btn {
+  float: left;
+  margin: 30px; }
+
 /*# sourceMappingURL=common.css.map */
