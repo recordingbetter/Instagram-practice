@@ -32,7 +32,7 @@
                     {% csrf_token %}
 
                     {#                <a href="{% url 'post:post_like' post_pk=post.pk %}?next={{ request.path }}{{ request.GET|query_string }}#post-{{ post.pk }}">#}
-                    <button type="submit" class="btn">
+                    <button type="submit" class="btn postlike">
                         {% if user in post.like_users.all %}
                             {#            현재 유저가 해당 포스트를 좋아요했던 경우#}
                             <svg class="heart-red" viewBox="0 0 32 29.6">
