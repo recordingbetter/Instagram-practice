@@ -78,12 +78,12 @@
     </p>
       <div class="comment-create">
 {#          # 이후부분에 앵커(a 태그) 속성 추가#}
-        <form class="comment form-inline" action="{% url 'post:comment_create' post_pk=post.pk %}?next={{ request.path }}{{ request.GET|query_string }}#post-{{ post.pk }}" method="POST">
+        <form action="{% url 'post:comment_create' post_pk=post.pk %}?next={{ request.path }}{{ request.GET|query_string }}#post-{{ post.pk }}" method="POST">
             {% csrf_token %}
 {#            <input type="text" placeholder="댓글달기" name="comment_field">#}
 {#            정확한 필드명까지 적어주면 레이블이 안생김 (comment_form 과 비교)#}
             {{ comment_form.content }}
-            <button type="submit" class="btn">POST</button>
+{#            <button type="submit" class="btn">POST</button>#}
         </form>
       </div>
   </div>

@@ -39,7 +39,6 @@ def comment_create(request, post_pk):
         messages.error(request, result)
     if next_:
         return redirect(next_)
-
     return redirect('post:post_detail', post_pk=post.pk)
 
 
@@ -51,10 +50,11 @@ def comment_modify(request, comment_pk):
     comment = get_object_or_404(Comment, pk=comment_pk)
     if request.method == "POST":
         form = CommentForm(data=request.POST, instance=comment)
-        form.save()
-        if next_:
-            return redirect(next_)
-        return redirect('post:post_detail', post_pk=comment.post.pk)
+        if form.is_valid():
+            form.save()
+            if next_:
+                return redirect(next_)
+            return redirect('post:post_detail', post_pk=comment.post.pk)
     else:
         form = CommentForm(instance=comment)
     context = {
