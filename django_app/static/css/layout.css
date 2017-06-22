@@ -82,6 +82,9 @@ form.form-inline-login {
   font-size: 30px;
   padding: 0; }
 
+.profile-photo {
+  clear: both; }
+
 div > p.list-title {
   font-size: 20px;
   clear: both; }

@@ -1,8 +1,11 @@
 from django.contrib.auth import login as django_login, logout as django_logout, get_user_model
 # from django.contrib.auth.models import User
+from django.contrib.auth.decorators import login_required
 from django.http import HttpResponse
 from django.shortcuts import render, redirect, get_object_or_404
+from django.views.decorators.http import require_POST
 
+from post.models import Post
 from .forms import LoginForm
 from .forms.signup import SignupForm
 
@@ -133,7 +136,30 @@ def profile(request, user_pk=None):
         user = get_object_or_404(User, pk=user_pk)
     else:
         user = request.user
+    posts = user.post_set.all().order_by('-created_date')[:9]
+    # photos =
     context = {
         'cur_user': user,
+        'posts': posts,
         }
     return render(request, 'member/profile.html', context)
+
+
+@login_required
+@require_POST
+def follow_toggle_view(request, user_pk):
+    cur_user = User.objects.get(pk=request.user.pk)
+    profile_user = User.objects.get(pk=user_pk)
+    if request.method == "POST":
+        cur_user.follow_toggle(profile_user)
+    return redirect('member:profile', user_pk=profile_user.pk)
+
+
+@login_required
+@require_POST
+def block_toggle_view(request, user_pk):
+    cur_user = User.objects.get(pk=request.user.pk)
+    profile_user = User.objects.get(pk=user_pk)
+    if request.method == "POST":
+        cur_user.block_toggle(profile_user)
+    return redirect('member:profile', user_pk=profile_user.pk)

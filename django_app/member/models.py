@@ -22,6 +22,7 @@ class User(AbstractUser):
     relations = models.ManyToManyField(
         'self',
         through='Relation',
+        through_fields=('from_user', 'to_user', 'blocked_user'),
         symmetrical=False,
         )
 
@@ -64,6 +65,17 @@ class User(AbstractUser):
         else:
             return r
 
+    def block_toggle(self, user):
+        if not isinstance(user, User):
+            raise ValueError('"user argument must <User> class')
+        if user in self.following:
+            self.follow_relations.get(to_user=user).delete()
+        r, t = self.follow_relations.get_or_create(blocked_user=user)
+        if not t:
+            r.delete()
+        else:
+            return r
+
     def is_follow(self, user):
         # 해당 user를 내가 follow하고 있는지 bool 반환
         if not isinstance(user, User):
@@ -86,12 +98,18 @@ class User(AbstractUser):
         relations = self.follower_relations.all()
         return User.objects.filter(pk__in=relations.values('from_user'))
 
+    @property
+    def blocking(self):
+        relations = self.follow_relations.all()
+        return User.objects.filter(pk__in=relations.values('blocked_user'))
+
 
 class Relation(models.Model):
     # user who follows
     from_user = models.ForeignKey(User, related_name="follow_relations")
     # user who is followed
-    to_user = models.ForeignKey(User, related_name="follower_relations")
+    to_user = models.ForeignKey(User, related_name="follower_relations", null=True, blank=True)
+    blocked_user = models.ForeignKey(User, related_name="blocked_relations", null=True, blank=True)
     created_date = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
@@ -103,4 +121,6 @@ class Relation(models.Model):
     class Meta:
         unique_together = (
             ('from_user', 'to_user'),
+            ('from_user', 'blocked_user'),
             )
+

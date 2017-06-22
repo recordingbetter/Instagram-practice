@@ -4,23 +4,39 @@
     <div class="content-profile">
         <p class="username-profile">{{ cur_user.username }}</p>
 {#        로그인한 유저가 프로필을 보려은 유저가 아닐때 Follow/Unfollow 버튼을 보여줌#}
-        {% if cur_user != user %}
-{#            로그인 유저가 프로필 유저를 팔로우하고 있을때#}
+        <form action="{% url 'member:follow' user_pk=cur_user.pk %}" method="POST">
+        {% csrf_token %}
+            {% if cur_user != user %}
+            {#            로그인 유저가 프로필 유저를 팔로우하고 있을때#}
             {% if cur_user in user.following %}
                 <button class="btn follow-btn" type="submit">Unfollow</button>
-{#            로그인 유저가 프로필 유저를 팔로우 안하고 있을때#}
+                {#            로그인 유저가 프로필 유저를 팔로우 안하고 있을때#}
             {% else %}
                 <button class="btn follow-btn" type="submit">Follow</button>
             {% endif %}
-        {% endif %}
-
+            {% endif %}
+        </form>
+{#block button 시작#}
+        <form action="{% url 'member:block' user_pk=cur_user.pk %}" method="POST">
+        {% csrf_token %}
+            {% if cur_user != user %}
+            {#            로그인 유저가 프로필 유저를 block하고 있을때#}
+            {% if cur_user in user.blocking %}
+                <button class="btn follow-btn" type="submit">Unblock</button>
+                {#            로그인 유저가 프로필 유저를 block 안하고 있을때#}
+            {% else %}
+                <button class="btn follow-btn" type="submit">Block</button>
+            {% endif %}
+            {% endif %}
+        </form>
+{#팔로잉 리스트 시작#}
         <p class="list-title">Following list</p>
         {% for follow in cur_user.following %}
             <div>
                 <a href="{% url "member:profile" user_pk=follow.pk %}">{{ follow }}</a>
             </div>
         {% endfor %}
-
+{#팔로워 리스트 시작#}
         <p class="list-title">Followers list</p>
         {% for follower in cur_user.followers %}
             <div>
@@ -28,10 +44,11 @@
             </div>
         {% endfor %}
     </div>
-
-    <div class="container">
-        
+{#여기부터 사진#}
+    <div class="content profile-photo">
+        {% for post in posts %}
+            <img src="{{ post.photo.url }}" alt="" width="250">
+{#            <img src="{{ post.photo.url|dictsort:"-created_date" }}" alt="">#}
+        {% endfor %}
     </div>
-
-
 {% endblock %}
