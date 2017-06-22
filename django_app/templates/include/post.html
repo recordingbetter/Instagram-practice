@@ -26,23 +26,30 @@
   <div class="post-bottom">
     <div class="post-btn-container clearfix">
         <div class="btn-left">
-{#            좋아요#}
-            <a href="{% url 'post:post_like' post_pk=post.pk %}?next={{ request.path }}{{ request.GET|query_string }}#post-{{ post.pk }}">
-            {% if user in post.like_users.all %}
-{#            현재 유저가 해당 포스트를 좋아요했던 경우#}
-                <svg class="heart-red" viewBox="0 0 32 29.6">
-            {% else %}
-{#            현재 유저가 해당 포스트를 좋아요 안했던 경우#}
-                <svg class="heart-black" viewBox="0 0 32 29.6">
-            {% endif %}
-                <path d="M23.6,0c-3.4,0-6.3,2.7-7.6,5.6C14.7,2.7,11.8,0,8.4,0C3.8,0,0,3.8,0,8.4c0,9.4,9.5,11.9,16,21.2c6.1-9.3,16-12.1,16-21.2C32,3.8,28.2,0,23.6,0z"></path>
-                </svg>
-{#                <img src="{% static 'images/post-heart.png' %}" alt="">#}
-            </a>
-
+                {#            좋아요#}
             <a href="#">
-                <img src="{% static 'images/post-comment.png' %}" alt="">
+                <form action="{% url 'post:post_like' post_pk=post.pk %}?next={{ request.path }}{{ request.GET|query_string }}#post-{{ post.pk }}" method="POST" class="form-inline">
+                    {% csrf_token %}
+
+                    {#                <a href="{% url 'post:post_like' post_pk=post.pk %}?next={{ request.path }}{{ request.GET|query_string }}#post-{{ post.pk }}">#}
+                    <button type="submit" class="btn">
+                        {% if user in post.like_users.all %}
+                            {#            현재 유저가 해당 포스트를 좋아요했던 경우#}
+                            <svg class="heart-red" viewBox="0 0 32 29.6">
+                        {% else %}
+                            {#            현재 유저가 해당 포스트를 좋아요 안했던 경우#}
+                            <svg class="heart-black" viewBox="0 0 32 29.6">
+                        {% endif %}
+                        <path d="M23.6,0c-3.4,0-6.3,2.7-7.6,5.6C14.7,2.7,11.8,0,8.4,0C3.8,0,0,3.8,0,8.4c0,9.4,9.5,11.9,16,21.2c6.1-9.3,16-12.1,16-21.2C32,3.8,28.2,0,23.6,0z"></path>
+                        </svg>
+                        {#                <img src="{% static 'images/post-heart.png' %}" alt="">#}
+                    </button>
+                </form>
             </a>
+                <a href="#">
+                    <img src="{% static 'images/post-comment.png' %}" alt="">
+                </a>
+
         </div>
 
         <div class="btn-right">
@@ -54,10 +61,20 @@
     </div>
 
 
-    <p class="comment">좋아요 {{ post.like_count }}개</p>
-        {% for user in post.like_users.all %}
-            <span class="comment">{{ user }} </span>
-        {% endfor %}
+    <p class="comment">
+{#        {% for user in post.like_users.all %}#}
+{#            <span class="comment">{{ user }} </span>#}
+{#        {% endfor %}#}
+        {% if post.like_users.exists %}
+            {% if post.like_users.count > 10 %}
+                <span>좋아요 {{ post.like_users.count }}개</span>
+            {% else %}
+                <span>{{ post.like_users.all|join:', ' }}님이 좋아합니다.</span>
+            {% endif %}
+        {% else %}
+            <span>처음으로 좋아요를 눌러보세요.</span>
+        {% endif %}
+    </p>
 
 
     <div class="post-comment-container">

@@ -32,19 +32,20 @@
     </div>
 
     <div class="pages">
-
-        {% if posts.has_previous %}
+        <span class="page-inline">{% if posts.has_previous %}
             <a href="{{ request.path }}?page=1" class="btn">First Page</a>
-            <a href="{{ request.path }}?page={{ posts.previous_page_number }}" class="btn">Previous {{ posts.previous_page_number}}</a>
+            <a href="{{ request.path }}?page={{ posts.previous_page_number }}"
+               class="btn">Previous {{ posts.previous_page_number }}</a>
         {% endif %}
 
-        <a href="" class="btn">{{ posts.number }}</a>
+            <a href="" class="btn">{{ posts.number }}</a>
 
-        {% if posts.has_next %}
-            <a href="{{ request.path }}?page={{ posts.next_page_number }}" class="btn">Next {{ posts.next_page_number }}</a>
-            {#        마지막 페이지로 가는 버튼. num_pages는 paginator에서 호출할 수있음#}
-            <a href="{{ request.path }}?page={{ posts.paginator.num_pages }}" class="btn">Last Page</a>
-        {% endif %}
+            {% if posts.has_next %}
+                <a href="{{ request.path }}?page={{ posts.next_page_number }}"
+                   class="btn">Next {{ posts.next_page_number }}</a>
+                {#        마지막 페이지로 가는 버튼. num_pages는 paginator에서 호출할 수있음#}
+                <a href="{{ request.path }}?page={{ posts.paginator.num_pages }}" class="btn">Last Page</a>
+            {% endif %}</span>
 
     </div>
 
