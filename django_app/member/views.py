@@ -125,6 +125,7 @@ def signup(request):
 
 
 def profile(request, user_pk=None):
+    NUM_POSTS_PER_PAGE = 3
     # 0. urls.py 연결
     # 1. user_pk에 해당하는 User를 cur_user키로 render
     # 2. member/profile.html 작성, 해당 user 정보 보여주기
@@ -147,11 +148,17 @@ def profile(request, user_pk=None):
     else:
         user = request.user
         # posts는 page 번호에 따라 9개씩 전달
-    posts = user.post_set.all().order_by('-created_date')[: 9 * page]
-
+        # filter나 order_by에는 안써도 됨
+    posts = user.post_set.order_by('-created_date')[: NUM_POSTS_PER_PAGE * page]
+    post_count = user.post_set.count()
+    # next
+    next_page = page + 1 if post_count > page * NUM_POSTS_PER_PAGE else page + 1
     context = {
         'cur_user': user,
         'posts': posts,
+        'post_count': post_count,
+        'page': page,
+        'next_page': next_page,
         }
     return render(request, 'member/profile.html', context)
 
@@ -159,11 +166,13 @@ def profile(request, user_pk=None):
 @login_required
 @require_POST
 def follow_toggle_view(request, user_pk):
+    next = request.GET.get('next')
     cur_user = User.objects.get(pk=request.user.pk)
-    profile_user = User.objects.get(pk=user_pk)
-    if request.method == "POST":
-        cur_user.follow_toggle(profile_user)
-    return redirect('member:profile', user_pk=profile_user.pk)
+    profile_user = get_object_or_404(User, pk=user_pk)
+    cur_user.follow_toggle(profile_user)
+    if next:
+        return redirect(next)
+    return redirect('member:profile', user_pk=user_pk)
 
 
 @login_required
@@ -171,6 +180,5 @@ def follow_toggle_view(request, user_pk):
 def block_toggle_view(request, user_pk):
     cur_user = User.objects.get(pk=request.user.pk)
     profile_user = User.objects.get(pk=user_pk)
-    if request.method == "POST":
-        cur_user.block_toggle(profile_user)
+    cur_user.block_toggle(profile_user)
     return redirect('member:profile', user_pk=profile_user.pk)
