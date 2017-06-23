@@ -13,87 +13,88 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Instagram Project</title>
-	<link rel="stylesheet" href="{% static 'css/normalize.css' %}">
-	<link rel="stylesheet" href="{% static 'css/base.css' %}">
-	<link rel="stylesheet" href="{% static 'css/layout.css' %}">
-	<link rel="stylesheet" href="{% static 'css/post.css' %}">
-	<link rel="stylesheet" href="{% static 'css/common.css' %}">
-	<link rel="stylesheet" href="{% static 'css/profile.css' %}">
+    <link rel="stylesheet" href="{% static 'css/normalize.css' %}">
+    <link rel="stylesheet" href="{% static 'css/base.css' %}">
+    <link rel="stylesheet" href="{% static 'css/layout.css' %}">
+    <link rel="stylesheet" href="{% static 'css/post.css' %}">
+    <link rel="stylesheet" href="{% static 'css/common.css' %}">
+    <link rel="stylesheet" href="{% static 'css/profile.css' %}">
 </head>
 <body>
 {% if messages %}
     <div class="message">
         {% for message in messages %}
-        <div>{{ message }}</div>
+            <div>{{ message }}</div>
         {% endfor %}
     </div>
 {% endif %}
 
-    <div id="wrap">
+<div id="wrap">
 
-        <header class="top-header">
-            <nav>
-                <div class="nav-left nav-item">
-                    <a href="{% url "post:post_list" %}">
-                        <img src="{% static 'images/logo.png' %}" alt="">
-                    </a>
-                </div>
+    <header class="top-header">
+        <nav>
+            <div class="nav-left nav-item">
+                <a href="{% url "post:post_list" %}">
+                    <img src="{% static 'images/logo.png' %}" alt="">
+                </a>
+            </div>
 
-                <div class="nav-center nav-item">
-                    <input type="text" placeholder="검색">
-                </div>
+            <div class="nav-center nav-item">
+                <input type="text" placeholder="검색">
+            </div>
 
-                <div class="nav-right nav-item">
-                    <a href="#">
-                        <img src="{% static 'images/icon_explore.png' %}" alt="">
-                    </a>
-                    <a href="#">
-                        <img src="{% static 'images/icon_heart.png' %}" alt="">
-                    </a>
-                    <a href="{% url 'member:my_profile' %}">
-                        <img src="{% static 'images/icon_profile.png' %}" alt="">
-                    </a>
-                </div>
-{#                <a href="{% url 'member:logout' %}">LOG OUT</a>#}
-            </nav>
-{#login#}
-            <nav>
-                <div>
-                    {% if user.is_authenticated %}
-                        {{ user }}가 로그인 중입니다.
-                        <a href="{% url 'member:logout' %}" class="btn">LOG OUT</a>
-                    {% else %}
-                        <form action="{% url 'member:login' %}" method="POST" class="inline">
-                            {% csrf_token %}
-{#                            <table>#}
-                            {{ login_form }}
-{#                            </table>#}
-                            <input type="submit" class="btn" value="LOG IN">
-                            <a href="{% url 'member:signup' %}" class="btn" type="button">SIGN UP</a>
-{#facebook login#}
-                            <a href="https://www.facebook.com/v2.9/dialog/oauth?client_id={{ facebook_app_id }}&redirect_uri=http://localhost:8000/post/" class="btn btn-primary">
-                                Facebook Login
-                            </a>
-                        </form>
-                    {% endif %}
-                </div>
-            </nav>
-        </header>
+            <div class="nav-right nav-item">
+                <a href="#">
+                    <img src="{% static 'images/icon_explore.png' %}" alt="">
+                </a>
+                <a href="#">
+                    <img src="{% static 'images/icon_heart.png' %}" alt="">
+                </a>
+                <a href="{% url 'member:my_profile' %}">
+                    <img src="{% static 'images/icon_profile.png' %}" alt="">
+                </a>
+            </div>
+            {#                <a href="{% url 'member:logout' %}">LOG OUT</a>#}
+        </nav>
+        {#login#}
+        <nav>
+            <div>
+                {% if user.is_authenticated %}
+                    {{ user }}가 로그인 중입니다.
+                    <a href="{% url 'member:logout' %}" class="btn">LOG OUT</a>
+                {% else %}
+                    <form action="{% url 'member:login' %}" method="POST" class="inline">
+                        {% csrf_token %}
+                        {#                            <table>#}
+                        {{ login_form }}
+                        {#                            </table>#}
+                        <input type="submit" class="btn" value="LOG IN">
+                        <a href="{% url 'member:signup' %}" class="btn" type="button">SIGN UP</a>
+                        {#facebook login#}
+                        <a href="https://www.facebook.com/v2.9/dialog/oauth?client_id={{ facebook_app_id }}&redirect_uri=http://localhost:8000/post/"
+                           class="btn btn-primary">
+                            Facebook Login
+                        </a>
+                    </form>
+                {% endif %}
+            </div>
+        </nav>
+    </header>
 
-{#        <div class="test">#}
-{#            <!-- request 데이터 중에 user 변수가 있어서 바로 사용 가능 -->#}
-{#            {% if user.is_authenticated %}#}
-{#                {{ user }}가 로그인 중입니다.#}
-{#                <a href="{% url 'member:logout' %}">LOG OUT</a>#}
-{#            {% else %}#}
-{#                <a href="{% url 'member:login' %}">LOG IN</a>#}
-{#            {% endif %}#}
-{#        </div>#}
+    {#        <div class="test">#}
+    {#            <!-- request 데이터 중에 user 변수가 있어서 바로 사용 가능 -->#}
+    {#            {% if user.is_authenticated %}#}
+    {#                {{ user }}가 로그인 중입니다.#}
+    {#                <a href="{% url 'member:logout' %}">LOG OUT</a>#}
+    {#            {% else %}#}
+    {#                <a href="{% url 'member:login' %}">LOG IN</a>#}
+    {#            {% endif %}#}
+    {#        </div>#}
 
-        <div class="container">
-            {% block content %}
-            {% endblock%}
-        </div>
+    <div class="container">
+        {% block content %}
+        {% endblock %}
     </div>
+</div>
 </body>
 </html>
