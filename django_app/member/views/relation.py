@@ -14,19 +14,22 @@ __all__ = (
 @login_required
 @require_POST
 def follow_toggle_view(request, user_pk):
-    next = request.GET.get('next')
+    next_ = request.GET.get('next')
     cur_user = User.objects.get(pk=request.user.pk)
     profile_user = get_object_or_404(User, pk=user_pk)
     cur_user.follow_toggle(profile_user)
-    if next:
-        return redirect(next)
+    if next_:
+        return redirect(next_)
     return redirect('member:profile', user_pk=user_pk)
 
 
 @login_required
 @require_POST
 def block_toggle_view(request, user_pk):
+    next_ = request.GET.get('next')
     cur_user = User.objects.get(pk=request.user.pk)
     profile_user = User.objects.get(pk=user_pk)
     cur_user.block_toggle(profile_user)
+    if next_:
+        return redirect(next_)
     return redirect('member:profile', user_pk=profile_user.pk)
