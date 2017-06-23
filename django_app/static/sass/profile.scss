@@ -4,6 +4,7 @@
   width: 150px;
   float: left;
   padding: 30px 50px;
+  margin-left: 30px;
     //  padding-left: 50px;
     //padding-top: 30px;
   //border-radius: 50px;
@@ -14,8 +15,9 @@
 
 .content-profile {
   float: right;
-  width: 450px;
+  width: 650px;
   padding-right: 20px;
+  margin-bottom: 40px;
 }
 
 .username-profile {
@@ -54,3 +56,7 @@ div > p.list-title {
   clear: both;
 }
 
+a.profile-edit-btn {
+  margin-top: 22px;
+  margin-left: 10px;
+}

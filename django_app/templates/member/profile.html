@@ -21,8 +21,9 @@
                 {% else %}
                     <button class="btn follow-btn" type="submit">Follow</button>
                 {% endif %}
+{#로그인 유저 프로필 편집 버튼#}
         {% else %}
-            <a href="{% url 'member:profile_edit' %}" type="submit">Profile Edit</a>
+            <a href="{% url 'member:profile_edit' %}" type="submit" class="btn profile-edit-btn">Profile Edit</a>
         {% endif %}
             </form>
     {% endif %}

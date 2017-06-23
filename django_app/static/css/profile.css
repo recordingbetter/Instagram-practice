@@ -1,14 +1,16 @@
 .profile-img {
   width: 150px;
   float: left;
-  padding: 30px 50px; }
+  padding: 30px 50px;
+  margin-left: 30px; }
   .profile-img img {
     border-radius: 50%; }
 
 .content-profile {
   float: right;
-  width: 450px;
-  padding-right: 20px; }
+  width: 650px;
+  padding-right: 20px;
+  margin-bottom: 40px; }
 
 .username-profile {
   float: left;
@@ -32,5 +34,9 @@ ul.profile-photo {
 div > p.list-title {
   font-size: 20px;
   clear: both; }
+
+a.profile-edit-btn {
+  margin-top: 22px;
+  margin-left: 10px; }
 
 /*# sourceMappingURL=profile.css.map */
