@@ -1,0 +1,27 @@
+.content-profile {
+  float: right;
+  width: 450px;
+  padding-right: 20px; }
+
+.username-profile {
+  float: left;
+  font-size: 30px;
+  padding: 0; }
+
+ul.profile-photo {
+  font-size: 0;
+  margin-left: -10px;
+  margin-right: -10px; }
+  ul.profile-photo li {
+    clear: both;
+    display: inline-block;
+    box-sizing: border-box;
+    padding: 10px; }
+    ul.profile-photo li img {
+      width: calc(100%/3); }
+
+div > p.list-title {
+  font-size: 20px;
+  clear: both; }
+
+/*# sourceMappingURL=profile.css.map */

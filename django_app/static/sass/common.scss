@@ -20,7 +20,15 @@
   padding: 2px 6px;
   border-radius: 1px;
   line-height: 1.6;
+}
 
+.btn-lg {
+  font-size: 14px;
+  padding: 9px 18px;
+}
+
+.btn-block {
+  display: block;
 }
 
 
@@ -59,4 +67,9 @@ a.hash-tag {
   float: left;
   margin: 30px;
 
+}
+
+.btn-primary {
+  background-color: $color-theme;
+  color: white;
 }

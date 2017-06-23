@@ -45,9 +45,17 @@
         {% endfor %}
     </div>
 {#여기부터 사진#}
-    <div class="content profile-photo">
-        {% for post in posts %}
-            <img src="{{ post.photo.url }}" alt="" width="250">
-        {% endfor %}
-    </div>
+    <ul class="profile-photo">
+        <li>
+            {% for post in posts %}
+            <img src="{{ post.photo.url }}" alt="">
+            {% endfor %}
+        </li>
+    </ul>
+{##더불러오기 버튼#}
+    {% if request.GET.page %}
+        <a href="?page={{ request.GET.page|add:1 }}" class="btn btn-primary">더 불러오기</a>
+    {% else %}
+        <a href="?page=2" class="btn btn-primary btn-lg btn-block">더 불러오기</a>
+    {% endif %}
 {% endblock %}

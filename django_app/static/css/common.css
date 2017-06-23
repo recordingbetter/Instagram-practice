@@ -16,6 +16,13 @@
   border-radius: 1px;
   line-height: 1.6; }
 
+.btn-lg {
+  font-size: 14px;
+  padding: 9px 18px; }
+
+.btn-block {
+  display: block; }
+
 .field-wrapper {
   margin-bottom: 10px; }
   .field-wrapper ul.errors {
@@ -43,5 +50,9 @@ a.hash-tag {
 .follow-btn {
   float: left;
   margin: 30px; }
+
+.btn-primary {
+  background-color: #3897f0;
+  color: white; }
 
 /*# sourceMappingURL=common.css.map */

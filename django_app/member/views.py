@@ -133,17 +133,21 @@ def profile(request, user_pk=None):
     #   3-1. 팔로우하고 있다면 '팔로우해제' 버튼, 아니라면 '팔로우' 버튼 보여주기
     # 4. -> def follow_toggle(request)뷰 생성
     # user = User.objects.get(pk=user_pk)
+    page = request.GET.get('page', 1)
+    try:
+        page = int(page) if int(page) > 1 else 1
+    except ValueError:
+        page = 1
+    except Exception as e:
+        page = 1
+        print(e)
+
     if user_pk:
         user = get_object_or_404(User, pk=user_pk)
     else:
         user = request.user
-    if request.GET.get('page'):
-    # url에 있는 page 번호를 int로 가져옴
-        page = int(request.GET.get('page'))
-    else:
-        page = 1
         # posts는 page 번호에 따라 9개씩 전달
-    posts = user.post_set.all().order_by('-created_date')[9*(page-1): 9*page]
+    posts = user.post_set.all().order_by('-created_date')[: 9 * page]
 
     context = {
         'cur_user': user,

@@ -1,0 +1,39 @@
+@import 'variables';
+
+.content-profile {
+  float: right;
+  width: 450px;
+  padding-right: 20px;
+}
+
+.username-profile {
+    float: left;
+  font-size: 30px;
+  padding: 0;
+}
+
+ul.profile-photo {
+  font-size: 0;
+  margin-left: -10px;
+  margin-right: -10px;
+
+  li {
+    clear: both;
+    display: inline-block;
+    //width: calc(100%/3);
+    box-sizing: border-box;
+    padding: 10px;
+
+    img {
+          //clear: both;
+      //width: 100%;
+      width: calc(100%/3);
+    }
+    }
+}
+
+
+div > p.list-title {
+    font-size: 20px;
+  clear: both;
+}
