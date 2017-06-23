@@ -73,6 +73,10 @@ MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 AUTH_USER_MODEL = 'member.User'
 LOGIN_URL = 'member:login'
 
+# Facebook
+FACEBOOK_APP_ID = '1114307655338100'
+FACEBOOK_SECRET_CODE = '43763d0e449609eea3790cc8bb5594ce'
+
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/1.11/howto/deployment/checklist/
 
@@ -124,6 +128,7 @@ TEMPLATES = [
                 'django.contrib.messages.context_processors.messages',
                 # context_processors 추가
                 'member.context_processors.forms',
+                'utils.context_processor.facebook_info',
                 ],
             },
         },
