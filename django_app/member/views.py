@@ -7,8 +7,7 @@ from django.shortcuts import render, redirect, get_object_or_404
 from django.views.decorators.http import require_POST
 
 from post.models import Post
-from .forms import LoginForm
-from .forms.signup import SignupForm
+from .forms import LoginForm, UserEditForm, SignupForm
 
 User = get_user_model()
 
@@ -182,3 +181,29 @@ def block_toggle_view(request, user_pk):
     profile_user = User.objects.get(pk=user_pk)
     cur_user.block_toggle(profile_user)
     return redirect('member:profile', user_pk=profile_user.pk)
+
+
+@login_required
+# @require_POST
+def profile_edit(request):
+    '''
+    request.method = 'POST" 일때
+    nickname과 img_profile(모델에 필드 추가)을 수정할수있는
+    UserEditForm을 구성 (ModelForm 상속) 및 사용
+    '''
+    user = request.user
+    if request.method == 'POST':
+        form = UserEditForm(
+            data=request.POST,
+            files=request.FILES,
+            instance=user
+            )
+        if form.is_valid():
+            form.save()
+            return redirect('member:my_profile')
+    else:
+        form = UserEditForm(instance=user)
+    context = {
+        'form': form
+        }
+    return render(request, 'member/profile_edit.html', context=context)

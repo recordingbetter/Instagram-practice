@@ -1,6 +1,7 @@
 # from django.contrib.auth.models import User
 from django.contrib.auth.models import AbstractUser
 from django.db import models
+# from utils.fields import CustomImageField
 
 
 class User(AbstractUser):
@@ -19,6 +20,7 @@ class User(AbstractUser):
         없음: 내가 follow 하고있는 사람 1명
     """
     nickname = models.CharField(max_length=24, null=True, unique=True)
+    img_profile = models.CustomImageField(upload_to='member/', null=True, blank=True)
     relations = models.ManyToManyField(
         'self',
         through='Relation',

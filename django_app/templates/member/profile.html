@@ -1,21 +1,31 @@
 {% extends 'common/base.html' %}
 
 {% block content %}
+    <div class="profile-img">
+        <img src="{{ cur_user.img_profile.url }}" alt="" width="150">
+    </div>
     <div class="content-profile">
-        <p class="username-profile">{{ cur_user.username }}</p>
+
+            <p class="username-profile">{{ cur_user.username }} ({{ cur_user.nickname }})</p>
+
 {#로그인한 유저가 프로필을 보려는 유저가 아닐때 Follow/Unfollow 버튼을 보여줌#}
-        <form action="{% url 'member:follow' user_pk=cur_user.pk %}" method="POST">
-        {% csrf_token %}
-            {% if cur_user != user %}
+    {% if user.is_authenticated %}
+        {% if cur_user != user %}
+            <form action="{% url 'member:follow' user_pk=cur_user.pk %}" method="POST">
+            {% csrf_token %}
+
 {#로그인 유저가 프로필 유저를 팔로우하고 있을때#}
-            {% if cur_user in user.following %}
-                <button class="btn follow-btn" type="submit">Unfollow</button>
+                {% if cur_user in user.following %}
+                    <button class="btn follow-btn" type="submit">Unfollow</button>
 {#로그인 유저가 프로필 유저를 팔로우 안하고 있을때#}
-            {% else %}
-                <button class="btn follow-btn" type="submit">Follow</button>
-            {% endif %}
-            {% endif %}
-        </form>
+                {% else %}
+                    <button class="btn follow-btn" type="submit">Follow</button>
+                {% endif %}
+        {% else %}
+            <a href="{% url 'member:profile_edit' %}" type="submit">Profile Edit</a>
+        {% endif %}
+            </form>
+    {% endif %}
 {#block button 시작#}
         <form action="{% url 'member:block' user_pk=cur_user.pk %}" method="POST">
         {% csrf_token %}
@@ -45,17 +55,18 @@
         {% endfor %}
     </div>
 {#여기부터 사진#}
-    <ul class="profile-photo">
-        <li>
-            {% for post in posts %}
-                <a href="{% url 'post:post_detail' post_pk=post.pk %}">
-                    <img src="{{ post.photo.url }}" alt="">
-                </a>
-            {% endfor %}
-        </li>
-    </ul>
-{##더불러오기 버튼#}
-    {% if next_page %}
-        <a href="?page={{ next_page }}" class="btn btn-primary">더 불러오기</a>
-    {% endif %}
+    <div class="photo">
+        <ul class="profile-photo">
+            <li>
+                {% for post in posts %}
+                    <a href="{% url 'post:post_detail' post_pk=post.pk %}">
+                        <img src="{{ post.photo.url }}" alt="">
+                    </a>
+                {% endfor %}
+            </li>
+        </ul>
+        {##더불러오기 버튼#}
+        {% if next_page %}
+            <a href="?page={{ next_page }}" class="btn btn-primary">더 불러오기</a>
+        {% endif %}</div>
 {% endblock %}

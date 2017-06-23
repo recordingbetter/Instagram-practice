@@ -1,0 +1,14 @@
+{% extends 'common/base.html' %}
+
+{% block content %}
+    <div class="content">
+        <h3>Profile edit {{ user }}</h3>
+        <form action="" enctype="multipart/form-data" method="POST">
+            {% csrf_token %}
+            {% include 'include/field_set.html' %}
+            <button class="btn">Submit</button>
+        </form>
+
+    </div>
+
+{% endblock %}

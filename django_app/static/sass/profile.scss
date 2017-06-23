@@ -1,5 +1,18 @@
 @import 'variables';
 
+.profile-img {
+  width: 150px;
+  float: left;
+      padding-left: 50px;
+    padding-top: 30px;
+  //border-radius: 50px;
+  img {
+    border-radius: calc(100%/2);
+
+
+  }
+}
+
 .content-profile {
   float: right;
   width: 450px;
@@ -12,13 +25,16 @@
   padding: 0;
 }
 
+.photo {
+  clear: both;
+}
 ul.profile-photo {
   font-size: 0;
   margin-left: -10px;
   margin-right: -10px;
 
   li {
-    clear: both;
+    //clear: both;
     display: inline-block;
     //width: calc(100%/3);
     box-sizing: border-box;
@@ -28,6 +44,7 @@ ul.profile-photo {
           //clear: both;
       //width: 100%;
       width: calc(100%/3);
+      //padding: 10px;
     }
     }
 }
@@ -37,3 +54,4 @@ div > p.list-title {
     font-size: 20px;
   clear: both;
 }
+
