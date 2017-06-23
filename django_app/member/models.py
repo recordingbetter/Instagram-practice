@@ -1,7 +1,7 @@
 # from django.contrib.auth.models import User
 from django.contrib.auth.models import AbstractUser
 from django.db import models
-# from utils.fields import CustomImageField
+from utils.fields import CustomImageField
 
 
 class User(AbstractUser):
@@ -20,7 +20,13 @@ class User(AbstractUser):
         없음: 내가 follow 하고있는 사람 1명
     """
     nickname = models.CharField(max_length=24, null=True, unique=True)
-    img_profile = models.CustomImageField(upload_to='member/', null=True, blank=True)
+    img_profile = CustomImageField(
+        upload_to='member/',
+        null=True,
+        blank=True,
+        # img_profile 이미지가 없을 경우 profile.png 파일이 보이게 CustomImageField를 오버라이드
+        default_static_image='images/profile.png',
+        )
     relations = models.ManyToManyField(
         'self',
         through='Relation',

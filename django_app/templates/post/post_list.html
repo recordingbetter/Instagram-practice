@@ -30,7 +30,7 @@
     <div>
 {#    {{ request.GET|query_string }}#}
     </div>
-
+{#페이지 이동 버튼 시작#}
     <div class="pages">
         <span class="page-inline">{% if posts.has_previous %}
             <a href="{{ request.path }}?page=1" class="btn">First Page</a>

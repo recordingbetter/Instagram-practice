@@ -98,14 +98,17 @@ form.form-inline-login {
 
 
 .pages {
-    margin: 0 auto;
-  max-width: 600px;
+    //margin: 0 auto;
+  //max-width: 600px;
       //display: inline-block;
     //  margin-left: auto;
     //margin-right: auto;
     //align-content: center;
   //align-items: center;
   //  left: 50%;
+      display: block;
+    margin: auto;
+    width: 50%;
   padding: 30px;
   .page-inline {
     //margin-left: auto;
