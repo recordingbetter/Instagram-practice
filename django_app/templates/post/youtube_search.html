@@ -16,10 +16,12 @@
 
         <div class="test">
             <ul>
-                {% for item in response.items %}
+                {% for item in search_result %}
                     <li>
-                        <p>{{ item.snippet.title }}</p>
-                        <img src="{{ item.snippet.thumbnails.high.url }}" alt="" class="">
+                        <p>{{ item.youtube_title }}</p>
+{#                        <p>{{ item.id.videoId }}</p>#}
+                        <iframe width="560" height="315" src="https://www.youtube.com/embed/{{ item.youtube_id }}" frameborder="0" allowfullscreen></iframe>
+{#                        <img src="{{ item.snippet.thumbnails.high.url }}" alt="" class="">#}
                     </li>
                 {% endfor %}
             </ul>
