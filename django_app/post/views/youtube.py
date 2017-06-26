@@ -14,7 +14,6 @@ __all__ = [
     'youtube_post',
     ]
 
-
 # def youtube_search(request):
 #     url_api_search = 'https://www.googleapis.com/youtube/v3/search'
 #     q = request.GET.get('q')
@@ -58,9 +57,10 @@ def youtube_search_save(request):
                 defaults={
                     'youtube_title': video_item['snippet']['title'],
                     'youtube_thumbnail_url': video_item['snippet']['thumbnails']['high']['url'],
-                    'youtube_description': video_item['snippet']['description']
+                    'youtube_description': video_item['snippet']['description'],
                     }
                 )
+            # DB에 저장했으면 thumbnail도 DB에 저장
             if video_create:
                 url_thumbnail = video_item['snippet']['thumbnails']['high']['url']
                 p = re.compile(r'.*\.([^?]+)')
@@ -73,7 +73,7 @@ def youtube_search_save(request):
                 response = requests.get(url_thumbnail)
                 temp_file.write(response.content)
                 video.youtube_thumbnail.save(file_name, File(temp_file))
-
+        # youtube_search.html에 보여주는건 DB에서 title 검색 결과
         search_result = Video.objects.filter(youtube_title__contains=q)
         context = {
             'search_result': search_result,
@@ -86,14 +86,16 @@ def youtube_search_save(request):
 
 def youtube_post(request, video_id):
     video = Video.objects.get(pk=video_id)
+    # video pk를 FK로 가지는 Post 생성
     post = video.post_set.create(
         video_id=video_id,
         author=request.user,
         photo=video.youtube_thumbnail,
-        my_comment=video.title,
-
         )
-    print(post)
-    # post.save()
+    # 비디오타이틀을 comment로 저장
+    post.comment_set.create(
+        content=video.youtube_title,
+        author=request.user,
+        )
     return redirect('post:post_list')
 
