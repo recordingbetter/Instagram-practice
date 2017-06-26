@@ -56,6 +56,7 @@ class UserManager(DefaultUserManager):
             # user_info에 있는 값으로 새 User를 만들어줌
             # User.objects.create(
             # )
+        return user
 
 
 class User(AbstractUser):

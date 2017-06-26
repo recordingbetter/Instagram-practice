@@ -77,6 +77,9 @@ LOGIN_URL = 'member:login'
 FACEBOOK_APP_ID = '1114307655338100'
 FACEBOOK_SECRET_CODE = '43763d0e449609eea3790cc8bb5594ce'
 
+# YouTube
+YOUTUBE_KEY = 'AIzaSyCNgy7N7Yywy6Q0gah0V90U06iY59Ia6Ts'
+
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/1.11/howto/deployment/checklist/
 

@@ -3,8 +3,20 @@
 {% block content %}
 
     <div class="content">
-        <form action="" method="post">
+        <form action="">
             <input type="text" name="q" placeholder="YouTube에서 검색할 키워드를 입력해주세요.">
+            <button type="submit">SEARCH</button>
         </form>
+
+        <div class="test">
+            <ul>
+                {% for item in response.items %}
+                    <li>
+                        <p>{{ item.snippet.title }}</p>
+                        <img src="{{ item.snippet.thumbnails.high.url }}" alt="" class="">
+                    </li>
+                {% endfor %}
+            </ul>
+        </div>
     </div>
 {% endblock %}
