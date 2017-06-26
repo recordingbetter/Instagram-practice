@@ -63,7 +63,7 @@ class SignupForm(forms.Form):
         username = self.cleaned_data['username']
         password = self.cleaned_data['password2']
         nickname = self.cleaned_data['nickname']
-        return User.objects.Create(
+        return User.objects.create(
             username=username,
             nickname=nickname,
             password=password,
