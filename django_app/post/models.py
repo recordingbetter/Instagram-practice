@@ -32,6 +32,7 @@ class Post(models.Model):
         null=True,
         related_name='+',
         )
+    video = models.ForeignKey('Video', null=True, blank=True)
 
     class Meta:
         ordering = ['-pk', ]

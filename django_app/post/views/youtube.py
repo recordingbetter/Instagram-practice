@@ -6,11 +6,12 @@ from django.core.files.temp import NamedTemporaryFile
 from django.shortcuts import render, redirect
 
 from config import settings
-from post.models import Video
+from post.models import Video, Post
 
 __all__ = [
     # 'youtube_search',
     'youtube_search_save',
+    'youtube_post',
     ]
 
 
@@ -83,5 +84,16 @@ def youtube_search_save(request):
     return render(request, 'post/youtube_search.html', context)
 
 
-# def youtube_search_post(request):
+def youtube_post(request, video_id):
+    video = Video.objects.get(pk=video_id)
+    post = video.post_set.create(
+        video_id=video_id,
+        author=request.user,
+        photo=video.youtube_thumbnail,
+        my_comment=video.title,
+
+        )
+    print(post)
+    # post.save()
+    return redirect('post:post_list')
 

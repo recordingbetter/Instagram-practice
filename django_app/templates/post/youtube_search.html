@@ -11,14 +11,18 @@
                 <option value="playlist">Playlist</option>
             </select>
             <input type="text" name="maxResults" placeholder="최대 검색 결과 수를 입력하세요.">
-            <button type="submit">SEARCH</button>
+            <button type="submit" class="btn">SEARCH</button>
         </form>
 
         <div class="test">
             <ul>
                 {% for item in search_result %}
                     <li>
-                        <p>{{ item.youtube_title }}</p>
+                        <p>{{ item.youtube_title }}
+                            {% if search_result %}
+                            <a href="{% url 'post:youtube_post' video_id=item.pk %}" class="btn">Post This Video</a>
+                            {% endif %}
+                        </p>
 {#                        <p>{{ item.id.videoId }}</p>#}
                         <iframe width="560" height="315" src="https://www.youtube.com/embed/{{ item.youtube_id }}" frameborder="0" allowfullscreen></iframe>
 {#                        <img src="{{ item.snippet.thumbnails.high.url }}" alt="" class="">#}

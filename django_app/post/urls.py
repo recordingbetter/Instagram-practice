@@ -17,6 +17,6 @@ urlpatterns = [
     url(r'^comment/(?P<comment_pk>[0-9]+)/modify/$', views.comment_modify, name='comment_modify'),
     url(r'^comment/(?P<comment_pk>[0-9]+)/delete/$', views.comment_delete, name='comment_delete'),
     url(r'^tag/(?P<tag_name>\w+)/$', views.hashtag_post_list, name='hashtag_post_list'),
-    url(r'^youtube/search/$', views.youtube_search_save, name="youtube_search")
-
+    url(r'^youtube/search/$', views.youtube_search_save, name='youtube_search'),
+    url(r'^youtube/post/(?P<video_id>\S+)/$', views.youtube_post, name='youtube_post'),
     ]
