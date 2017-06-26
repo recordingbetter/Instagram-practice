@@ -71,7 +71,8 @@
                         <input type="submit" class="btn" value="LOG IN">
                         <a href="{% url 'member:signup' %}" class="btn" type="button">SIGN UP</a>
                         {#facebook login#}
-                        <a href="https://www.facebook.com/v2.9/dialog/oauth?client_id={{ facebook_app_id }}&redirect_uri={{ request.scheme }}://{{ request.META.HTTP_HOST }}{% url 'member:facebook_login' %}" class="btn btn-primary">
+{#                        scope에 로그인하면서 받을 권한을 명시해줘야함#}
+                        <a href="https://www.facebook.com/v2.9/dialog/oauth?client_id={{ facebook_app_id }}&scope=user_friends,public_profile,email&redirect_uri={{ request.scheme }}://{{ request.META.HTTP_HOST }}{% url 'member:facebook_login' %}" class="btn btn-primary">
                             Facebook Login
                         </a>
                     </form>
