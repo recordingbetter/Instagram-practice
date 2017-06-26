@@ -43,8 +43,8 @@ class UserManager(DefaultUserManager):
                 file_ext,
                 )
             print(file_name)
-            # 이미지파일을 임시저장할 객체
-            temp_file = NamedTemporaryFile(delete=False)
+            # 이미지파일을 임시저장할 객체. delete=True(기본값) 로컬변수가 사라지는 순간 삭제됨
+            temp_file = NamedTemporaryFile(delete=True)
             # 프로필 이미지 url에 대한 get 요청(이미지 다운로드)
             response = requests.get(url_picture)
             # 요청 결과를 temp_file에 기록

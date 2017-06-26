@@ -2,7 +2,6 @@ import re
 
 from django.conf import settings
 from django.db import models
-
 # from django.contrib.auth.models import User
 from django.urls import reverse
 
@@ -144,3 +143,10 @@ class Tag(models.Model):
 
     def __str__(self):
         return 'Tag({})'.format(self.name)
+
+
+class Video(models.Model):
+    youtube_id = models.CharField(max_length=30)
+    youtube_thumbnail = models.ImageField(upload_to='youtube_thumbnail')
+    youtube_title = models.CharField(max_length=100)
+    youtube_description = models.TextField(null=True, blank=True)
