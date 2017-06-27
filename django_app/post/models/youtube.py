@@ -13,10 +13,10 @@ __all__ = [
 class VideoManager(models.Manager):
     def create_from_search_results(self, video_item):
         """
-        :param result: YouTube Search API를 사용 후, 검색 결과에서 'items'리스트의 각 항목
+        :param video_item: YouTube Search API를 사용 후, 검색 결과에서 'items'리스트의 각 항목
         :return: Video object
         """
-        video, video_create = Video.objects.get_or_create(
+        video, video_create = self.get_or_create(
             youtube_id=video_item['id']['videoId'],
             defaults={
                 'youtube_title': video_item['snippet']['title'],
@@ -46,6 +46,8 @@ class Video(models.Model):
     youtube_thumbnail_url = models.CharField(max_length=50, null=True, blank=True)
     youtube_title = models.CharField(max_length=100)
     youtube_description = models.TextField(null=True, blank=True)
+
+    objects = VideoManager()
 
     # def get_or_create_video(self, video_item):
     #     video, video_create = self.get_or_create(
