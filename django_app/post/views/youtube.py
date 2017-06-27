@@ -54,27 +54,9 @@ def youtube_search_save(request):
         videos = response.json().get('items')
         # 찾아진 결과를 DB에 저장
         for video_item in videos:
-            video, video_create = Video.objects.get_or_create(
-                youtube_id=video_item['id']['videoId'],
-                defaults={
-                    'youtube_title': video_item['snippet']['title'],
-                    'youtube_thumbnail_url': video_item['snippet']['thumbnails']['high']['url'],
-                    'youtube_description': video_item['snippet']['description'],
-                    }
-                )
-            # DB에 저장했으면 thumbnail도 DB에 저장
-            if video_create:
-                url_thumbnail = video_item['snippet']['thumbnails']['high']['url']
-                p = re.compile(r'.*\.([^?]+)')
-                file_ext = re.search(p, url_thumbnail).group(1)
-                file_name = '{}.{}'.format(
-                    video_item['id']['videoId'],
-                    file_ext
-                    )
-                temp_file = NamedTemporaryFile()
-                response = requests.get(url_thumbnail)
-                temp_file.write(response.content)
-                video.youtube_thumbnail.save(file_name, File(temp_file))
+            # model에 만든 ModelManager 사용
+            Video.objects.create_from_search_result(video_item)
+# 검색방법
         # youtube_search.html에 보여주는건 DB에서 title 검색 결과
         # title에 검색어가 포함되는지 여부
         # search_result = Video.objects.filter(youtube_title__contains=q)
@@ -94,11 +76,14 @@ def youtube_search_save(request):
         re_pattern = ''.join(['(?=.*{})'.format(item) for item in q.split()])
         # or 연산
         # re_pattern = '|'.join(['({})'.format(item) for item in q.split()])
-        search_result = Video.objects.filter(youtube_title__regex=r'{}'.format(re_pattern))
+        # title과 description중 하나만 조건을 만족하면 됨
+        search_result = Video.objects.filter(
+            Q(title__regex=r'{}'.format(re_pattern)) |
+            Q(description__regex=r'{}'.format(re_pattern))
+        )
 
         context = {
             'search_result': search_result,
-            # 'videos': videos,
             }
     else:
         context = {}
