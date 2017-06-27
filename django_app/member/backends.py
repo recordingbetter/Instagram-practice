@@ -1,6 +1,7 @@
 from django.contrib.auth import get_user_model
 
 from config import settings
+
 User = get_user_model()
 
 

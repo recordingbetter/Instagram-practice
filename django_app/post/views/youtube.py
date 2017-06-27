@@ -45,7 +45,7 @@ def youtube_search_save(request):
     context = dict()
     q = request.GET.get('q')
     if q:
-        data = youtube.search(request, q)
+        data = youtube.search_post(q)
         # 찾아진 결과를 DB에 저장
         for video_item in data['items']:
             # model에 만든 ModelManager 사용
@@ -83,31 +83,32 @@ def youtube_search_save(request):
 
 # 숙제...
 def youtube_post(request, video_id):
-    video = Video.objects.get(pk=video_id)
+    video = get_object_or_404(Video, pk=video_id)
     # video pk를 FK로 가지는 Post 생성
     post = video.post_set.create(
-        video_id=video_id,
+        # video_id=video_id,
         author=request.user,
         photo=video.youtube_thumbnail,
         )
     # 비디오타이틀을 comment로 저장
     post.my_comment = Comment.objects.create(
+        post=post,
         content=video.youtube_title,
         author=request.user,
         )
     return redirect('post:post_list')
 
 
-#  학원...
-def post_create_with_video(request):
-    video_pk = request.POST['video_pk']
-    video = get_object_or_404(Video, pk=video_pk)
-    post = Post.objects.create(
-        author=request.user,
-        video=video,
-        )
-    post.my_comment = Comment.objects.create(
-        author=request.user,
-        content=video.youtube_title,
-        )
-    return redirect('post:post_detail', post_pk=post.pk)
+# #  학원...
+# def youtube_post(request, video_id):
+#     # video_pk = request.POST['video_pk']
+#     video = get_object_or_404(Video, pk=video_id)
+#     post = Post.objects.create(
+#         author=request.user,
+#         video=video,
+#         )
+#     post.my_comment = Comment.objects.create(
+#         author=request.user,
+#         content=video.youtube_title,
+#         )
+#     return redirect('post:post_detail', post_pk=post.pk)

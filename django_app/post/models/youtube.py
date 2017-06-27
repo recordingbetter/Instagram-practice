@@ -48,27 +48,3 @@ class Video(models.Model):
     youtube_description = models.TextField(null=True, blank=True)
 
     objects = VideoManager()
-
-    # def get_or_create_video(self, video_item):
-    #     video, video_create = self.get_or_create(
-    #         youtube_id=video_item['id']['videoId'],
-    #         defaults={
-    #             'youtube_title': video_item['snippet']['title'],
-    #             'youtube_thumbnails': video_item['snippet']['thumbnails']['high']['url'],
-    #             'youtube_description': video_item['snippet']['description']
-    #             }
-    #         )
-    #     if video_create:
-    #         url_thumbnail = video_item['snippet']['thumbnails']['high']['url']
-    #         p = re.compile(r'.*\.([^?]+)')
-    #         file_ext = re.search(p, url_thumbnail).group(1)
-    #         file_name = '{}.{}'.format(
-    #             video_item['id']['videoId'],
-    #             file_ext
-    #             )
-    #         temp_file = NamedTemporaryFile()
-    #         response = requests.get(url_thumbnail)
-    #         temp_file.write(response.content)
-    #         video.youtube_thumbnail.save(file_name, File(temp_file))
-    #     return video
-    #
