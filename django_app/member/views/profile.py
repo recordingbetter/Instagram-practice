@@ -16,7 +16,7 @@ __all__ = (
 def profile(request, user_pk=None):
     if not request.user.is_authenticated and not user_pk:
         login_url = reverse('member:login')
-        return redirect(login_url)
+        return redirect(login_url + "?next=" + request.get_full_path())
     num_posts_per_page = 3
     # 0. urls.py 연결
     # 1. user_pk에 해당하는 User를 cur_user키로 render

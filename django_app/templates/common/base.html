@@ -44,7 +44,7 @@
             </div>
 
             <div class="nav-right nav-item">
-                <a href="youtube/search">
+                <a href="{% url "post:youtube_search" %}">
                     <img src="{% static 'images/icon_explore.png' %}" alt="">
                 </a>
                 <a href="#">
@@ -68,7 +68,7 @@
                         {#                            <table>#}
                         {{ login_form }}
                         {#                            </table>#}
-                        <input type="submit" class="btn" value="LOG IN">
+                        <input type="submit" class="btn" value="LOG IN" name="login_button">
                         <a href="{% url 'member:signup' %}" class="btn" type="button">SIGN UP</a>
                         {#facebook login#}
 {#                        scope에 로그인하면서 받을 권한을 명시해줘야함#}

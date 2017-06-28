@@ -48,13 +48,18 @@ class NewVisitorTest(LiveServerTestCase):
         # 로그인하지 않은 유저가 로그인폼을 이용해서 로그인할 수 있는지 테스트
         self.browser.get(self.live_server_url)
         form_login = self.browser.find_element_by_class_name('form-inline-login')
+        # id_username은 form class에서 자동으로 생성 (id="id_필드이름")
         input_username = form_login.find_element_by_id('id_username')
         input_password = form_login.find_element_by_id('id_password')
-        button_submit = form_login.find_element_by_tag_name('button')
+        button_submit = form_login.find_element_by_name('login_button')
         # 폼에 값을 입력하고 로그인버튼 클릭
         input_username.send_keys(test_username)
         input_password.send_keys(test_password)
         button_submit.click()
 
         top_header = self.browser.find_element_by_class_name('top-header')
+        self.assertIn(
+            test_username,
+            top_header.text
+            )
 
