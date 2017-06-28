@@ -29,7 +29,7 @@ class UserManager(DefaultUserManager):
                 }
             )
         # 유저가 새로 생성되었을 때만 프로필 이미지를 받아옴
-        if user_created:
+        if user_created and user_info.get('picture'):
             # 프로필 이미지 url
             url_picture = user_info['picture']['data']['url']
             # print(url_picture)
@@ -85,7 +85,7 @@ class User(AbstractUser):
     nickname = models.CharField(max_length=24, null=True, unique=True)
     img_profile = CustomImageField(
         upload_to='member/',
-        null=True,
+        # null=True, # text field가 아닐때에는 blank=True와 동시에 사용하면 안됨
         blank=True,
         # img_profile 이미지가 없을 경우 profile.png 파일이 보이게 CustomImageField를 오버라이드
         # default_static_image='images/profile.png',

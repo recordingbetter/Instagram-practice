@@ -1,6 +1,7 @@
 ##### Custom #####
 .idea/
 *.swp
+*.json
 
 
 # Created by https://www.gitignore.io/api/macos,django,python,pycharm

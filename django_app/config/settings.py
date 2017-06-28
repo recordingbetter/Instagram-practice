@@ -146,7 +146,7 @@ DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
         'NAME': 'instagram',
-        'USER': 'instagram',
+        'USER': 'sms',
         'PASSWORD': 'abc',
         'HOST': 'localhost',
         'PORT': '5432',
