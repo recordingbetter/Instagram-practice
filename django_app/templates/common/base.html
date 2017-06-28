@@ -63,7 +63,7 @@
                     {{ user }}가 로그인 중입니다.
                     <a href="{% url 'member:logout' %}" class="btn">LOG OUT</a>
                 {% else %}
-                    <form action="{% url 'member:login' %}" method="POST" class="inline">
+                    <form action="{% url 'member:login' %}" method="POST" class="form-inline-login">
                         {% csrf_token %}
                         {#                            <table>#}
                         {{ login_form }}

@@ -25,6 +25,7 @@ pytz==2017.2
 requests==2.18.1
 requirements==0.1
 rsa==3.4.2
+selenium==3.4.3
 simplegeneric==0.8.1
 six==1.10.0
 traitlets==4.3.2

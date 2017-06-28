@@ -1,6 +1,7 @@
 from django.contrib.auth import get_user_model
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import render, redirect, get_object_or_404
+from django.urls import reverse
 
 from ..forms import UserEditForm
 
@@ -13,6 +14,9 @@ __all__ = (
 
 
 def profile(request, user_pk=None):
+    if not request.user.is_authenticated and not user_pk:
+        login_url = reverse('member:login')
+        return redirect(login_url)
     num_posts_per_page = 3
     # 0. urls.py 연결
     # 1. user_pk에 해당하는 User를 cur_user키로 render

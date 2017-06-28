@@ -2,7 +2,7 @@ import requests
 from django.test import TestCase, TransactionTestCase
 
 from config import settings
-from .models import User
+from ...models import User
 
 
 class UserModelTest(TransactionTestCase):
@@ -13,6 +13,9 @@ class UserModelTest(TransactionTestCase):
         return [User.objects.create_user(username='username{}'.format(i)) for i in range(num)]
 
     def test_fields_default_value(self):
+        """
+                유저 생성시 필드의 기본값이 원하는 형태로 들어가 있는지
+        """
         user = User.objects.create_user(
             username=self.DUMMY_USERNAME,
             password=self.DUMMY_PASSWORD,
@@ -40,7 +43,11 @@ class UserModelTest(TransactionTestCase):
                 self.assertFalse(source.is_follow(target))
                 self.assertFalse(target.is_follower(source))
 
-        # test를 위한 user 4명 생성
+        # follow테스트를 위한 user 4명 생성
+        # user1은 user2,3,4를 follow
+        # user2는 user3,4를 follow
+        # user3는 user4를 follow
+        # user4는 아무도 follow하지 않음
         user1, user2, user3, user4 = self.make_users(4)
         user1.follow(user2)
         user1.follow(user3)
@@ -74,6 +81,7 @@ class UserModelTest(TransactionTestCase):
             )
 
     def test_unfollow(self):
+        """unfollow 메서드 테스트"""
         user1, user2 = self.make_users(2)
 
         user1.follow(user2)
