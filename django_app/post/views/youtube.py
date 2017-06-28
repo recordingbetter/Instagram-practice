@@ -91,11 +91,13 @@ def youtube_post(request, video_id):
         photo=video.youtube_thumbnail,
         )
     # 비디오타이틀을 comment로 저장
-    post.my_comment = Comment.objects.create(
+    comment = Comment.objects.create(
         post=post,
         content=video.youtube_title,
         author=request.user,
         )
+    post.my_comment = comment
+    post.save()
     return redirect('post:post_list')
 
 
