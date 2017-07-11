@@ -26,13 +26,15 @@ class PostLikeCreateView(APIView):
         # 'comment'라는값이 request.data에 올경우, 해당 내용으로 Post 인스턴스의 my_comment 항목을 만들어줌
         serializer = PostSerializer(data=request.data)
         if serializer.is_valid():
+            # serializer.save()로 생성된 Post instance를 instance변수에 할당
             instance = serializer.save(author=request.user)
             # comment_content에 request.data의 'comment'에 해당하는값을 할당
             comment_content = request.data.get('comment')
+            # 'comment'에 값이 왔을 경우, my_comment항목을 채워줌
             if comment_content:
                 instance.my_comment = Comment.objects.create(
                         post=instance,
-                        author=instance.user,
+                        author=instance.author,
                         content=comment_content,
                         )
                 instance.save()

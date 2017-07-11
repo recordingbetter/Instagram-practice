@@ -30,7 +30,7 @@ urlpatterns = [
     url(r'^admin/', admin.site.urls),
     # post앱의 urls.py모듈을 include시킨다
     url(r'^post/', include('post.urls.urls_views')),
-    url(r'^member/', include('member.urls')),
+    url(r'^member/', include('member.urls.urls_views')),
     ]
 # static 함수는 리스트를 반환하므로 기존 urlpatterns 에 더해준다.
 # ] + static(settings.MEDIA_URL, document_root = settings.MEDIA_ROOT)
