@@ -1,6 +1,6 @@
 from django.conf.urls import url
 
-from . import views
+from .. import views
 
 # url() 사용법
 # https://docs.djangoproject.com/en/1.11/ref/urls/#url

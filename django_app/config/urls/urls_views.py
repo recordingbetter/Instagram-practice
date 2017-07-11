@@ -19,7 +19,7 @@ from django.conf.urls.static import static
 from django.contrib import admin
 from django.views.generic import RedirectView
 
-from . import views
+from .. import views
 
 urlpatterns = [
     url(r'^$', views.index, name='index'),
@@ -29,7 +29,7 @@ urlpatterns = [
 
     url(r'^admin/', admin.site.urls),
     # post앱의 urls.py모듈을 include시킨다
-    url(r'^post/', include('post.urls')),
+    url(r'^post/', include('post.urls.urls_views')),
     url(r'^member/', include('member.urls')),
     ]
 # static 함수는 리스트를 반환하므로 기존 urlpatterns 에 더해준다.

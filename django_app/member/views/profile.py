@@ -18,7 +18,7 @@ def profile(request, user_pk=None):
         login_url = reverse('member:login')
         return redirect(login_url + "?next=" + request.get_full_path())
     num_posts_per_page = 3
-    # 0. urls.py 연결
+    # 0. urls_views.py 연결
     # 1. user_pk에 해당하는 User를 cur_user키로 render
     # 2. member/profile.html 작성, 해당 user 정보 보여주기
     #   2-1. 해당 user의 followers, following 목록 보여주기

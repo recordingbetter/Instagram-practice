@@ -25,7 +25,7 @@ def login(request):
     # username, password, button이 있는 html 생성
     # POST 요청이 올 경우 로그인 완료 후 post_list로 이동
     # 실패할 경우, HttpResponse로 'Login invalid!' 띄어주기
-    # member/urls.py 생성
+    # member/urls_views.py 생성
     # method가 GET 일때
     if request.method == 'GET':
         # 만약 이미 로그인 된 상태일 경우에는
