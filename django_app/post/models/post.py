@@ -70,12 +70,23 @@ class Post(models.Model):
         # 자신을 like하고있는 user수 리턴
         return self.like_users.count()
 
+    @property
+    def comments(self):
+        if self.my_comment:
+            return self.comment_set.exclude(pk=self.my_comment.pk)
+        return self.comment_set.all()
+
 
 class PostLike(models.Model):
     post = models.ForeignKey(Post)
     user = models.ForeignKey(settings.AUTH_USER_MODEL)
     created_date = models.DateTimeField(auto_now_add=True)
 
+    # post와 user가 같은 값이 생기지 않게 함
+    class Meta:
+        unique_together = (
+            ('post', 'user'),
+        )
     # migrate 이후에는 필요없음...(이미 없는 테이블)
     # class Meta:
     #     db_table = 'post_post_like_users'
