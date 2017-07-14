@@ -1,10 +1,12 @@
+import time
 from django.conf import settings
 from django.db import models
 # from .comment import Comment
 # from .others import Video
 
 # from django.contrib.auth.models import User
-
+from django.db.models.signals import post_save, post_delete
+from django.dispatch import receiver
 
 __all__ = [
     'Post',
@@ -36,6 +38,8 @@ class Post(models.Model):
         related_name='+',
         )
     video = models.ForeignKey('Video', null=True, blank=True)
+    # post_like 갯수를 저장하는 필드
+    like_counts = models.PositiveIntegerField(default=0)
 
     class Meta:
         ordering = ['-pk', ]
@@ -60,6 +64,12 @@ class Post(models.Model):
     #     tag, tag_created = Tag.objects.get_or_create(name=tag_name)
     #     if not self.tags.filter(name=tag_name).exists():
     #         self.tags.add(tag)
+
+    # post_like 갯수를 저장하는 method
+    def calc_like_count(self):
+        time.sleep(6)
+        self.like_counts = self.like_users.count()
+        self.save()
 
     def __str__(self):
         return '{} uploaded {} at {} liked by {}'.format(self.author, self.photo.name, self.created_date,
@@ -93,3 +103,10 @@ class PostLike(models.Model):
 
     def __str__(self):
         return '{} liked {} at {}.'.format(self.user, self.post, self.created_date)
+
+
+@receiver(post_save, sender=PostLike)
+@receiver(post_delete, sender=PostLike)
+def update_post_like_count(sender, instance, **kwargs):
+    print('Signal update_post_like_count, instance: {}'.format(instance))
+    instance.post.calc_like_count()

@@ -50,11 +50,14 @@ https://docs.djangoproject.com/en/1.11/ref/settings/
 3. post_list.html에서 for loop 사용해 전달된 posts 변수 순환및출력
 4. post_list view가 /post/접근시 출력되도록 post/urls.py에 설정
 """
-
+import json
 import os
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
+# BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+ROOT_DIR = os.path.dirname(BASE_DIR)
 TEMPLATE_DIR = os.path.join(BASE_DIR, 'templates')
 
 # Static files (CSS, JavaScript, Images)
@@ -73,9 +76,30 @@ MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 AUTH_USER_MODEL = 'member.User'
 LOGIN_URL = 'member:login'
 
+# .config_secret폴더 및 하위 파일 경로
+CONFIG_SECRET_DIR = os.path.join(ROOT_DIR, '.Config_Secret')
+CONFIG_SECRET = os.path.join(CONFIG_SECRET_DIR, 'email.json')
+
+# Send email
+config_secret = json.loads(open(CONFIG_SECRET).read())
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_HOST_PASSWORD = config_secret['email']['PASSWORD']
+EMAIL_HOST_USER = config_secret['email']['USER']
+EMAIL_PORT = 587
+EMAIL_USE_TLS = True
+DEFAULT_FROM_EMAIL = EMAIL_HOST_USER
+
+# EMAIL_BACKENDS = 'django.core.mail.backends.smtp.EmailBackend'
+
+
+# Celery / redis
+CELERY_BROKER_URL = 'redis://localhost:6379/'
+CELERY_RESULT_BACKEND = 'redis://localhost:6379/'
+
+
 # Facebook
-FACEBOOK_APP_ID = '1114307655338100'
-FACEBOOK_SECRET_CODE = '43763d0e449609eea3790cc8bb5594ce'
+FACEBOOK_APP_ID = config_secret['facebook']['APP_ID']
+FACEBOOK_SECRET_CODE = config_secret['facebook']['SECRET_CODE']
 
 # YouTube
 YOUTUBE_KEY = 'AIzaSyCNgy7N7Yywy6Q0gah0V90U06iY59Ia6Ts'

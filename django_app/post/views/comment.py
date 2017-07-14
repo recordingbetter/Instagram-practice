@@ -4,7 +4,7 @@ from django.contrib.auth.decorators import login_required
 from django.shortcuts import render, redirect, get_object_or_404
 # from member.models import User
 from django.views.decorators.http import require_POST
-from django.core.mail import send_mail
+from django.core.mail import send_mail, EmailMessage
 
 from ..decorators import comment_owner
 from ..forms import CommentForm
@@ -19,9 +19,6 @@ __all__ = (
     'comment_modify',
     'comment_delete',
     )
-
-# def send_email(request):
-#     subject = request.POST.get
 
 
 # POST 요청만 받음
@@ -38,6 +35,13 @@ def comment_create(request, post_pk):
         comment.author = request.user
         comment.post = post
         comment.save()
+
+        # email 발송
+        # send_mail(
+        #         '댓글 알림',
+        #         '댓글이 달렸습니다.',
+        #         'joe.dh.cho@gmail.com',
+        # )
     else:
         result = '<br>'.join(['<br>'.join(v) for v in form.errors.values()])
         messages.error(request, result)
