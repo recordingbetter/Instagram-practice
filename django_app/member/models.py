@@ -83,6 +83,7 @@ class User(AbstractUser):
     # 유저타입. 기본은 Django이며, 페이스북 로그인시 USER_TYPE_FACEBOOK값을 갖도록함
     user_type = models.CharField(max_length=1, choices=USER_TYPE_CHOICES, default=USER_TYPE_DJANGO)
     nickname = models.CharField(max_length=24, null=True, unique=True)
+    email = models.EmailField(null=True, unique=True)
     img_profile = CustomImageField(
         upload_to='member/',
         # null=True, # text field가 아닐때에는 blank=True와 동시에 사용하면 안됨
@@ -174,6 +175,9 @@ class User(AbstractUser):
     def blocking(self):
         relations = self.follow_relations.all()
         return User.objects.filter(pk__in=relations.values('blocked_user'))
+
+
+# User._meta.get_field('email')._unique = True
 
 
 class Relation(models.Model):

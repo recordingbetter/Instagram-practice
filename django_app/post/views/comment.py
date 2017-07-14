@@ -4,6 +4,7 @@ from django.contrib.auth.decorators import login_required
 from django.shortcuts import render, redirect, get_object_or_404
 # from member.models import User
 from django.views.decorators.http import require_POST
+from django.core.mail import send_mail
 
 from ..decorators import comment_owner
 from ..forms import CommentForm
@@ -18,6 +19,9 @@ __all__ = (
     'comment_modify',
     'comment_delete',
     )
+
+# def send_email(request):
+#     subject = request.POST.get
 
 
 # POST 요청만 받음

@@ -112,7 +112,7 @@ def signup(request):
             # password1 = form.cleaned_data['password1']
             # password2 = form.cleaned_data['password2']
             # 이후에 Form class 를 사용하지않는 경우를 적용해도 동작한다.
-            user = form.create_user()
+            user = form.save()
             django_login(request, user)
             return redirect('post:post_list')
         else:
