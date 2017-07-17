@@ -5,7 +5,9 @@ from django.shortcuts import render, redirect, get_object_or_404
 # from member.models import User
 from django.views.decorators.http import require_POST
 from django.core.mail import send_mail, EmailMessage
+from django.utils.datetime_safe import strftime
 
+from config.settings import DEFAULT_FROM_EMAIL
 from ..decorators import comment_owner
 from ..forms import CommentForm
 from ..models import Post, Comment
@@ -37,11 +39,20 @@ def comment_create(request, post_pk):
         comment.save()
 
         # email 발송
-        # send_mail(
-        #         '댓글 알림',
-        #         '댓글이 달렸습니다.',
-        #         'joe.dh.cho@gmail.com',
-        # )
+        mail_subject = '{}에 작성한 글에 {}님이 댓글을 작성했습니다.'.format(
+                post.created_date.strftime('%Y.%m.%d %H:%M'),
+                request.user
+        )
+        mail_content = '{}님의 댓글\n{}'.format(
+                request.user,
+                comment.content
+        )
+        send_mail(
+                mail_subject,
+                mail_content,
+                DEFAULT_FROM_EMAIL,
+                [post.author.email],
+        )
     else:
         result = '<br>'.join(['<br>'.join(v) for v in form.errors.values()])
         messages.error(request, result)

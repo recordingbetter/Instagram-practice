@@ -37,10 +37,11 @@
         <div class="btn-left">
                 {#            좋아요#}
             <a href="#">
-                <form action="{% url 'post:post_like' post_pk=post.pk %}?next={{ request.path }}{{ request.GET|query_string }}#post-{{ post.pk }}" method="POST" class="form-inline">
+{#                <form action="{% url 'post:post_like_toggle' post_pk=post.pk %}?next={{ request.path }}{{ request.GET|query_string }}#post-{{ post.pk }}" method="POST" class="form-inline">#}
+                <form action="{% url 'post:post_like_toggle' post_pk=post.pk %}" method="POST" class="form-inline">
                     {% csrf_token %}
 
-                    {#                <a href="{% url 'post:post_like' post_pk=post.pk %}?next={{ request.path }}{{ request.GET|query_string }}#post-{{ post.pk }}">#}
+                    {#                <a href="{% url 'post:post_like_toggle' post_pk=post.pk %}?next={{ request.path }}{{ request.GET|query_string }}#post-{{ post.pk }}">#}
                     <button type="submit" class="btn postlike">
                         {% if user in post.like_users.all %}
                             {#            현재 유저가 해당 포스트를 좋아요했던 경우#}
@@ -74,10 +75,12 @@
 {#        {% for user in post.like_users.all %}#}
 {#            <span class="comment">{{ user }} </span>#}
 {#        {% endfor %}#}
-        {% if post.like_users.exists %}
-            {% if post.like_users.count > 10 %}
-                <span>좋아요 {{ post.like_users.count }}개</span>
+{#        {% if post.like_users.exists %}#}
+        {% if post.like_counts > 0 %}
+            {% if post.like_counts > 10 %}
+                <span>좋아요 {{ post.like_counts }}개</span>
             {% else %}
+                <span>좋아요 {{ post.like_counts }}개</span>
                 <span>{{ post.like_users.all|join:', ' }}님이 좋아합니다.</span>
             {% endif %}
         {% else %}

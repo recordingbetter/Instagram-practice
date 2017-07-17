@@ -5,54 +5,49 @@ from django.contrib.auth.forms import UserCreationForm
 User = get_user_model()
 
 
-# class SignupForm1(forms.Form):
-#     username = forms.CharField(
-#             help_text='Username을 입력하세요.',
-#             widget=forms.TextInput(
-#                     attrs={
-#                         'placeholder': 'Type Username.',
-#                     }
-#             )
-#     )
-#     nickname = forms.CharField(
-#             help_text='Nickname을 입력하세요.',
-#             widget=forms.TextInput(
-#                     attrs={
-#                         'placeholder': 'Type Nickname.',
-#                     }
-#             )
-#     )
-#     email = forms.EmailField(
-#             help_text='email을 입력하세요.',
-#             widget=forms.EmailInput(
-#                     attrs={
-#                         'placeholder': 'Type email.',
-#                     }
-#             )
-#     )
-#     password1 = forms.CharField(
-#             help_text='Password를 입력하세요.',
-#             widget=forms.PasswordInput(
-#                     attrs={
-#                         'placeholder': 'Type Password.',
-#                     }
-#             )
-#     )
-#     password2 = forms.CharField(
-#             help_text='Password를 다시 입력하세요.',
-#             widget=forms.PasswordInput(
-#                     attrs={
-#                         'placeholder': 'Type Password again.',
-#                     }
-#             )
-#     )
-
-
-# UserCreationForm을 사용할 경우
-class SignupForm(UserCreationForm):
-    class Meta(UserCreationForm.Meta):
-        model = User
-        fields = UserCreationForm.Meta.fields + ('email', 'nickname')
+class SignupForm1(forms.Form):
+    username = forms.CharField(
+            help_text='Username을 입력하세요.',
+            widget=forms.TextInput(
+                    attrs={
+                        'placeholder': 'Type Username.',
+                    }
+            )
+    )
+    nickname = forms.CharField(
+            help_text='Nickname을 입력하세요.',
+            widget=forms.TextInput(
+                    attrs={
+                        'placeholder': 'Type Nickname.',
+                    }
+            )
+    )
+    email = forms.EmailField(
+            widget=forms.EmailInput(
+                    attrs={
+                        'placeholder': 'Type Email address.',
+                    }
+            ),
+            help_text='이메일은 유일해야 합니다',
+            max_length=100,
+            required=True,
+    )
+    password1 = forms.CharField(
+            help_text='Password를 입력하세요.',
+            widget=forms.PasswordInput(
+                    attrs={
+                        'placeholder': 'Type Password.',
+                    }
+            )
+    )
+    password2 = forms.CharField(
+            help_text='Password를 다시 입력하세요.',
+            widget=forms.PasswordInput(
+                    attrs={
+                        'placeholder': 'Type Password again.',
+                    }
+            )
+    )
 
     # clean_<fieldname>매서드를 사용해서 username 필드에 대한 유효성 검증을 실행
     def clean_username(self):
@@ -92,3 +87,11 @@ class SignupForm(UserCreationForm):
                 password=password,
                 email=email,
         )
+
+
+# UserCreationForm을 사용할 경우
+class SignupForm(UserCreationForm):
+    class Meta(UserCreationForm.Meta):
+        model = User
+        fields = UserCreationForm.Meta.fields + ('email', 'nickname',)
+

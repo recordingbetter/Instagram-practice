@@ -1,6 +1,7 @@
 import time
 from django.conf import settings
 from django.db import models
+from post.tasks import task_update_post_like_count
 # from .comment import Comment
 # from .others import Video
 
@@ -38,7 +39,9 @@ class Post(models.Model):
         related_name='+',
         )
     video = models.ForeignKey('Video', null=True, blank=True)
-    # post_like 갯수를 저장하는 필드
+    # 1. 이 Post를 좋아요 한 개수를 저장할 수 있는 필드(like_count)를 생성 -> migration
+    # 2. 이 Post에 연결된 PostLike의 개수를 가져와서 해당 필드에 저장하는 메서드 구현
+    # post_like_toggle 갯수를 저장하는 필드
     like_counts = models.PositiveIntegerField(default=0)
 
     class Meta:
@@ -65,7 +68,7 @@ class Post(models.Model):
     #     if not self.tags.filter(name=tag_name).exists():
     #         self.tags.add(tag)
 
-    # post_like 갯수를 저장하는 method
+    # post_like_toggle 갯수를 저장하는 method
     def calc_like_count(self):
         time.sleep(6)
         self.like_counts = self.like_users.count()
@@ -105,8 +108,16 @@ class PostLike(models.Model):
         return '{} liked {} at {}.'.format(self.user, self.post, self.created_date)
 
 
-@receiver(post_save, sender=PostLike)
-@receiver(post_delete, sender=PostLike)
+@receiver(post_save, sender=PostLike, dispatch_uid='postlike_save_update_like_count')
+@receiver(post_delete, sender=PostLike, dispatch_uid='postlike_delete_update_like_count')
 def update_post_like_count(sender, instance, **kwargs):
-    print('Signal update_post_like_count, instance: {}'.format(instance))
-    instance.post.calc_like_count()
+    if kwargs['signal'].receivers[0][0][0] == 'postlike_save_update_like_count':
+        instance.post.like_counts += 1
+    else:
+        instance.post.like_counts -= 1
+    instance.post.save()
+    print('Signal update_post_like_count, instance: {}'.format(
+        instance
+    ))
+    # instance.post.calc_like_count()
+    task_update_post_like_count.delay(post_pk=instance.post.pk)

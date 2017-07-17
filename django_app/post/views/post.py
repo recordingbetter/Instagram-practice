@@ -25,7 +25,7 @@ __all__ = (
     'post_modify',
     'post_delete',
     'hashtag_post_list',
-    'post_like',
+    'post_like_toggle',
     )
 
 
@@ -235,9 +235,9 @@ def hashtag_post_list(request, tag_name):
     return render(request, 'post/hashtag_post_list.html', context)
 
 
-# @require_POST
+@require_POST
 @login_required
-def post_like(request, post_pk):
+def post_like_toggle(request, post_pk):
     # 1. post_pk 에 해당하는 Post instance를 변수(post)에 할당
     post = get_object_or_404(Post, pk=post_pk)
     # 2. post에서 PostLike로의 RelatedManager를 사용해서
@@ -250,7 +250,7 @@ def post_like(request, post_pk):
     # 중간자 모델을 사용할 경우
     # get_or_create를 사용해서 현재 Post와 request.user에 해당하는 PostLike인스턴스를 가져옴
     post_like, post_like_created = post.postlike_set.get_or_create(
-        user=request.user
+        user=request.user,
         )
     # 3. 이후 created여부에 따라 해당 PostLike인스턴스를 삭제 또는 그냥 넘어가기
     # post_like_created가 get_or_create를 통해 새로 PostLike가 만들어졌는지, 아니면 기존에 있었는지 여부를 나타냄
