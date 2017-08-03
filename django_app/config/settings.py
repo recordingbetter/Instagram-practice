@@ -126,20 +126,46 @@ INSTALLED_APPS = [
 
     'rest_framework',
     'django_extensions',
+    # CORD middleware (pip install django-cors-headers)
+    'corsheaders',
+
     'post',
     'member',
     'utils',
     ]
 
 MIDDLEWARE = [
+    # CORD middleware
+    'corsheaders.middleware.CorsMiddleware',
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
+    'corsheaders.middleware.CorsPostCsrfMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
     ]
+
+# CORS_ORIGIN_ALLOW_ALL = True
+CORS_ORIGIN_WHITELIST = (
+    'http://localhost:8000',
+    '192.168.2.74',
+)
+CSRF_TRUSTED_ORIGINS = (
+    'http://localhost:8000',
+    '192.168.2.74',
+)
+# CORS_URLS_REGEX = r'^/api/.*$'
+CORS_ALLOW_METHODS = (
+    'DELETE',
+    'GET',
+    'OPTIONS',
+    'PATCH',
+    'POST',
+    'PUT',
+)
+
 
 ROOT_URLCONF = 'config.urls'
 

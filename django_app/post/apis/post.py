@@ -4,6 +4,7 @@ from rest_framework.generics import get_object_or_404
 from rest_framework.response import Response
 from rest_framework.views import APIView
 
+from post.pagination import PostPagination
 from ..serializers import PostSerializer
 from ..models import Post, Comment
 
@@ -16,6 +17,7 @@ __all__ = (
 class PostLikeCreateView(generics.ListCreateAPIView):
     queryset = Post.objects.all()
     serializer_class = PostSerializer
+    pagination_class = PostPagination
 
     def perform_create(self, serializer):
         instance = serializer.save(author=self.request.user)
